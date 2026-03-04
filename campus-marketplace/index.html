@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Marketplace — WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="cm-site">
+
+  <!-- WSU Global Bar -->
+  <div class="cm-wsu-bar">
+    <div class="cm-wsu-bar__inner">
+      <a href="#" class="cm-wsu-bar__brand">
+        <span class="cm-wsu-bar__logo">WSU</span>
+        <span class="cm-wsu-bar__wordmark">Washington State University</span>
+      </a>
+      <div class="cm-wsu-bar__links">
+        <a href="#">myWSU</a>
+        <a href="#">Canvas</a>
+        <a href="#">Directory</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Header -->
+  <header class="cm-header">
+    <div class="cm-header__inner">
+      <a href="index.html" class="cm-header__brand">
+        <span class="cm-header__pill">WSU</span>
+        <span class="cm-header__site-name">Campus <span>Marketplace</span></span>
+      </a>
+      <nav class="cm-nav">
+        <a href="browse.html" class="cm-nav__link">Browse</a>
+        <div class="cm-nav__divider"></div>
+        <a href="login.html" class="cm-nav__link">Sign In</a>
+        <a href="register.html" class="cm-btn cm-btn--primary cm-btn--sm">Register</a>
+        <a href="cart.html" class="cm-cart-btn">
+          🛒 Cart
+          <span class="cm-cart-badge" style="display:none">0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="cm-hero">
+    <div class="cm-container">
+      <div class="cm-hero__content">
+        <span class="cm-hero__eyebrow">Washington State University</span>
+        <h1 class="cm-hero__title">Buy &amp; Sell<br>On Campus</h1>
+        <p class="cm-hero__sub">The official peer-to-peer marketplace for WSU students, faculty, and staff. Find textbooks, electronics, furniture, and more.</p>
+        <div class="cm-hero__actions">
+          <a href="browse.html" class="cm-btn cm-btn--primary cm-btn--lg">Browse Listings</a>
+          <a href="register.html" class="cm-btn cm-btn--secondary cm-btn--lg" style="color:#fff;border-color:rgba(255,255,255,.5);">Create Account</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <div style="background:#CA1237;padding:16px 0;">
+    <div class="cm-container">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;text-align:center;">
+        <div><div style="font-size:1.6rem;font-weight:800;color:#fff;">1,240+</div><div style="font-size:.75rem;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.06em;">Active Listings</div></div>
+        <div><div style="font-size:1.6rem;font-weight:800;color:#fff;">3,800+</div><div style="font-size:.75rem;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.06em;">Students</div></div>
+        <div><div style="font-size:1.6rem;font-weight:800;color:#fff;">$48k+</div><div style="font-size:.75rem;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.06em;">Saved This Semester</div></div>
+        <div><div style="font-size:1.6rem;font-weight:800;color:#fff;">100%</div><div style="font-size:.75rem;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.06em;">WSU Community</div></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="cm-main">
+    <!-- Categories -->
+    <section class="cm-container cm-mb-32">
+      <div class="cm-section-head cm-mt-40">
+        <h2 class="cm-section-head__title">Browse by Category</h2>
+        <div class="cm-section-head__bar"></div>
+        <p class="cm-section-head__sub">Find exactly what you need from fellow Cougs.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;">
+        <a href="browse.html?cat=textbooks" style="background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:28px 16px;text-align:center;text-decoration:none;transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+          <div style="font-size:2.2rem;margin-bottom:10px;">📚</div>
+          <div style="font-weight:700;font-size:.9rem;color:#262626;">Textbooks</div>
+          <div style="font-size:.75rem;color:#CA1237;margin-top:4px;">312 listings</div>
+        </a>
+        <a href="browse.html?cat=electronics" style="background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:28px 16px;text-align:center;text-decoration:none;transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+          <div style="font-size:2.2rem;margin-bottom:10px;">💻</div>
+          <div style="font-weight:700;font-size:.9rem;color:#262626;">Electronics</div>
+          <div style="font-size:.75rem;color:#CA1237;margin-top:4px;">198 listings</div>
+        </a>
+        <a href="browse.html?cat=furniture" style="background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:28px 16px;text-align:center;text-decoration:none;transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+          <div style="font-size:2.2rem;margin-bottom:10px;">🪑</div>
+          <div style="font-weight:700;font-size:.9rem;color:#262626;">Furniture</div>
+          <div style="font-size:.75rem;color:#CA1237;margin-top:4px;">87 listings</div>
+        </a>
+        <a href="browse.html?cat=clothing" style="background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:28px 16px;text-align:center;text-decoration:none;transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+          <div style="font-size:2.2rem;margin-bottom:10px;">👕</div>
+          <div style="font-weight:700;font-size:.9rem;color:#262626;">Clothing</div>
+          <div style="font-size:.75rem;color:#CA1237;margin-top:4px;">145 listings</div>
+        </a>
+        <a href="browse.html?cat=sports" style="background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:28px 16px;text-align:center;text-decoration:none;transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+          <div style="font-size:2.2rem;margin-bottom:10px;">⚽</div>
+          <div style="font-weight:700;font-size:.9rem;color:#262626;">Sports</div>
+          <div style="font-size:.75rem;color:#CA1237;margin-top:4px;">64 listings</div>
+        </a>
+        <a href="browse.html?cat=other" style="background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:28px 16px;text-align:center;text-decoration:none;transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+          <div style="font-size:2.2rem;margin-bottom:10px;">🗃️</div>
+          <div style="font-weight:700;font-size:.9rem;color:#262626;">Other</div>
+          <div style="font-size:.75rem;color:#CA1237;margin-top:4px;">434 listings</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Featured Listings -->
+    <section class="cm-container cm-mb-40">
+      <div class="cm-flex-between cm-mb-20">
+        <h2 style="font-size:1.4rem;font-weight:800;margin:0;border-bottom:3px solid #CA1237;padding-bottom:8px;">Featured Listings</h2>
+        <a href="browse.html" class="cm-btn cm-btn--secondary cm-btn--sm">View All</a>
+      </div>
+      <div class="cm-products-grid">
+        <a href="product.html?id=1" class="cm-product-card">
+          <div class="cm-product-card__img">📚</div>
+          <div class="cm-product-card__body">
+            <p class="cm-product-card__cat">Textbooks</p>
+            <h3 class="cm-product-card__title">CPTS 321 — Software Engineering Textbook</h3>
+            <p class="cm-product-card__price">$38</p>
+            <div class="cm-product-card__meta"><span class="cm-badge cm-badge--like-new">Like New</span><span>Pullman, WA</span></div>
+          </div>
+        </a>
+        <a href="product.html?id=2" class="cm-product-card">
+          <div class="cm-product-card__img">💻</div>
+          <div class="cm-product-card__body">
+            <p class="cm-product-card__cat">Electronics</p>
+            <h3 class="cm-product-card__title">MacBook Pro 13" 2021 — M1 Chip</h3>
+            <p class="cm-product-card__price">$850</p>
+            <div class="cm-product-card__meta"><span class="cm-badge cm-badge--good">Good</span><span>2 hrs ago</span></div>
+          </div>
+        </a>
+        <a href="product.html?id=3" class="cm-product-card">
+          <div class="cm-product-card__img">🪑</div>
+          <div class="cm-product-card__body">
+            <p class="cm-product-card__cat">Furniture</p>
+            <h3 class="cm-product-card__title">IKEA ALEX Desk — White, 55"</h3>
+            <p class="cm-product-card__price">$65</p>
+            <div class="cm-product-card__meta"><span class="cm-badge cm-badge--good">Good</span><span>Today</span></div>
+          </div>
+        </a>
+        <a href="product.html?id=4" class="cm-product-card">
+          <div class="cm-product-card__img">🎧</div>
+          <div class="cm-product-card__body">
+            <p class="cm-product-card__cat">Electronics</p>
+            <h3 class="cm-product-card__title">Sony WH-1000XM5 Headphones</h3>
+            <p class="cm-product-card__price">$180</p>
+            <div class="cm-product-card__meta"><span class="cm-badge cm-badge--like-new">Like New</span><span>Yesterday</span></div>
+          </div>
+        </a>
+        <a href="product.html?id=5" class="cm-product-card">
+          <div class="cm-product-card__img">📖</div>
+          <div class="cm-product-card__body">
+            <p class="cm-product-card__cat">Textbooks</p>
+            <h3 class="cm-product-card__title">Calculus: Early Transcendentals (9th Ed)</h3>
+            <p class="cm-product-card__price">$45</p>
+            <div class="cm-product-card__meta"><span class="cm-badge cm-badge--good">Good</span><span>3 hrs ago</span></div>
+          </div>
+        </a>
+        <a href="product.html?id=6" class="cm-product-card">
+          <div class="cm-product-card__img">🚲</div>
+          <div class="cm-product-card__body">
+            <p class="cm-product-card__cat">Sports</p>
+            <h3 class="cm-product-card__title">Trek FX2 Disc Commuter Bike</h3>
+            <p class="cm-product-card__price">$320</p>
+            <div class="cm-product-card__meta"><span class="cm-badge cm-badge--good">Good</span><span>Today</span></div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section style="background:#fff;padding:60px 0;border-top:1px solid #e5e5e5;">
+      <div class="cm-container">
+        <div class="cm-section-head">
+          <h2 class="cm-section-head__title">How It Works</h2>
+          <div class="cm-section-head__bar"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;text-align:center;">
+          <div>
+            <div style="width:64px;height:64px;background:#CA1237;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.6rem;color:#fff;">1</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin:0 0 8px;">Create Account</h3>
+            <p style="color:#888;font-size:.88rem;line-height:1.6;">Register with your WSU email address to join the community marketplace.</p>
+          </div>
+          <div>
+            <div style="width:64px;height:64px;background:#CA1237;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.6rem;color:#fff;">2</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin:0 0 8px;">Browse &amp; Buy</h3>
+            <p style="color:#888;font-size:.88rem;line-height:1.6;">Search listings, contact sellers, and checkout securely within the platform.</p>
+          </div>
+          <div>
+            <div style="width:64px;height:64px;background:#CA1237;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.6rem;color:#fff;">3</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin:0 0 8px;">Sell Your Items</h3>
+            <p style="color:#888;font-size:.88rem;line-height:1.6;">Post your listings in minutes and connect with buyers on campus.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="cm-footer">
+    <div class="cm-container">
+      <div class="cm-footer__grid">
+        <div>
+          <div class="cm-footer__brand-name">Campus Marketplace</div>
+          <p class="cm-footer__desc">The official peer-to-peer marketplace for Washington State University. Buy and sell safely within the WSU community.</p>
+        </div>
+        <div>
+          <div class="cm-footer__col-title">Browse</div>
+          <ul class="cm-footer__links">
+            <li><a href="browse.html">All Listings</a></li>
+            <li><a href="browse.html?cat=textbooks">Textbooks</a></li>
+            <li><a href="browse.html?cat=electronics">Electronics</a></li>
+            <li><a href="browse.html?cat=furniture">Furniture</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="cm-footer__col-title">Account</div>
+          <ul class="cm-footer__links">
+            <li><a href="register.html">Register</a></li>
+            <li><a href="login.html">Sign In</a></li>
+            <li><a href="profile.html">My Profile</a></li>
+            <li><a href="orders.html">Order History</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="cm-footer__col-title">Selling</div>
+          <ul class="cm-footer__links">
+            <li><a href="seller/dashboard.html">Seller Dashboard</a></li>
+            <li><a href="seller/listing-create.html">Create Listing</a></li>
+            <li><a href="messages.html">Messages</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="cm-footer__bottom">
+        <span>&copy; 2026 Campus Marketplace. A WSU student project.</span>
+        <div class="cm-footer__wsu">
+          <span class="cm-footer__wsu-pill">WSU</span>
+          <span>Washington State University</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

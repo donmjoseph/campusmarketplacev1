@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="cm-site">
+
+  <!-- WSU Bar -->
+  <div class="cm-wsu-bar">
+    <div class="cm-wsu-bar__inner">
+      <a href="index.html" class="cm-wsu-bar__brand"><span class="cm-wsu-bar__logo">WSU</span><span class="cm-wsu-bar__wordmark">Washington State University</span></a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="cm-header">
+    <div class="cm-header__inner">
+      <a href="index.html" class="cm-header__brand">
+        <span class="cm-header__pill">WSU</span>
+        <span class="cm-header__site-name">Campus <span>Marketplace</span></span>
+      </a>
+      <nav class="cm-nav">
+        <a href="cart.html" class="cm-nav__link">← Back to Cart</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Order Steps (UC-B06 flow) -->
+  <div style="background:#fff;border-bottom:1px solid #e5e5e5;padding:20px 0;">
+    <div class="cm-container">
+      <div class="cm-order-tracker">
+        <div class="cm-order-step cm-order-step--done">
+          <div class="cm-order-step__dot">✓</div>
+          <span class="cm-order-step__label">Cart</span>
+        </div>
+        <div class="cm-order-step cm-order-step--current">
+          <div class="cm-order-step__dot">2</div>
+          <span class="cm-order-step__label">Checkout</span>
+        </div>
+        <div class="cm-order-step">
+          <div class="cm-order-step__dot">3</div>
+          <span class="cm-order-step__label">Confirmation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="cm-main" style="padding-top:32px;">
+    <div class="cm-container">
+
+      <!-- AF1: Item sold before checkout -->
+      <div id="item-sold-alert" class="cm-alert cm-alert--warning cm-hidden">
+        ⚠ <strong>1 item is no longer available</strong> and has been removed from your order. You can still proceed with the remaining items.
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start;">
+
+        <!-- Checkout Form (UC-B06 main flow) -->
+        <div>
+          <div class="cm-form-panel">
+            <form id="checkout-form" novalidate>
+
+              <div class="cm-form__section-title">Delivery Preference</div>
+              <p class="cm-text-sm cm-text-muted cm-mb-16">Select how you'd like to receive your items. All arrangements are made directly with the seller.</p>
+
+              <div class="cm-form__group">
+                <label class="cm-form__label">Pickup / Shipping <span class="req">*</span></label>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+                  <label style="display:flex;align-items:center;gap:10px;padding:14px;border:2px solid #CA1237;border-radius:4px;cursor:pointer;background:#fff5f7;">
+                    <input type="radio" name="delivery" value="campus" checked>
+                    <div>
+                      <strong style="font-size:.92rem;">Campus Pickup</strong>
+                      <p style="margin:2px 0 0;font-size:.8rem;color:#888;">Meet the seller on campus at a mutually agreed location. Free.</p>
+                    </div>
+                  </label>
+                  <label style="display:flex;align-items:center;gap:10px;padding:14px;border:2px solid #e5e5e5;border-radius:4px;cursor:pointer;">
+                    <input type="radio" name="delivery" value="ship">
+                    <div>
+                      <strong style="font-size:.92rem;">Shipping (Simulated)</strong>
+                      <p style="margin:2px 0 0;font-size:.8rem;color:#888;">Seller will arrange shipping. Cost determined by seller.</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <hr class="cm-form__divider">
+              <div class="cm-form__section-title">Contact Information</div>
+
+              <div class="cm-form__row">
+                <div class="cm-form__group">
+                  <label for="co-name" class="cm-form__label">Full Name <span class="req">*</span></label>
+                  <input type="text" id="co-name" class="cm-form__input" value="Alex Coug" placeholder="Your name">
+                </div>
+                <div class="cm-form__group">
+                  <label for="co-email" class="cm-form__label">WSU Email <span class="req">*</span></label>
+                  <input type="email" id="co-email" class="cm-form__input" value="alex@wsu.edu" placeholder="yourname@wsu.edu">
+                </div>
+              </div>
+
+              <div class="cm-form__group">
+                <label for="co-notes" class="cm-form__label">Notes to Seller (Optional)</label>
+                <textarea id="co-notes" class="cm-form__input cm-form__textarea" placeholder="e.g. Best time to meet, preferred location…" style="min-height:80px;"></textarea>
+              </div>
+
+              <div style="padding:14px 16px;background:#f7f7f7;border-radius:4px;font-size:.82rem;color:#888;border-left:3px solid #CA1237;">
+                🔒 This is a <strong>simulated checkout</strong>. No real payment is processed. Orders cannot be cancelled once placed (within MVP scope).
+              </div>
+
+              <div class="cm-form__actions cm-mt-20">
+                <a href="cart.html" class="cm-btn cm-btn--ghost">← Back</a>
+                <button type="submit" class="cm-btn cm-btn--primary cm-btn--lg" style="flex:1;justify-content:center;">
+                  Place Order →
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="cm-summary-panel">
+          <p class="cm-summary-panel__title">Order Summary</p>
+          <div id="checkout-items">
+            <div class="cm-summary-row"><span>CPTS 321 Textbook</span><span>$38.00</span></div>
+            <div class="cm-summary-row"><span>Sony Headphones XM5</span><span>$180.00</span></div>
+          </div>
+          <hr style="border:none;border-top:1px solid #e5e5e5;margin:12px 0;">
+          <div class="cm-summary-row"><span>Platform Fee</span><span>Free</span></div>
+          <div class="cm-summary-row cm-summary-row--total"><span>Total</span><span id="checkout-total">$218.00</span></div>
+          <div style="margin-top:14px;padding:10px;background:#e8f5e9;border-radius:4px;font-size:.78rem;color:#2e7d32;">
+            ✓ Your order is protected by Campus Marketplace policies.
+          </div>
+        </div>
+      </div>
+
+      <!-- EF1: Empty cart at checkout -->
+      <div id="empty-cart-alert" class="cm-alert cm-alert--error cm-hidden cm-mt-16">
+        ✕ Your cart is empty. <a href="browse.html">Browse listings</a> to add items.
+      </div>
+    </div>
+  </main>
+
+  <footer class="cm-footer">
+    <div class="cm-container">
+      <div class="cm-footer__bottom">
+        <span>&copy; 2026 Campus Marketplace — WSU</span>
+        <div class="cm-footer__wsu"><span class="cm-footer__wsu-pill">WSU</span><span>Washington State University</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // If no cart items, redirect or show message
+      document.getElementById('checkout-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const orderId = 'ORD-' + Math.floor(Math.random()*90000+10000);
+        sessionStorage.setItem('cm_last_order', orderId);
+        window.location.href = 'order-confirmation.html?order=' + orderId;
+      });
+    });
+  </script>
+</body>
+</html>

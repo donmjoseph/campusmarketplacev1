@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[WF] Login — Campus Marketplace</title>
+  <link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-page" style="background:#f5f5f5;">
+
+  <div style="background:#ffd700;padding:6px 16px;font-size:.72rem;font-weight:700;display:flex;gap:16px;align-items:center;border-bottom:2px solid #e6b800;">
+    ⬡ WIREFRAME &nbsp;|&nbsp; <a href="index.html">← All Pages</a> &nbsp;|&nbsp; UC-B02 — Login
+  </div>
+
+  <div class="wf-wsu-bar"><span class="wf-wsu-logo">WSU</span> Washington State University</div>
+
+  <header class="wf-header">
+    <div class="wf-wrap wf-header-inner">
+      <a href="home.html" class="wf-header-brand"><span>WSU</span>Campus Marketplace</a>
+      <nav class="wf-nav">
+        <a href="browse.html">Browse</a>
+        <a href="login.html"><strong>Sign In</strong></a>
+        <a href="register.html">Register</a>
+      </nav>
+    </div>
+  </header>
+
+  <main style="display:flex;align-items:flex-start;justify-content:center;padding:40px 20px;flex:1;">
+    <div style="width:100%;max-width:420px;">
+      <div style="text-align:center;margin-bottom:24px;">
+        <h1 style="font-size:1.4rem;font-weight:800;">Sign In</h1>
+        <p class="wf-text-sm wf-text-muted">Welcome back to Campus Marketplace.</p>
+      </div>
+
+      <div class="wf-card">
+        <span class="wf-uc">UC-B02 — Login</span>
+
+        <!-- EF2: Suspended account (hidden state) -->
+        <div class="wf-alert wf-alert--error wf-mb-16" style="display:none;">
+          ⚠ Your account has been suspended. Contact support.
+          <span class="wf-note">[ EF2: Suspended account ]</span>
+        </div>
+
+        <!-- EF1: Invalid credentials (hidden state) -->
+        <div class="wf-alert wf-alert--error wf-mb-16" style="display:none;">
+          ✕ Invalid email or password.
+          <span class="wf-note">[ EF1: Bad credentials ]</span>
+        </div>
+
+        <div class="wf-form-group">
+          <label class="wf-label">WSU Email <span style="color:red;">*</span></label>
+          <input class="wf-input" type="email" placeholder="yourname@wsu.edu">
+        </div>
+
+        <div class="wf-form-group">
+          <label class="wf-label">Password <span style="color:red;">*</span></label>
+          <input class="wf-input" type="password" placeholder="Your password">
+          <p class="wf-note">[ EF3: Missing fields → per-field errors ]</p>
+        </div>
+
+        <div class="wf-flex-between wf-mb-16" style="font-size:.78rem;">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox"> Remember me
+          </label>
+          <a href="#forgot-modal">Forgot password?</a>
+          <span class="wf-note">[ AF1: → forgot password modal ]</span>
+        </div>
+
+        <button class="wf-btn wf-btn--fill" style="width:100%;padding:11px;">Sign In</button>
+
+        <hr class="wf-divider">
+        <p class="wf-text-sm wf-center">
+          Don't have an account? <a href="register.html">Register</a>
+        </p>
+      </div>
+
+      <!-- AF1: Forgot Password Modal (shown inline for wireframe) -->
+      <div style="margin-top:24px;">
+        <div class="wf-section">
+          <div class="wf-section-head">AF1 — Forgot Password Modal</div>
+          <div class="wf-section-body">
+            <div class="wf-form-group">
+              <label class="wf-label">Your WSU Email</label>
+              <input class="wf-input" type="email" placeholder="yourname@wsu.edu">
+            </div>
+            <button class="wf-btn wf-btn--fill wf-btn--sm">Send Reset Link</button>
+            <span class="wf-note" style="display:block;margin-top:8px;">→ Toast: "Password reset link sent."</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="wf-footer"><span>© 2026 Campus Marketplace — WSU</span></footer>
+</body>
+</html>

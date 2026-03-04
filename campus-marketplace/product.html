@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPTS 321 Textbook — Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="cm-site">
+
+  <!-- WSU Bar -->
+  <div class="cm-wsu-bar">
+    <div class="cm-wsu-bar__inner">
+      <a href="index.html" class="cm-wsu-bar__brand"><span class="cm-wsu-bar__logo">WSU</span><span class="cm-wsu-bar__wordmark">Washington State University</span></a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="cm-header">
+    <div class="cm-header__inner">
+      <a href="index.html" class="cm-header__brand">
+        <span class="cm-header__pill">WSU</span>
+        <span class="cm-header__site-name">Campus <span>Marketplace</span></span>
+      </a>
+      <nav class="cm-nav">
+        <a href="browse.html" class="cm-nav__link">Browse</a>
+        <a href="messages.html" class="cm-nav__link">Messages</a>
+        <a href="orders.html" class="cm-nav__link">Orders</a>
+        <div class="cm-nav__divider"></div>
+        <a href="profile.html" class="cm-nav__link">alex@wsu.edu</a>
+        <a href="cart.html" class="cm-cart-btn">🛒 Cart<span class="cm-cart-badge" style="display:none">0</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="cm-main">
+    <div class="cm-container">
+      <!-- Breadcrumb -->
+      <nav class="cm-breadcrumb">
+        <a href="index.html">Home</a><span class="cm-breadcrumb__sep">/</span>
+        <a href="browse.html">Browse</a><span class="cm-breadcrumb__sep">/</span>
+        <a href="browse.html?cat=textbooks">Textbooks</a><span class="cm-breadcrumb__sep">/</span>
+        <span>CPTS 321 — Software Engineering Textbook</span>
+      </nav>
+
+      <!-- UC-B04: Product detail layout -->
+      <div class="cm-product-detail">
+
+        <!-- Gallery -->
+        <div class="cm-gallery">
+          <div class="cm-gallery__main">📚</div>
+          <div class="cm-gallery__thumbs">
+            <div class="cm-gallery__thumb cm-gallery__thumb--active">📚</div>
+            <div class="cm-gallery__thumb">📘</div>
+            <div class="cm-gallery__thumb">📗</div>
+            <div class="cm-gallery__thumb">📙</div>
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="cm-product-info">
+          <p class="cm-product-info__category">📚 Textbooks — CPTS 321</p>
+          <h1 class="cm-product-info__title">Software Engineering: A Practitioner's Approach (9th Ed.)</h1>
+
+          <div class="cm-product-info__meta">
+            <span class="cm-badge cm-badge--like-new">Like New</span>
+            <span class="cm-badge cm-badge--active">Active</span>
+            <span class="cm-text-muted cm-text-sm">Listed 2 hours ago</span>
+          </div>
+
+          <p class="cm-product-info__price">$38.00</p>
+
+          <!-- UC-B05: Add to Cart -->
+          <div style="display:flex;gap:10px;margin-bottom:16px;">
+            <button class="cm-btn cm-btn--primary cm-btn--lg" style="flex:1;"
+              data-add-cart
+              data-id="prod-001"
+              data-title="CPTS 321 Software Engineering Textbook"
+              data-price="38.00"
+              data-seller="Riley K.">
+              🛒 Add to Cart
+            </button>
+          </div>
+
+          <!-- Sold state example (comment shows the sold variant) -->
+          <!-- <button class="cm-btn cm-btn--ghost cm-btn--lg" disabled style="flex:1;">Item Sold</button> -->
+
+          <!-- UC-B09: Contact Seller -->
+          <button class="cm-btn cm-btn--secondary cm-full-width cm-mb-16" data-contact-seller>
+            💬 Contact Seller
+          </button>
+
+          <!-- EF1: Item unavailable alert (hidden by default) -->
+          <div id="unavailable-alert" class="cm-alert cm-alert--warning cm-hidden">
+            ⚠ This listing is no longer available. <a href="browse.html">Browse other items</a>
+          </div>
+
+          <div class="cm-product-info__sep"></div>
+
+          <h3 style="font-size:1rem;font-weight:700;margin:0 0 10px;">Description</h3>
+          <p class="cm-product-info__desc">
+            Used for CPTS 321 Software Engineering at WSU Pullman. Excellent condition — no highlighting, all pages intact. Covers software process models, requirements engineering, design, testing, and project management. Selling because I completed the course.
+          </p>
+          <p class="cm-product-info__desc" style="font-size:.85rem;color:#888;">
+            <strong>Course:</strong> CPTS 321 — Software Engineering<br>
+            <strong>ISBN:</strong> 978-0-07-802432-8<br>
+            <strong>Edition:</strong> 9th Edition<br>
+            <strong>Pickup Location:</strong> Pullman, WA (campus preferred)
+          </p>
+
+          <div class="cm-product-info__sep"></div>
+
+          <!-- Seller Card (UC-B04 AF1: view seller profile) -->
+          <div class="cm-seller-card">
+            <div class="cm-seller-card__avatar">RK</div>
+            <div>
+              <div class="cm-seller-card__name">
+                <a href="#" class="cm-seller-card__name">Riley K.</a>
+              </div>
+              <div class="cm-seller-card__rating">⭐⭐⭐⭐⭐ 5.0 · 12 sales</div>
+              <div class="cm-seller-card__meta">Member since Jan 2024 · Pullman, WA</div>
+            </div>
+          </div>
+
+          <div style="margin-top:16px;padding:12px 16px;background:#f7f7f7;border-radius:4px;font-size:.82rem;color:#888;border-left:3px solid #CA1237;">
+            🔒 Transactions are protected by Campus Marketplace policies. Only WSU community members can buy and sell.
+          </div>
+        </div>
+      </div>
+
+      <!-- Similar Listings -->
+      <div style="margin-top:48px;">
+        <div class="cm-flex-between cm-mb-20">
+          <h2 style="font-size:1.3rem;font-weight:800;margin:0;border-bottom:3px solid #CA1237;padding-bottom:8px;">Similar Listings</h2>
+        </div>
+        <div class="cm-products-grid">
+          <a href="product.html?id=5" class="cm-product-card">
+            <div class="cm-product-card__img">📖</div>
+            <div class="cm-product-card__body">
+              <p class="cm-product-card__cat">Textbooks</p>
+              <h3 class="cm-product-card__title">Calculus: Early Transcendentals 9th Ed</h3>
+              <p class="cm-product-card__price">$45</p>
+              <div class="cm-product-card__meta"><span class="cm-badge cm-badge--good">Good</span></div>
+            </div>
+          </a>
+          <a href="product.html?id=9" class="cm-product-card">
+            <div class="cm-product-card__img">📕</div>
+            <div class="cm-product-card__body">
+              <p class="cm-product-card__cat">Textbooks</p>
+              <h3 class="cm-product-card__title">Operating System Concepts (10th Ed)</h3>
+              <p class="cm-product-card__price">$52</p>
+              <div class="cm-product-card__meta"><span class="cm-badge cm-badge--good">Good</span></div>
+            </div>
+          </a>
+          <a href="product.html?id=10" class="cm-product-card">
+            <div class="cm-product-card__img">📓</div>
+            <div class="cm-product-card__body">
+              <p class="cm-product-card__cat">Textbooks</p>
+              <h3 class="cm-product-card__title">Introduction to Algorithms (CLRS)</h3>
+              <p class="cm-product-card__price">$60</p>
+              <div class="cm-product-card__meta"><span class="cm-badge cm-badge--fair">Fair</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="cm-footer">
+    <div class="cm-container">
+      <div class="cm-footer__bottom">
+        <span>&copy; 2026 Campus Marketplace — WSU</span>
+        <div class="cm-footer__wsu"><span class="cm-footer__wsu-pill">WSU</span><span>Washington State University</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wireframes — Campus Marketplace</title>
+  <link rel="stylesheet" href="wireframe.css">
+  <style>
+    body { background: #f5f5f5; }
+    .nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .nav-group { background: #fff; border: 1px solid #ddd; }
+    .nav-group-head { background: #1a1a1a; color: #fff; padding: 12px 16px; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+    .nav-group-body { padding: 12px 0; }
+    .nav-item { display: flex; align-items: baseline; gap: 10px; padding: 8px 16px; border-bottom: 1px solid #f0f0f0; }
+    .nav-item:last-child { border-bottom: none; }
+    .nav-uc { font-size: .65rem; color: #e74c3c; font-weight: 700; white-space: nowrap; min-width: 52px; }
+    .nav-link { font-size: .85rem; color: #333; font-weight: 600; text-decoration: none; }
+    .nav-link:hover { text-decoration: underline; color: #000; }
+    .nav-desc { font-size: .72rem; color: #999; }
+  </style>
+</head>
+<body>
+
+  <div style="background:#ffd700;padding:8px 24px;font-size:.75rem;font-weight:700;letter-spacing:.06em;border-bottom:3px solid #e6b800;">
+    ⬡ WIREFRAME NAVIGATOR — Campus Marketplace · CPTS 489 · WSU
+  </div>
+
+  <div style="max-width:1160px;margin:32px auto;padding:0 20px;">
+
+    <div style="margin-bottom:28px;">
+      <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:6px;">Campus Marketplace — Wireframes</h1>
+      <p style="color:#666;font-size:.88rem;">Low-fidelity layout reference for all 21 pages. Click any page to view its wireframe.</p>
+    </div>
+
+    <div class="nav-grid">
+
+      <!-- Buyer Pages -->
+      <div class="nav-group">
+        <div class="nav-group-head">🛒 Buyer Pages</div>
+        <div class="nav-group-body">
+          <div class="nav-item">
+            <span class="nav-uc">—</span>
+            <div>
+              <a href="home.html" class="nav-link">Home / Landing</a>
+              <div class="nav-desc">Featured listings, categories, hero</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B01</span>
+            <div>
+              <a href="register.html" class="nav-link">Register</a>
+              <div class="nav-desc">Create account with WSU email</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B02</span>
+            <div>
+              <a href="login.html" class="nav-link">Login</a>
+              <div class="nav-desc">Email + password, forgot password</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B03</span>
+            <div>
+              <a href="browse.html" class="nav-link">Browse & Search</a>
+              <div class="nav-desc">Keyword search, filter sidebar, grid</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B04</span>
+            <div>
+              <a href="product.html" class="nav-link">Product Detail</a>
+              <div class="nav-desc">Gallery, info panel, seller card</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B05</span>
+            <div>
+              <a href="cart.html" class="nav-link">Cart</a>
+              <div class="nav-desc">Cart items, totals, proceed to checkout</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B06</span>
+            <div>
+              <a href="checkout.html" class="nav-link">Checkout</a>
+              <div class="nav-desc">Contact info, pickup/shipping, confirm</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B06</span>
+            <div>
+              <a href="order-confirmation.html" class="nav-link">Order Confirmation</a>
+              <div class="nav-desc">Order ID, status, next steps</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B07/B10</span>
+            <div>
+              <a href="orders.html" class="nav-link">Order History</a>
+              <div class="nav-desc">Orders table, cancel request</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B08</span>
+            <div>
+              <a href="profile.html" class="nav-link">My Profile</a>
+              <div class="nav-desc">Edit info, change password, prefs</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-B09</span>
+            <div>
+              <a href="messages.html" class="nav-link">Messages</a>
+              <div class="nav-desc">Conversation list, chat thread</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seller Pages -->
+      <div class="nav-group">
+        <div class="nav-group-head">📦 Seller Pages</div>
+        <div class="nav-group-body">
+          <div class="nav-item">
+            <span class="nav-uc">UC-S04–S08</span>
+            <div>
+              <a href="seller/dashboard.html" class="nav-link">Seller Dashboard</a>
+              <div class="nav-desc">Stats, listings, orders, messages tabs</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-S01</span>
+            <div>
+              <a href="seller/listing-create.html" class="nav-link">Create Listing</a>
+              <div class="nav-desc">Photo upload, form, publish/draft</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-S02/S03</span>
+            <div>
+              <a href="seller/listing-edit.html" class="nav-link">Edit / Delete Listing</a>
+              <div class="nav-desc">Pre-filled form, deactivate, delete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Pages -->
+      <div class="nav-group">
+        <div class="nav-group-head">🔒 Admin Pages</div>
+        <div class="nav-group-body">
+          <div class="nav-item">
+            <span class="nav-uc">UC-A01</span>
+            <div>
+              <a href="admin/login.html" class="nav-link">Admin Login</a>
+              <div class="nav-desc">Restricted access portal</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-A02</span>
+            <div>
+              <a href="admin/dashboard.html" class="nav-link">Admin Dashboard</a>
+              <div class="nav-desc">Platform stats, recent activity</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-A03</span>
+            <div>
+              <a href="admin/users.html" class="nav-link">Manage Users</a>
+              <div class="nav-desc">Search, suspend, reinstate</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-A04</span>
+            <div>
+              <a href="admin/listings.html" class="nav-link">Manage Listings</a>
+              <div class="nav-desc">Remove, restore, filter</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-A05</span>
+            <div>
+              <a href="admin/orders.html" class="nav-link">All Orders</a>
+              <div class="nav-desc">Platform-wide order table</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-A06</span>
+            <div>
+              <a href="admin/analytics.html" class="nav-link">Analytics</a>
+              <div class="nav-desc">KPIs, bar charts, top listings</div>
+            </div>
+          </div>
+          <div class="nav-item">
+            <span class="nav-uc">UC-A07</span>
+            <div>
+              <a href="admin/reported-messages.html" class="nav-link">Reported Messages</a>
+              <div class="nav-desc">Report queue, dismiss/warn/suspend</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="text-align:center;margin-top:32px;font-size:.75rem;color:#aaa;">
+      CPTS 489 · Washington State University · Campus Marketplace Wireframes
+    </p>
+  </div>
+
+</body>
+</html>

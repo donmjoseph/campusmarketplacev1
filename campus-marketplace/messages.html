@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages — Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="cm-site">
+
+  <!-- WSU Bar -->
+  <div class="cm-wsu-bar">
+    <div class="cm-wsu-bar__inner">
+      <a href="index.html" class="cm-wsu-bar__brand"><span class="cm-wsu-bar__logo">WSU</span><span class="cm-wsu-bar__wordmark">Washington State University</span></a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="cm-header">
+    <div class="cm-header__inner">
+      <a href="index.html" class="cm-header__brand">
+        <span class="cm-header__pill">WSU</span>
+        <span class="cm-header__site-name">Campus <span>Marketplace</span></span>
+      </a>
+      <nav class="cm-nav">
+        <a href="browse.html" class="cm-nav__link">Browse</a>
+        <a href="messages.html" class="cm-nav__link cm-nav__link--active">Messages</a>
+        <a href="orders.html" class="cm-nav__link">Orders</a>
+        <div class="cm-nav__divider"></div>
+        <a href="profile.html" class="cm-nav__link">alex@wsu.edu</a>
+        <a href="cart.html" class="cm-cart-btn">🛒 Cart<span class="cm-cart-badge" style="display:none">0</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="cm-page-header">
+    <div class="cm-container">
+      <h1 class="cm-page-header__title">Messages</h1>
+      <p class="cm-page-header__sub">Your conversations with sellers on Campus Marketplace.</p>
+    </div>
+  </div>
+
+  <main class="cm-main" style="padding-top:0;">
+    <div class="cm-container">
+
+      <!-- UC-B09: Messaging layout -->
+      <div class="cm-messages-layout">
+
+        <!-- Conversation List -->
+        <div class="cm-conv-list">
+          <div class="cm-conv-list__header">Conversations (3)</div>
+
+          <!-- AF1: Existing conversation (Riley K. about textbook) -->
+          <div class="cm-conv-item cm-conv-item--active">
+            <div class="cm-conv-item__avatar">RK</div>
+            <div class="cm-conv-item__body">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                <span class="cm-conv-item__name">Riley K.</span>
+                <span class="cm-conv-item__time">2:30 PM</span>
+              </div>
+              <div class="cm-conv-item__preview">Re: CPTS 321 Textbook — Sure, I can meet Wednesday…</div>
+            </div>
+          </div>
+
+          <div class="cm-conv-item">
+            <div class="cm-conv-item__avatar">JM</div>
+            <div class="cm-conv-item__body">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                <span class="cm-conv-item__name">Jordan M.</span>
+                <span class="cm-conv-item__time">Yesterday</span>
+              </div>
+              <div class="cm-conv-item__preview">Re: Sony Headphones — Is the price negotiable?</div>
+              <div style="margin-top:4px;"><span class="cm-conv-item__unread"></span></div>
+            </div>
+          </div>
+
+          <div class="cm-conv-item">
+            <div class="cm-conv-item__avatar">ST</div>
+            <div class="cm-conv-item__body">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                <span class="cm-conv-item__name">Sam T.</span>
+                <span class="cm-conv-item__time">Mar 1</span>
+              </div>
+              <div class="cm-conv-item__preview">Your order for the desk has been picked up. Thanks!</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Thread (UC-B09: view and send messages) -->
+        <div class="cm-chat">
+          <div class="cm-chat__header">
+            <div class="cm-chat__subject">Riley K. — CPTS 321 Textbook</div>
+            <div class="cm-chat__listing-ref">📚 Re: Software Engineering Textbook · $38.00 ·
+              <a href="product.html" class="cm-text-crimson" style="font-size:.78rem;">View Listing</a>
+            </div>
+          </div>
+
+          <div class="cm-chat__messages" id="chat-messages">
+            <!-- Messages (most recent at bottom) -->
+            <div class="cm-msg cm-msg--out">
+              <div class="cm-msg__bubble">Hi! I'm interested in the CPTS 321 textbook. Is it still available?</div>
+              <span class="cm-msg__time">Feb 28 · 10:12 AM</span>
+            </div>
+            <div class="cm-msg cm-msg--in">
+              <div class="cm-msg__bubble">Yes, it's still available! Just finished the course last semester.</div>
+              <span class="cm-msg__time">Feb 28 · 10:45 AM</span>
+            </div>
+            <div class="cm-msg cm-msg--out">
+              <div class="cm-msg__bubble">Great! Any highlights or writing in it?</div>
+              <span class="cm-msg__time">Feb 28 · 11:02 AM</span>
+            </div>
+            <div class="cm-msg cm-msg--in">
+              <div class="cm-msg__bubble">No highlights, all pages intact. I kept it in great condition. I can show you before you buy.</div>
+              <span class="cm-msg__time">Feb 28 · 11:15 AM</span>
+            </div>
+            <div class="cm-msg cm-msg--out">
+              <div class="cm-msg__bubble">Could we meet Wednesday on campus? I'm near the CUB around 2pm.</div>
+              <span class="cm-msg__time">Mar 2 · 2:20 PM</span>
+            </div>
+            <div class="cm-msg cm-msg--in">
+              <div class="cm-msg__bubble">Sure, I can meet Wednesday. CUB works for me! I'll bring the book.</div>
+              <span class="cm-msg__time">Mar 2 · 2:30 PM</span>
+            </div>
+          </div>
+
+          <!-- UC-B09: Send message input -->
+          <div class="cm-chat__footer">
+            <textarea
+              id="msg-input"
+              class="cm-chat__textarea"
+              rows="1"
+              placeholder="Type a message… (Press Enter to send, Shift+Enter for newline)"
+            ></textarea>
+            <!-- EF1: Send button validates empty message -->
+            <button id="msg-send" class="cm-btn cm-btn--primary cm-btn--sm">Send</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Report message option -->
+      <div class="cm-text-right cm-mt-8">
+        <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="report-modal" style="font-size:.78rem;color:#888;">
+          ⚑ Report this conversation
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Report Message Modal (leads to UC-A07) -->
+  <div id="report-modal" class="cm-overlay">
+    <div class="cm-modal cm-modal--sm">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Report Conversation</h3>
+        <button class="cm-modal__close" data-modal-close="report-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <p class="cm-text-sm cm-text-muted cm-mb-16">Report this conversation to a Campus Marketplace administrator for review.</p>
+        <div class="cm-form__group">
+          <label class="cm-form__label">Reason</label>
+          <select class="cm-form__select">
+            <option>Harassment or abuse</option>
+            <option>Spam or scam</option>
+            <option>Inappropriate content</option>
+            <option>Other policy violation</option>
+          </select>
+        </div>
+        <div class="cm-form__group">
+          <label class="cm-form__label">Details (Optional)</label>
+          <textarea class="cm-form__input cm-form__textarea" style="min-height:80px;" placeholder="Provide additional context…"></textarea>
+        </div>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="report-modal">Cancel</button>
+        <button class="cm-btn cm-btn--danger" onclick="Modal.close('report-modal'); Toast.show('Report submitted. Administrators will review.', 'default');">Submit Report</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="cm-footer">
+    <div class="cm-container">
+      <div class="cm-footer__bottom">
+        <span>&copy; 2026 Campus Marketplace — WSU</span>
+        <div class="cm-footer__wsu"><span class="cm-footer__wsu-pill">WSU</span><span>Washington State University</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

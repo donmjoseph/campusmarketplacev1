@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[WF] Edit Listing — Campus Marketplace</title>
+  <link rel="stylesheet" href="../wireframe.css">
+</head>
+<body style="margin:0;">
+
+  <div style="background:#ffd700;padding:6px 16px;font-size:.72rem;font-weight:700;display:flex;gap:16px;align-items:center;border-bottom:2px solid #e6b800;">
+    ⬡ WIREFRAME &nbsp;|&nbsp; <a href="../index.html">← All Pages</a> &nbsp;|&nbsp; UC-S02 / UC-S03 — Edit / Delete / Deactivate Listing
+  </div>
+
+  <div class="wf-wsu-bar"><span class="wf-wsu-logo">WSU</span> Washington State University</div>
+
+  <div class="wf-dash">
+    <aside class="wf-sidebar">
+      <div class="wf-sidebar-top"><strong>Seller Dashboard</strong><small>alex@wsu.edu</small></div>
+      <div class="wf-sidebar-section">Main</div>
+      <a href="dashboard.html" class="wf-sidebar-link">📊 Overview</a>
+      <a href="dashboard.html" class="wf-sidebar-link active">📦 My Listings</a>
+      <a href="dashboard.html" class="wf-sidebar-link">📋 Orders</a>
+      <a href="dashboard.html" class="wf-sidebar-link">💬 Messages</a>
+      <div class="wf-sidebar-section">Listings</div>
+      <a href="listing-create.html" class="wf-sidebar-link">＋ Create Listing</a>
+    </aside>
+
+    <main class="wf-dash-main">
+      <div class="wf-flex-between wf-mb-20">
+        <div>
+          <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:4px;">Edit Listing</h1>
+          <p class="wf-text-sm wf-text-muted">Last edited: March 1, 2026 · <span class="wf-badge wf-badge--active">Active</span></p>
+        </div>
+        <a href="dashboard.html" class="wf-btn wf-btn--ghost wf-btn--sm">← Back</a>
+      </div>
+
+      <!-- EF4: Unauthorized edit (hidden) -->
+      <div class="wf-alert wf-alert--error wf-mb-16" style="display:none;">
+        ✕ You do not have permission to edit this listing.
+        <span class="wf-note">[ EF4: Auth check failure ]</span>
+      </div>
+
+      <!-- UC-S02 AF3: Photo management -->
+      <div class="wf-section wf-mb-16">
+        <div class="wf-section-head wf-flex-between">
+          <span>Photos (UC-S02 AF3 — Remove/Replace)</span>
+          <span class="wf-text-xs wf-text-muted">Click × to remove. First = cover.</span>
+        </div>
+        <div class="wf-section-body">
+          <div class="wf-grid-5" style="margin-bottom:10px;">
+            <div style="position:relative;">
+              <div class="wf-img-ph" style="height:80px;border:2px solid #333;"><span style="font-size:.6rem;">COVER</span></div>
+              <div style="position:absolute;top:4px;right:4px;width:20px;height:20px;background:#c0392b;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;cursor:pointer;">×</div>
+            </div>
+            <div style="position:relative;">
+              <div class="wf-img-ph" style="height:80px;"><span style="font-size:.6rem;">PHOTO 2</span></div>
+              <div style="position:absolute;top:4px;right:4px;width:20px;height:20px;background:#c0392b;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;cursor:pointer;">×</div>
+            </div>
+            <div class="wf-ph" style="height:80px;border:1px dashed #bbb;"><span style="font-size:.8rem;">＋</span></div>
+          </div>
+          <p class="wf-note">[ × removes photo · + adds new photo ]</p>
+        </div>
+      </div>
+
+      <!-- Listing Details (pre-populated — UC-S02 main flow) -->
+      <div class="wf-section wf-mb-16">
+        <div class="wf-section-head">Listing Details (pre-populated)</div>
+        <div class="wf-section-body">
+          <span class="wf-uc">UC-S02 — Edit Listing (any field)</span>
+
+          <div class="wf-form-group">
+            <label class="wf-label">Title <span style="color:red;">*</span></label>
+            <input class="wf-input" value="Sony WH-1000XM5 Headphones">
+          </div>
+
+          <div class="wf-form-row">
+            <div class="wf-form-group">
+              <label class="wf-label">Category</label>
+              <select class="wf-select"><option selected>Electronics</option></select>
+            </div>
+            <div class="wf-form-group">
+              <label class="wf-label">Condition</label>
+              <select class="wf-select"><option selected>Like New</option></select>
+            </div>
+          </div>
+
+          <div class="wf-form-row">
+            <!-- UC-S02 AF2: Update only price/quantity -->
+            <div class="wf-form-group">
+              <label class="wf-label">Price ($) <span style="color:red;">*</span></label>
+              <input class="wf-input" type="number" value="180">
+              <p class="wf-note">[ AF2: Common edit — price only ]</p>
+            </div>
+            <div class="wf-form-group">
+              <label class="wf-label">Course Number</label>
+              <input class="wf-input" placeholder="e.g. CPTS 321">
+            </div>
+          </div>
+
+          <div class="wf-form-group">
+            <label class="wf-label">Description</label>
+            <textarea class="wf-textarea">Sony WH-1000XM5 headphones in like-new condition. Only used a few times. Original box and accessories included.</textarea>
+          </div>
+
+          <div class="wf-form-group">
+            <label class="wf-label">Pickup Location</label>
+            <input class="wf-input" value="Pullman, WA — Near CUB">
+          </div>
+
+          <!-- UC-S02 AF4: Listing status change -->
+          <div class="wf-form-group">
+            <label class="wf-label">Listing Status (AF4)</label>
+            <div class="wf-flex wf-gap-8 wf-mt-8" style="flex-wrap:wrap;">
+              <label style="display:flex;align-items:center;gap:8px;padding:9px 14px;border:2px solid #333;font-size:.82rem;cursor:pointer;">
+                <input type="radio" name="status" checked> Active (Published)
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #ccc;font-size:.82rem;cursor:pointer;">
+                <input type="radio" name="status"> Draft (Unpublished)
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #ccc;font-size:.82rem;cursor:pointer;">
+                <input type="radio" name="status"> Inactive (Hidden)
+              </label>
+            </div>
+            <p class="wf-note wf-mt-8">[ AF4: Status toggle — published/draft/inactive ]</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="wf-section wf-mb-20">
+        <div class="wf-section-body">
+          <div class="wf-flex wf-gap-12" style="flex-wrap:wrap;align-items:center;">
+            <button class="wf-btn wf-btn--ghost">Discard Changes</button>
+            <button class="wf-btn wf-btn--fill wf-btn--lg">💾 Save Changes</button>
+            <div style="margin-left:auto;display:flex;gap:10px;">
+              <!-- UC-S03: Deactivate -->
+              <button class="wf-btn wf-btn--ghost">Deactivate Listing</button>
+              <!-- UC-S03 AF1: Permanent delete -->
+              <button class="wf-btn wf-btn--danger">🗑 Delete Listing</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UC-S03: Delete Confirmation Modal (inline) -->
+      <div class="wf-section wf-mb-16">
+        <div class="wf-section-head">UC-S03 — Delete Listing Modal (AF1)</div>
+        <div class="wf-section-body" style="max-width:420px;">
+          <div class="wf-alert wf-alert--error wf-mb-12">⚠ <strong>This action cannot be undone.</strong></div>
+          <p class="wf-text-sm wf-mb-12">Are you sure you want to permanently delete <strong>"Sony WH-1000XM5 Headphones"</strong>?</p>
+          <div class="wf-flex wf-gap-8">
+            <button class="wf-btn wf-btn--ghost">Cancel</button>
+            <button class="wf-btn wf-btn--danger wf-btn--fill">Delete Permanently</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- UC-S03: Deactivate Confirmation Modal (inline) -->
+      <div class="wf-section">
+        <div class="wf-section-head">UC-S03 — Deactivate Listing Modal (main flow)</div>
+        <div class="wf-section-body" style="max-width:420px;">
+          <p class="wf-text-sm wf-mb-12">Hide <strong>"Sony WH-1000XM5 Headphones"</strong> from buyers? You can reactivate it at any time.</p>
+          <div class="wf-flex wf-gap-8">
+            <button class="wf-btn wf-btn--ghost">Cancel</button>
+            <button class="wf-btn wf-btn--fill">Deactivate</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>

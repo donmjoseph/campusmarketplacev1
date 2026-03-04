@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed — Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="cm-site">
+
+  <!-- WSU Bar -->
+  <div class="cm-wsu-bar">
+    <div class="cm-wsu-bar__inner">
+      <a href="index.html" class="cm-wsu-bar__brand"><span class="cm-wsu-bar__logo">WSU</span><span class="cm-wsu-bar__wordmark">Washington State University</span></a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="cm-header">
+    <div class="cm-header__inner">
+      <a href="index.html" class="cm-header__brand">
+        <span class="cm-header__pill">WSU</span>
+        <span class="cm-header__site-name">Campus <span>Marketplace</span></span>
+      </a>
+      <nav class="cm-nav">
+        <a href="browse.html" class="cm-nav__link">Browse</a>
+        <a href="orders.html" class="cm-nav__link">My Orders</a>
+        <a href="cart.html" class="cm-cart-btn">🛒 Cart<span class="cm-cart-badge" style="display:none">0</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Order Steps -->
+  <div style="background:#fff;border-bottom:1px solid #e5e5e5;padding:20px 0;">
+    <div class="cm-container">
+      <div class="cm-order-tracker">
+        <div class="cm-order-step cm-order-step--done">
+          <div class="cm-order-step__dot">✓</div>
+          <span class="cm-order-step__label">Cart</span>
+        </div>
+        <div class="cm-order-step cm-order-step--done">
+          <div class="cm-order-step__dot">✓</div>
+          <span class="cm-order-step__label">Checkout</span>
+        </div>
+        <div class="cm-order-step cm-order-step--current">
+          <div class="cm-order-step__dot">✓</div>
+          <span class="cm-order-step__label">Confirmed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="cm-main">
+    <div class="cm-container--narrow">
+
+      <!-- Success Banner (UC-B06 post-condition) -->
+      <div style="text-align:center;padding:48px 20px 32px;">
+        <div style="width:80px;height:80px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:2.5rem;">✓</div>
+        <h1 style="font-size:2rem;font-weight:800;color:#2e7d32;margin:0 0 8px;">Order Placed!</h1>
+        <p class="cm-text-muted">Your order has been placed successfully. The seller has been notified.</p>
+        <div style="display:inline-block;background:#f7f7f7;border:1px solid #e5e5e5;border-radius:6px;padding:12px 28px;margin-top:16px;">
+          <span class="cm-text-muted cm-text-sm">Order ID</span>
+          <p style="font-size:1.5rem;font-weight:800;color:#CA1237;margin:4px 0 0;" id="order-id">ORD-12345</p>
+        </div>
+      </div>
+
+      <!-- Order Details -->
+      <div class="cm-panel cm-mb-20">
+        <p class="cm-panel__title">Order Details</p>
+        <div style="margin-bottom:16px;">
+          <div class="cm-summary-row">
+            <span class="cm-text-muted cm-text-sm">Placed On</span>
+            <span class="cm-font-bold cm-text-sm" id="order-date"></span>
+          </div>
+          <div class="cm-summary-row">
+            <span class="cm-text-muted cm-text-sm">Status</span>
+            <span class="cm-badge cm-badge--pending">Pending</span>
+          </div>
+          <div class="cm-summary-row">
+            <span class="cm-text-muted cm-text-sm">Delivery</span>
+            <span class="cm-text-sm cm-font-bold">Campus Pickup</span>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #f0f0f0;margin:16px 0;">
+        <p style="font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin:0 0 12px;">Items Ordered</p>
+        <div class="cm-cart-item" style="padding:14px 0;border-bottom:1px solid #f0f0f0;">
+          <div class="cm-cart-item__img">📚</div>
+          <div class="cm-cart-item__info">
+            <p class="cm-cart-item__title">CPTS 321 Software Engineering Textbook</p>
+            <p class="cm-cart-item__seller">Seller: Riley K.</p>
+            <p class="cm-cart-item__price">$38.00</p>
+          </div>
+        </div>
+        <div class="cm-cart-item" style="padding:14px 0;">
+          <div class="cm-cart-item__img">🎧</div>
+          <div class="cm-cart-item__info">
+            <p class="cm-cart-item__title">Sony WH-1000XM5 Headphones</p>
+            <p class="cm-cart-item__seller">Seller: Jordan M.</p>
+            <p class="cm-cart-item__price">$180.00</p>
+          </div>
+        </div>
+        <hr style="border:none;border-top:1px solid #f0f0f0;margin:12px 0;">
+        <div class="cm-summary-row cm-summary-row--total">
+          <span>Total Paid</span><span>$218.00</span>
+        </div>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="cm-alert cm-alert--info cm-mb-20">
+        ℹ <strong>What's next?</strong> The seller will contact you to arrange pickup/delivery. Check your messages for updates.
+      </div>
+
+      <div class="cm-flex-between cm-gap-12" style="flex-wrap:wrap;">
+        <a href="messages.html" class="cm-btn cm-btn--secondary">💬 Message Seller</a>
+        <a href="orders.html" class="cm-btn cm-btn--ghost">📋 View Order History</a>
+        <a href="browse.html" class="cm-btn cm-btn--primary">Continue Shopping</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="cm-footer">
+    <div class="cm-container">
+      <div class="cm-footer__bottom">
+        <span>&copy; 2026 Campus Marketplace — WSU</span>
+        <div class="cm-footer__wsu"><span class="cm-footer__wsu-pill">WSU</span><span>Washington State University</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const id = new URLSearchParams(window.location.search).get('order') || sessionStorage.getItem('cm_last_order') || 'ORD-12345';
+      document.getElementById('order-id').textContent = id;
+      document.getElementById('order-date').textContent = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    });
+  </script>
+</body>
+</html>

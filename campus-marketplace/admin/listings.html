@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Listings — Admin | Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body style="margin:0;">
+
+  <!-- Admin Top Bar -->
+  <div class="cm-admin-bar">
+    <div class="cm-admin-bar__inner">
+      <div class="cm-admin-bar__brand">
+        <span class="cm-admin-bar__logo">WSU</span>
+        <span class="cm-admin-bar__title">Campus Marketplace — Admin Portal</span>
+      </div>
+      <div class="cm-admin-bar__actions">
+        <span style="color:rgba(255,255,255,.7);font-size:.8rem;">admin@wsu.edu</span>
+        <a href="login.html" class="cm-btn cm-btn--ghost cm-btn--sm" style="color:#fff;border-color:rgba(255,255,255,.35);margin-left:12px;">Sign Out</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cm-dash-layout">
+    <!-- Admin Sidebar -->
+    <aside class="cm-sidebar">
+      <div class="cm-sidebar__brand">
+        <div class="cm-sidebar__brand-name">Admin Panel</div>
+        <div class="cm-sidebar__brand-role">administrator</div>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Management</div>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📊</span> Dashboard</a>
+        <a href="users.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">👥</span> Users</a>
+        <a href="listings.html" class="cm-sidebar__link cm-sidebar__link--active"><span class="cm-sidebar__icon">📦</span> Listings</a>
+        <a href="orders.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📋</span> Orders</a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Reports</div>
+        <a href="analytics.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📈</span> Analytics</a>
+        <a href="reported-messages.html" class="cm-sidebar__link">
+          <span class="cm-sidebar__icon">⚑</span> Reported Messages
+          <span class="cm-badge cm-badge--cancel-req" style="margin-left:auto;font-size:.65rem;padding:2px 7px;">3</span>
+        </a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Account</div>
+        <a href="login.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">🔒</span> Sign Out</a>
+      </div>
+    </aside>
+
+    <!-- UC-A04: Manage Listings -->
+    <main class="cm-dash-main">
+      <div class="cm-flex-between cm-mb-20">
+        <div>
+          <h1 style="font-size:1.6rem;font-weight:800;margin:0 0 4px;">Manage Listings</h1>
+          <p class="cm-text-sm cm-text-muted">342 active listings · 5 removed · 2 reported</p>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="cm-dash-section cm-mb-16">
+        <div class="cm-dash-section__body">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;">
+            <div style="flex:1;min-width:220px;">
+              <label class="cm-form__label" style="font-size:.78rem;">Search Listings</label>
+              <input type="text" id="listing-search" class="cm-form__input" placeholder="Title or seller email…" oninput="filterListings()">
+            </div>
+            <div>
+              <label class="cm-form__label" style="font-size:.78rem;">Category</label>
+              <select id="cat-filter" class="cm-form__select" onchange="filterListings()">
+                <option value="">All Categories</option>
+                <option>Textbooks</option>
+                <option>Electronics</option>
+                <option>Furniture</option>
+                <option>Clothing</option>
+                <option>Sports &amp; Outdoors</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="cm-form__label" style="font-size:.78rem;">Status</label>
+              <select id="listing-status-filter" class="cm-form__select" onchange="filterListings()">
+                <option value="">All Statuses</option>
+                <option>Active</option>
+                <option>Removed</option>
+                <option>Reported</option>
+                <option>Inactive</option>
+              </select>
+            </div>
+            <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="clearListingFilters()">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="no-listing-results" class="cm-alert cm-alert--warning cm-hidden cm-mb-16">
+        No listings match your current filters.
+      </div>
+
+      <!-- Listings Table -->
+      <div class="cm-dash-section">
+        <div class="cm-dash-section__body" style="padding:0;">
+          <div class="cm-table-wrap">
+            <table class="cm-table" id="listings-table">
+              <thead>
+                <tr>
+                  <th>Listing</th>
+                  <th>Seller</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Posted</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Active listing -->
+                <tr data-lst-status="Active" data-lst-cat="Electronics" data-lst-title="Sony WH-1000XM5 Headphones" data-lst-seller="alex@wsu.edu">
+                  <td>
+                    <strong>Sony WH-1000XM5 Headphones</strong><br>
+                    <span class="cm-text-xs cm-text-muted">Like New · Electronics</span>
+                  </td>
+                  <td><span class="cm-text-xs">alex@wsu.edu</span></td>
+                  <td>Electronics</td>
+                  <td>$180.00</td>
+                  <td class="cm-text-xs cm-text-muted">Feb 20, 2026</td>
+                  <td><span class="cm-badge cm-badge--active">Active</span></td>
+                  <td>
+                    <div class="cm-flex cm-gap-8">
+                      <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="openListingDetail('Sony WH-1000XM5 Headphones','alex@wsu.edu','Electronics','$180.00','Feb 20, 2026','Active')" data-modal-open="listing-detail-modal">View</button>
+                      <button class="cm-btn cm-btn--danger cm-btn--sm" onclick="setRemoveTarget('Sony WH-1000XM5 Headphones')" data-modal-open="remove-modal">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Active listing 2 -->
+                <tr data-lst-status="Active" data-lst-cat="Textbooks" data-lst-title="CPTS 321 Software Engineering" data-lst-seller="riley@wsu.edu">
+                  <td>
+                    <strong>CPTS 321 Software Engineering</strong><br>
+                    <span class="cm-text-xs cm-text-muted">Good · Textbooks</span>
+                  </td>
+                  <td><span class="cm-text-xs">riley@wsu.edu</span></td>
+                  <td>Textbooks</td>
+                  <td>$38.00</td>
+                  <td class="cm-text-xs cm-text-muted">Jan 15, 2026</td>
+                  <td><span class="cm-badge cm-badge--active">Active</span></td>
+                  <td>
+                    <div class="cm-flex cm-gap-8">
+                      <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="openListingDetail('CPTS 321 Software Engineering','riley@wsu.edu','Textbooks','$38.00','Jan 15, 2026','Active')" data-modal-open="listing-detail-modal">View</button>
+                      <button class="cm-btn cm-btn--danger cm-btn--sm" onclick="setRemoveTarget('CPTS 321 Software Engineering')" data-modal-open="remove-modal">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Active listing 3 -->
+                <tr data-lst-status="Active" data-lst-cat="Furniture" data-lst-title="IKEA Standing Desk" data-lst-seller="casey@wsu.edu">
+                  <td>
+                    <strong>IKEA Standing Desk</strong><br>
+                    <span class="cm-text-xs cm-text-muted">Good · Furniture</span>
+                  </td>
+                  <td><span class="cm-text-xs">casey@wsu.edu</span></td>
+                  <td>Furniture</td>
+                  <td>$120.00</td>
+                  <td class="cm-text-xs cm-text-muted">Feb 1, 2026</td>
+                  <td><span class="cm-badge cm-badge--active">Active</span></td>
+                  <td>
+                    <div class="cm-flex cm-gap-8">
+                      <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="openListingDetail('IKEA Standing Desk','casey@wsu.edu','Furniture','$120.00','Feb 1, 2026','Active')" data-modal-open="listing-detail-modal">View</button>
+                      <button class="cm-btn cm-btn--danger cm-btn--sm" onclick="setRemoveTarget('IKEA Standing Desk')" data-modal-open="remove-modal">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Reported listing (UC-A04 main flow: flag & remove) -->
+                <tr data-lst-status="Reported" data-lst-cat="Electronics" data-lst-title="MacBook Pro 2023 — Cheap" data-lst-seller="taylor@wsu.edu" style="background:#fff5f5;">
+                  <td>
+                    <strong>MacBook Pro 2023 — Cheap</strong><br>
+                    <span class="cm-text-xs cm-text-muted">New · Electronics</span>
+                  </td>
+                  <td><span class="cm-text-xs">taylor@wsu.edu</span></td>
+                  <td>Electronics</td>
+                  <td>$1.00</td>
+                  <td class="cm-text-xs cm-text-muted">Feb 28, 2026</td>
+                  <td><span class="cm-badge cm-badge--reported">Reported</span></td>
+                  <td>
+                    <div class="cm-flex cm-gap-8">
+                      <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="openListingDetail('MacBook Pro 2023 — Cheap','taylor@wsu.edu','Electronics','$1.00','Feb 28, 2026','Reported')" data-modal-open="listing-detail-modal">View</button>
+                      <button class="cm-btn cm-btn--danger cm-btn--sm" onclick="setRemoveTarget('MacBook Pro 2023 — Cheap')" data-modal-open="remove-modal">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Removed listing (UC-A04 AF1: restore) -->
+                <tr data-lst-status="Removed" data-lst-cat="Electronics" data-lst-title="Free iPhone 15 (Scam)" data-lst-seller="baduser@wsu.edu" style="background:#f9f9f9;">
+                  <td>
+                    <strong style="color:#888;">Free iPhone 15 (Scam)</strong><br>
+                    <span class="cm-text-xs cm-text-muted">New · Electronics</span>
+                  </td>
+                  <td><span class="cm-text-xs">baduser@wsu.edu</span></td>
+                  <td>Electronics</td>
+                  <td>$0.00</td>
+                  <td class="cm-text-xs cm-text-muted">Mar 1, 2026</td>
+                  <td><span class="cm-badge cm-badge--removed">Removed</span></td>
+                  <td>
+                    <div class="cm-flex cm-gap-8">
+                      <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="openListingDetail('Free iPhone 15 (Scam)','baduser@wsu.edu','Electronics','$0.00','Mar 1, 2026','Removed')" data-modal-open="listing-detail-modal">View</button>
+                      <!-- UC-A04 AF1: Restore removed listing -->
+                      <button class="cm-btn cm-btn--success cm-btn--sm" onclick="setRestoreTarget('Free iPhone 15 (Scam)')" data-modal-open="restore-modal">Restore</button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Inactive listing -->
+                <tr data-lst-status="Inactive" data-lst-cat="Textbooks" data-lst-title="Calculus 8th Edition — Stewart" data-lst-seller="alex@wsu.edu" style="background:#f9f9f9;">
+                  <td>
+                    <strong style="color:#888;">Calculus 8th Edition — Stewart</strong><br>
+                    <span class="cm-text-xs cm-text-muted">Good · Textbooks</span>
+                  </td>
+                  <td><span class="cm-text-xs">alex@wsu.edu</span></td>
+                  <td>Textbooks</td>
+                  <td>$55.00</td>
+                  <td class="cm-text-xs cm-text-muted">Dec 10, 2025</td>
+                  <td><span class="cm-badge cm-badge--inactive">Inactive</span></td>
+                  <td>
+                    <div class="cm-flex cm-gap-8">
+                      <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="openListingDetail('Calculus 8th Edition — Stewart','alex@wsu.edu','Textbooks','$55.00','Dec 10, 2025','Inactive')" data-modal-open="listing-detail-modal">View</button>
+                      <button class="cm-btn cm-btn--danger cm-btn--sm" onclick="setRemoveTarget('Calculus 8th Edition — Stewart')" data-modal-open="remove-modal">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Listing Detail Modal -->
+  <div id="listing-detail-modal" class="cm-overlay">
+    <div class="cm-modal">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Listing Details</h3>
+        <button class="cm-modal__close" data-modal-close="listing-detail-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <div class="cm-text-xs cm-text-muted">Title</div>
+            <div id="ld-title" style="font-weight:700;font-size:.95rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Seller</div>
+            <div id="ld-seller" style="font-size:.88rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Category</div>
+            <div id="ld-cat" style="font-size:.88rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Price</div>
+            <div id="ld-price" style="font-size:.88rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Posted</div>
+            <div id="ld-date" style="font-size:.88rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Status</div>
+            <div id="ld-status" style="font-size:.88rem;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="listing-detail-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Remove Listing Modal (UC-A04 Main Flow) -->
+  <div id="remove-modal" class="cm-overlay">
+    <div class="cm-modal cm-modal--sm">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Remove Listing</h3>
+        <button class="cm-modal__close" data-modal-close="remove-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <p class="cm-text-sm">Remove <strong id="remove-title"></strong> from the marketplace? The seller will be notified.</p>
+        <div class="cm-form__group cm-mt-12">
+          <label class="cm-form__label">Removal Reason <span class="req">*</span></label>
+          <select id="remove-reason" class="cm-form__select">
+            <option value="">Select reason…</option>
+            <option>Policy violation</option>
+            <option>Fraudulent listing</option>
+            <option>Inappropriate content</option>
+            <option>Spam</option>
+            <option>Other</option>
+          </select>
+          <p class="cm-form__error"></p>
+        </div>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="remove-modal">Cancel</button>
+        <button class="cm-btn cm-btn--danger" id="remove-confirm-btn">Remove Listing</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Restore Listing Modal (UC-A04 AF1) -->
+  <div id="restore-modal" class="cm-overlay">
+    <div class="cm-modal cm-modal--sm">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Restore Listing</h3>
+        <button class="cm-modal__close" data-modal-close="restore-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <p class="cm-text-sm">Restore <strong id="restore-title"></strong> to the marketplace? It will become visible to buyers.</p>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="restore-modal">Cancel</button>
+        <button class="cm-btn cm-btn--success" id="restore-confirm-btn">Restore Listing</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    function openListingDetail(title, seller, cat, price, date, status) {
+      document.getElementById('ld-title').textContent  = title;
+      document.getElementById('ld-seller').textContent = seller;
+      document.getElementById('ld-cat').textContent    = cat;
+      document.getElementById('ld-price').textContent  = price;
+      document.getElementById('ld-date').textContent   = date;
+      document.getElementById('ld-status').textContent = status;
+    }
+
+    function setRemoveTarget(title) {
+      document.getElementById('remove-title').textContent  = title;
+      document.getElementById('remove-reason').value = '';
+    }
+
+    function setRestoreTarget(title) {
+      document.getElementById('restore-title').textContent = title;
+    }
+
+    document.getElementById('remove-confirm-btn').addEventListener('click', () => {
+      const reason = document.getElementById('remove-reason');
+      if (!reason.value) { Validator.showError(reason, 'Please select a reason.'); return; }
+      Modal.close('remove-modal');
+      Toast.show('Listing removed. Seller has been notified.', 'default');
+    });
+
+    document.getElementById('restore-confirm-btn').addEventListener('click', () => {
+      Modal.close('restore-modal');
+      Toast.show('Listing restored successfully.', 'success');
+    });
+
+    function filterListings() {
+      const q      = document.getElementById('listing-search').value.toLowerCase();
+      const cat    = document.getElementById('cat-filter').value;
+      const status = document.getElementById('listing-status-filter').value;
+      const rows   = document.querySelectorAll('#listings-table tbody tr');
+      let visible  = 0;
+      rows.forEach(row => {
+        const matchQ      = !q      || row.dataset.lstTitle.toLowerCase().includes(q) || row.dataset.lstSeller.includes(q);
+        const matchCat    = !cat    || row.dataset.lstCat    === cat;
+        const matchStatus = !status || row.dataset.lstStatus === status;
+        const show = matchQ && matchCat && matchStatus;
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('no-listing-results').classList.toggle('cm-hidden', visible > 0);
+    }
+
+    function clearListingFilters() {
+      document.getElementById('listing-search').value = '';
+      document.getElementById('cat-filter').value     = '';
+      document.getElementById('listing-status-filter').value = '';
+      filterListings();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reported Messages — Admin | Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body style="margin:0;">
+
+  <!-- Admin Top Bar -->
+  <div class="cm-admin-bar">
+    <div class="cm-admin-bar__inner">
+      <div class="cm-admin-bar__brand">
+        <span class="cm-admin-bar__logo">WSU</span>
+        <span class="cm-admin-bar__title">Campus Marketplace — Admin Portal</span>
+      </div>
+      <div class="cm-admin-bar__actions">
+        <span style="color:rgba(255,255,255,.7);font-size:.8rem;">admin@wsu.edu</span>
+        <a href="login.html" class="cm-btn cm-btn--ghost cm-btn--sm" style="color:#fff;border-color:rgba(255,255,255,.35);margin-left:12px;">Sign Out</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cm-dash-layout">
+    <!-- Admin Sidebar -->
+    <aside class="cm-sidebar">
+      <div class="cm-sidebar__brand">
+        <div class="cm-sidebar__brand-name">Admin Panel</div>
+        <div class="cm-sidebar__brand-role">administrator</div>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Management</div>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📊</span> Dashboard</a>
+        <a href="users.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">👥</span> Users</a>
+        <a href="listings.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📦</span> Listings</a>
+        <a href="orders.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📋</span> Orders</a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Reports</div>
+        <a href="analytics.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📈</span> Analytics</a>
+        <a href="reported-messages.html" class="cm-sidebar__link cm-sidebar__link--active">
+          <span class="cm-sidebar__icon">⚑</span> Reported Messages
+          <span class="cm-badge cm-badge--cancel-req" style="margin-left:auto;font-size:.65rem;padding:2px 7px;" id="pending-count">3</span>
+        </a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Account</div>
+        <a href="login.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">🔒</span> Sign Out</a>
+      </div>
+    </aside>
+
+    <!-- UC-A07: Review Reported Messages -->
+    <main class="cm-dash-main">
+      <div class="cm-flex-between cm-mb-20">
+        <div>
+          <h1 style="font-size:1.6rem;font-weight:800;margin:0 0 4px;">Reported Messages</h1>
+          <p class="cm-text-sm cm-text-muted">User-submitted conversation reports pending admin review</p>
+        </div>
+        <div>
+          <select id="report-status-filter" class="cm-form__select" onchange="filterReports()" style="font-size:.82rem;">
+            <option value="">All Reports</option>
+            <option value="Pending">Pending</option>
+            <option value="Reviewed">Reviewed</option>
+            <option value="Dismissed">Dismissed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Pending alert -->
+      <div class="cm-alert cm-alert--warning cm-mb-16">
+        ⚠ <strong>3 reports</strong> are awaiting admin review. Reports older than 7 days are auto-escalated.
+      </div>
+
+      <!-- Reports List -->
+      <div id="reports-list" style="display:flex;flex-direction:column;gap:14px;">
+
+        <!-- Report 1: Harassment (Pending) -->
+        <div class="cm-dash-section" data-report-status="Pending" style="border-left:4px solid #CA1237;">
+          <div class="cm-dash-section__head" style="flex-wrap:wrap;gap:8px;">
+            <div>
+              <h3 class="cm-dash-section__title" style="margin-bottom:4px;">Harassment or Abuse</h3>
+              <div class="cm-text-xs cm-text-muted">
+                Reported by <strong>buyer@wsu.edu</strong> · Against <strong>baduser@wsu.edu</strong> · Mar 3, 2026
+              </div>
+            </div>
+            <div class="cm-flex cm-gap-8" style="align-items:center;">
+              <span class="cm-badge cm-badge--reported">Pending Review</span>
+            </div>
+          </div>
+          <div class="cm-dash-section__body">
+            <p class="cm-text-sm cm-text-muted" style="margin-bottom:12px;">
+              <em>"This user sent threatening messages after I declined to purchase their item. The messages escalated over 2 days."</em>
+            </p>
+            <!-- Conversation Preview -->
+            <div style="background:#f9f9f9;border:1px solid #eee;border-radius:4px;padding:14px;margin-bottom:14px;">
+              <div class="cm-text-xs cm-text-muted cm-mb-8">Conversation preview (Re: MacBook Pro 2023 Listing)</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="align-self:flex-start;max-width:80%;">
+                  <div style="background:#fff;border:1px solid #ddd;border-radius:12px 12px 12px 0;padding:8px 12px;font-size:.82rem;">Hi, I'm not interested in buying this, sorry.</div>
+                  <span style="font-size:.68rem;color:#999;margin-left:4px;">buyer@wsu.edu · Mar 2</span>
+                </div>
+                <div style="align-self:flex-end;max-width:80%;">
+                  <div style="background:#CA1237;color:#fff;border-radius:12px 12px 0 12px;padding:8px 12px;font-size:.82rem;">You are going to regret this. I know where you study.</div>
+                  <span style="font-size:.68rem;color:#999;float:right;margin-right:4px;">baduser@wsu.edu · Mar 2</span>
+                </div>
+                <div style="clear:both;align-self:flex-start;max-width:80%;">
+                  <div style="background:#fff;border:1px solid #ddd;border-radius:12px 12px 12px 0;padding:8px 12px;font-size:.82rem;">Please leave me alone or I will report you to admin.</div>
+                  <span style="font-size:.68rem;color:#999;margin-left:4px;">buyer@wsu.edu · Mar 3</span>
+                </div>
+              </div>
+            </div>
+            <!-- UC-A07 Admin Actions -->
+            <div class="cm-flex cm-gap-10" style="flex-wrap:wrap;">
+              <!-- AF1: Dismiss report -->
+              <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="dismissReport(this, 'RPT-001')">Dismiss Report</button>
+              <!-- AF2: Warn user -->
+              <button class="cm-btn cm-btn--secondary cm-btn--sm" data-modal-open="warn-modal"
+                onclick="setWarnTarget('baduser@wsu.edu','Threatening language in marketplace messages','RPT-001')">
+                ⚠ Warn User
+              </button>
+              <!-- Main Flow: Suspend user -->
+              <button class="cm-btn cm-btn--danger cm-btn--sm" data-modal-open="report-suspend-modal"
+                onclick="setReportSuspend('baduser@wsu.edu','Harassment or Abuse — RPT-001','RPT-001')">
+                🚫 Suspend User
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report 2: Spam (Pending) -->
+        <div class="cm-dash-section" data-report-status="Pending" style="border-left:4px solid #CA1237;">
+          <div class="cm-dash-section__head" style="flex-wrap:wrap;gap:8px;">
+            <div>
+              <h3 class="cm-dash-section__title" style="margin-bottom:4px;">Spam or Scam</h3>
+              <div class="cm-text-xs cm-text-muted">
+                Reported by <strong>jordan@wsu.edu</strong> · Against <strong>spamuser@wsu.edu</strong> · Mar 2, 2026
+              </div>
+            </div>
+            <div class="cm-flex cm-gap-8" style="align-items:center;">
+              <span class="cm-badge cm-badge--reported">Pending Review</span>
+            </div>
+          </div>
+          <div class="cm-dash-section__body">
+            <p class="cm-text-sm cm-text-muted" style="margin-bottom:12px;">
+              <em>"This user sent me an unsolicited message asking me to send money via Venmo before the item would be released. Obvious scam."</em>
+            </p>
+            <div style="background:#f9f9f9;border:1px solid #eee;border-radius:4px;padding:14px;margin-bottom:14px;">
+              <div class="cm-text-xs cm-text-muted cm-mb-8">Conversation preview (Re: Free iPhone 15)</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="align-self:flex-end;max-width:80%;">
+                  <div style="background:#CA1237;color:#fff;border-radius:12px 12px 0 12px;padding:8px 12px;font-size:.82rem;">Send $50 Venmo deposit to hold this item. I'll refund on pickup.</div>
+                  <span style="font-size:.68rem;color:#999;float:right;margin-right:4px;">spamuser@wsu.edu · Mar 2</span>
+                </div>
+                <div style="clear:both;align-self:flex-start;max-width:80%;">
+                  <div style="background:#fff;border:1px solid #ddd;border-radius:12px 12px 12px 0;padding:8px 12px;font-size:.82rem;">This seems like a scam. I am reporting this.</div>
+                  <span style="font-size:.68rem;color:#999;margin-left:4px;">jordan@wsu.edu · Mar 2</span>
+                </div>
+              </div>
+            </div>
+            <div class="cm-flex cm-gap-10" style="flex-wrap:wrap;">
+              <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="dismissReport(this, 'RPT-002')">Dismiss Report</button>
+              <button class="cm-btn cm-btn--secondary cm-btn--sm" data-modal-open="warn-modal"
+                onclick="setWarnTarget('spamuser@wsu.edu','Soliciting off-platform payments — scam behavior','RPT-002')">
+                ⚠ Warn User
+              </button>
+              <button class="cm-btn cm-btn--danger cm-btn--sm" data-modal-open="report-suspend-modal"
+                onclick="setReportSuspend('spamuser@wsu.edu','Spam/Scam — RPT-002','RPT-002')">
+                🚫 Suspend User
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report 3: Inappropriate Content (Pending) -->
+        <div class="cm-dash-section" data-report-status="Pending" style="border-left:4px solid #CA1237;">
+          <div class="cm-dash-section__head" style="flex-wrap:wrap;gap:8px;">
+            <div>
+              <h3 class="cm-dash-section__title" style="margin-bottom:4px;">Inappropriate Content</h3>
+              <div class="cm-text-xs cm-text-muted">
+                Reported by <strong>riley@wsu.edu</strong> · Against <strong>content123@wsu.edu</strong> · Mar 1, 2026
+              </div>
+            </div>
+            <div class="cm-flex cm-gap-8" style="align-items:center;">
+              <span class="cm-badge cm-badge--reported">Pending Review</span>
+            </div>
+          </div>
+          <div class="cm-dash-section__body">
+            <p class="cm-text-sm cm-text-muted" style="margin-bottom:12px;">
+              <em>"The seller sent messages with offensive and discriminatory language when I asked about the item condition."</em>
+            </p>
+            <div style="background:#f9f9f9;border:1px solid #eee;border-radius:4px;padding:14px;margin-bottom:14px;">
+              <div class="cm-text-xs cm-text-muted cm-mb-8">Conversation preview (Re: Biology 101 Textbook)</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="align-self:flex-start;max-width:80%;">
+                  <div style="background:#fff;border:1px solid #ddd;border-radius:12px 12px 12px 0;padding:8px 12px;font-size:.82rem;">Is there any writing or highlighting in the book?</div>
+                  <span style="font-size:.68rem;color:#999;margin-left:4px;">riley@wsu.edu · Mar 1</span>
+                </div>
+                <div style="align-self:flex-end;max-width:80%;">
+                  <div style="background:#CA1237;color:#fff;border-radius:12px 12px 0 12px;padding:8px 12px;font-size:.82rem;">[Offensive language — content hidden pending review]</div>
+                  <span style="font-size:.68rem;color:#999;float:right;margin-right:4px;">content123@wsu.edu · Mar 1</span>
+                </div>
+              </div>
+            </div>
+            <div class="cm-flex cm-gap-10" style="flex-wrap:wrap;">
+              <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="dismissReport(this, 'RPT-003')">Dismiss Report</button>
+              <button class="cm-btn cm-btn--secondary cm-btn--sm" data-modal-open="warn-modal"
+                onclick="setWarnTarget('content123@wsu.edu','Inappropriate / discriminatory language in messages','RPT-003')">
+                ⚠ Warn User
+              </button>
+              <button class="cm-btn cm-btn--danger cm-btn--sm" data-modal-open="report-suspend-modal"
+                onclick="setReportSuspend('content123@wsu.edu','Inappropriate Content — RPT-003','RPT-003')">
+                🚫 Suspend User
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /#reports-list -->
+
+      <div id="no-reports" class="cm-alert cm-alert--warning cm-hidden cm-mt-16">
+        No reports match the selected filter.
+      </div>
+    </main>
+  </div>
+
+  <!-- Warn User Modal (UC-A07 AF2) -->
+  <div id="warn-modal" class="cm-overlay">
+    <div class="cm-modal cm-modal--sm">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Send Warning to User</h3>
+        <button class="cm-modal__close" data-modal-close="warn-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <p class="cm-text-sm cm-mb-12">Send an official policy warning to <strong id="warn-email"></strong>. A further violation will result in suspension.</p>
+        <div class="cm-form__group">
+          <label class="cm-form__label">Warning Reason</label>
+          <textarea id="warn-reason" class="cm-form__input cm-form__textarea" style="min-height:70px;"></textarea>
+        </div>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="warn-modal">Cancel</button>
+        <button class="cm-btn cm-btn--primary" id="warn-confirm-btn">Send Warning</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Suspend User from Report Modal (UC-A07 Main Flow) -->
+  <div id="report-suspend-modal" class="cm-overlay">
+    <div class="cm-modal cm-modal--sm">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Suspend User</h3>
+        <button class="cm-modal__close" data-modal-close="report-suspend-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <div class="cm-alert cm-alert--error" style="margin-bottom:12px;">
+          ⚠ Suspending a user will prevent login, hide their listings, and notify them via email.
+        </div>
+        <p class="cm-text-sm">Suspend <strong id="rsuspend-email"></strong> for: <em id="rsuspend-reason"></em></p>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="report-suspend-modal">Cancel</button>
+        <button class="cm-btn cm-btn--danger" id="rsuspend-confirm-btn">Confirm Suspension</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    let pendingCount = 3;
+
+    function dismissReport(btn, reportId) {
+      const card = btn.closest('.cm-dash-section');
+      card.style.borderLeftColor = '#ccc';
+      card.style.opacity = '.6';
+      card.dataset.reportStatus = 'Dismissed';
+      // Hide action buttons
+      card.querySelectorAll('.cm-btn').forEach(b => b.disabled = true);
+      // Add dismissed badge
+      const head = card.querySelector('.cm-dash-section__head');
+      const badge = head.querySelector('.cm-badge');
+      if (badge) badge.className = 'cm-badge cm-badge--inactive';
+      if (badge) badge.textContent = 'Dismissed';
+      updatePendingCount(-1);
+      Toast.show('Report dismissed. No action taken.', 'default');
+    }
+
+    function updatePendingCount(delta) {
+      pendingCount = Math.max(0, pendingCount + delta);
+      const el = document.getElementById('pending-count');
+      if (el) { el.textContent = pendingCount; el.style.display = pendingCount > 0 ? '' : 'none'; }
+    }
+
+    function setWarnTarget(email, reason, reportId) {
+      document.getElementById('warn-email').textContent  = email;
+      document.getElementById('warn-reason').value = reason;
+      document.getElementById('warn-confirm-btn').dataset.reportId = reportId;
+    }
+
+    function setReportSuspend(email, reason, reportId) {
+      document.getElementById('rsuspend-email').textContent  = email;
+      document.getElementById('rsuspend-reason').textContent = reason;
+      document.getElementById('rsuspend-confirm-btn').dataset.reportId = reportId;
+    }
+
+    document.getElementById('warn-confirm-btn').addEventListener('click', function() {
+      const rid = this.dataset.reportId;
+      Modal.close('warn-modal');
+      // Mark report as reviewed
+      markReportReviewed(rid);
+      Toast.show('Warning sent to user. Report marked as reviewed.', 'default');
+    });
+
+    document.getElementById('rsuspend-confirm-btn').addEventListener('click', function() {
+      const rid = this.dataset.reportId;
+      Modal.close('report-suspend-modal');
+      markReportReviewed(rid);
+      Toast.show('User suspended. Report marked as reviewed.', 'default');
+    });
+
+    function markReportReviewed(rid) {
+      // Find the report card that contains a button with matching data attr
+      const btn = document.querySelector(`[onclick*="${rid}"]`);
+      if (!btn) return;
+      const card = btn.closest('.cm-dash-section');
+      if (!card) return;
+      card.style.borderLeftColor = '#4caf50';
+      card.dataset.reportStatus = 'Reviewed';
+      const badge = card.querySelector('.cm-badge');
+      if (badge) { badge.className = 'cm-badge cm-badge--active'; badge.textContent = 'Reviewed'; }
+      card.querySelectorAll('.cm-btn').forEach(b => b.disabled = true);
+      updatePendingCount(-1);
+    }
+
+    function filterReports() {
+      const status = document.getElementById('report-status-filter').value;
+      const cards  = document.querySelectorAll('#reports-list .cm-dash-section');
+      let visible  = 0;
+      cards.forEach(card => {
+        const show = !status || card.dataset.reportStatus === status;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('no-reports').classList.toggle('cm-hidden', visible > 0);
+    }
+  </script>
+</body>
+</html>

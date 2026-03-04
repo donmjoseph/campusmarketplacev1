@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Listing — Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body style="margin:0;">
+
+  <!-- WSU Bar -->
+  <div class="cm-wsu-bar">
+    <div class="cm-wsu-bar__inner">
+      <a href="../index.html" class="cm-wsu-bar__brand"><span class="cm-wsu-bar__logo">WSU</span><span class="cm-wsu-bar__wordmark">Washington State University</span></a>
+    </div>
+  </div>
+
+  <div class="cm-dash-layout">
+    <!-- Sidebar -->
+    <aside class="cm-sidebar">
+      <div class="cm-sidebar__brand">
+        <div class="cm-sidebar__brand-name">Seller Dashboard</div>
+        <div class="cm-sidebar__brand-role">alex@wsu.edu</div>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Main</div>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📊</span> Overview</a>
+        <a href="dashboard.html" class="cm-sidebar__link cm-sidebar__link--active"><span class="cm-sidebar__icon">📦</span> My Listings</a>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📋</span> Orders</a>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">💬</span> Messages</a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Listings</div>
+        <a href="listing-create.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">＋</span> Create Listing</a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Account</div>
+        <a href="../profile.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">👤</span> Profile</a>
+      </div>
+    </aside>
+
+    <!-- Edit Listing Form (UC-S02, S03) -->
+    <main class="cm-dash-main">
+      <div class="cm-flex-between cm-mb-20">
+        <div>
+          <h1 style="font-size:1.6rem;font-weight:800;margin:0 0 4px;">Edit Listing</h1>
+          <p class="cm-text-sm cm-text-muted">Last edited: March 1, 2026 · <span class="cm-badge cm-badge--active" style="font-size:.7rem;">Active</span></p>
+        </div>
+        <a href="dashboard.html" class="cm-btn cm-btn--ghost cm-btn--sm">← Back to Dashboard</a>
+      </div>
+
+      <!-- UC-S02 EF4: Unauthorized edit attempt (hidden) -->
+      <div id="auth-error" class="cm-alert cm-alert--error cm-hidden cm-mb-16">
+        ✕ You do not have permission to edit this listing.
+      </div>
+
+      <form id="listing-form" novalidate>
+
+        <!-- Photos (UC-S02 AF3: remove/replace images) -->
+        <div class="cm-dash-section cm-mb-20">
+          <div class="cm-dash-section__head">
+            <h3 class="cm-dash-section__title">Photos</h3>
+            <span class="cm-text-xs cm-text-muted">Click × to remove a photo. First photo is cover.</span>
+          </div>
+          <div class="cm-dash-section__body">
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px;">
+              <div style="aspect-ratio:1;background:#f0f0f0;border-radius:4px;border:2px solid #CA1237;display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;">
+                🎧
+                <button onclick="this.parentElement.remove(); Toast.show('Photo removed.','default');" type="button" style="position:absolute;top:4px;right:4px;width:22px;height:22px;background:#b71c1c;color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:.7rem;">×</button>
+              </div>
+              <div style="aspect-ratio:1;background:#f0f0f0;border-radius:4px;border:2px solid #e5e5e5;display:flex;align-items:center;justify-content:center;font-size:2rem;position:relative;">
+                🎧
+                <button onclick="this.parentElement.remove(); Toast.show('Photo removed.','default');" type="button" style="position:absolute;top:4px;right:4px;width:22px;height:22px;background:#b71c1c;color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:.7rem;">×</button>
+              </div>
+              <div style="aspect-ratio:1;border:2px dashed #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#ccc;cursor:pointer;" onclick="Toast.show('Image upload: would open file picker.','default')">
+                ＋
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listing Details (pre-populated — UC-S02 main flow) -->
+        <div class="cm-dash-section cm-mb-20">
+          <div class="cm-dash-section__head"><h3 class="cm-dash-section__title">Listing Details</h3></div>
+          <div class="cm-dash-section__body">
+
+            <div class="cm-form__group">
+              <label for="lst-title" class="cm-form__label">Title <span class="req">*</span></label>
+              <input type="text" id="lst-title" class="cm-form__input" value="Sony WH-1000XM5 Headphones">
+              <p class="cm-form__error"></p>
+            </div>
+
+            <div class="cm-form__row">
+              <div class="cm-form__group">
+                <label for="lst-category" class="cm-form__label">Category <span class="req">*</span></label>
+                <select id="lst-category" class="cm-form__select">
+                  <option>Textbooks</option>
+                  <option selected>Electronics</option>
+                  <option>Furniture</option>
+                  <option>Clothing</option>
+                  <option>Sports &amp; Outdoors</option>
+                  <option>Other</option>
+                </select>
+                <p class="cm-form__error"></p>
+              </div>
+              <div class="cm-form__group">
+                <label for="lst-condition" class="cm-form__label">Condition</label>
+                <select id="lst-condition" class="cm-form__select">
+                  <option>New</option>
+                  <option selected>Like New</option>
+                  <option>Good</option>
+                  <option>Fair</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="cm-form__row">
+              <!-- UC-S02 AF2: Update only price/quantity -->
+              <div class="cm-form__group">
+                <label for="lst-price" class="cm-form__label">Price ($) <span class="req">*</span></label>
+                <input type="number" id="lst-price" class="cm-form__input" value="180" min="0.01" step="0.01">
+                <p class="cm-form__error"></p>
+              </div>
+              <div class="cm-form__group">
+                <label for="lst-course" class="cm-form__label">Course Number (Optional)</label>
+                <input type="text" id="lst-course" class="cm-form__input" value="" placeholder="e.g. CPTS 321">
+              </div>
+            </div>
+
+            <div class="cm-form__group">
+              <label for="lst-desc" class="cm-form__label">Description <span class="req">*</span></label>
+              <textarea id="lst-desc" class="cm-form__input cm-form__textarea">Sony WH-1000XM5 headphones in like-new condition. Only used a few times. Original box and accessories included. Amazing noise cancellation. Selling because I upgraded to a newer model.</textarea>
+              <p class="cm-form__error"></p>
+            </div>
+
+            <div class="cm-form__group">
+              <label for="lst-location" class="cm-form__label">Pickup Location</label>
+              <input type="text" id="lst-location" class="cm-form__input" value="Pullman, WA — Near CUB">
+            </div>
+
+            <!-- UC-S02 AF4: Unpublish / status change -->
+            <div class="cm-form__group">
+              <label class="cm-form__label">Listing Status</label>
+              <div style="display:flex;gap:10px;margin-top:4px;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 16px;border:2px solid #CA1237;border-radius:4px;background:#fff5f7;font-size:.88rem;">
+                  <input type="radio" name="lst-status" value="published" checked> Active (Published)
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 16px;border:2px solid #ddd;border-radius:4px;font-size:.88rem;">
+                  <input type="radio" name="lst-status" value="draft"> Draft (Unpublished)
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 16px;border:2px solid #ddd;border-radius:4px;font-size:.88rem;">
+                  <input type="radio" name="lst-status" value="inactive"> Inactive (Hidden from buyers)
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="cm-dash-section cm-mb-20">
+          <div class="cm-dash-section__body">
+            <div class="cm-flex cm-gap-12" style="flex-wrap:wrap;align-items:center;">
+              <button type="button" class="cm-btn cm-btn--ghost" onclick="document.location.reload();">Discard Changes</button>
+              <button type="submit" class="cm-btn cm-btn--primary cm-btn--lg">💾 Save Changes</button>
+              <div style="margin-left:auto;display:flex;gap:10px;">
+                <!-- UC-S03: Deactivate -->
+                <button type="button" class="cm-btn cm-btn--ghost" data-deactivate-listing>Deactivate Listing</button>
+                <!-- UC-S03 AF1: Permanent delete -->
+                <button type="button" class="cm-btn cm-btn--danger" data-delete-listing>🗑 Delete Listing</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <!-- Delete Confirmation Modal (UC-S03 AF1) -->
+  <div id="delete-confirm-modal" class="cm-overlay">
+    <div class="cm-modal cm-modal--sm">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Delete Listing</h3>
+        <button class="cm-modal__close" data-modal-close="delete-confirm-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <div class="cm-alert cm-alert--error" style="margin-bottom:14px;">
+          ⚠ <strong>This action cannot be undone.</strong>
+        </div>
+        <p class="cm-text-sm">Are you sure you want to permanently delete <strong>"Sony WH-1000XM5 Headphones"</strong>? All related data will be removed.</p>
+      </div>
+      <div class="cm-modal__foot">
+        <!-- UC-S03 AF2: Cancel deletion -->
+        <button class="cm-btn cm-btn--ghost" data-modal-close="delete-confirm-modal">Cancel</button>
+        <button class="cm-btn cm-btn--danger" id="delete-confirm-btn">Delete Permanently</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deactivate Confirmation Modal (UC-S03 main flow) -->
+  <div id="deactivate-modal" class="cm-overlay">
+    <div class="cm-modal cm-modal--sm">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Deactivate Listing</h3>
+        <button class="cm-modal__close" data-modal-close="deactivate-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <p class="cm-text-sm">This will hide <strong>"Sony WH-1000XM5 Headphones"</strong> from buyers. You can reactivate it at any time from your dashboard.</p>
+        <p class="cm-text-sm cm-text-muted cm-mt-8">The listing will remain stored in your account.</p>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="deactivate-modal">Cancel</button>
+        <button class="cm-btn cm-btn--primary" id="deactivate-confirm-btn">Deactivate</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    document.getElementById('listing-form').addEventListener('submit', e => {
+      e.preventDefault();
+      Validator.clearAll(e.target);
+      let ok = true;
+      const title = document.getElementById('lst-title');
+      const cat   = document.getElementById('lst-category');
+      const price = document.getElementById('lst-price');
+      const desc  = document.getElementById('lst-desc');
+      if (!Validator.required(title.value)) { Validator.showError(title, 'Title is required.'); ok=false; }
+      if (!Validator.required(cat.value))   { Validator.showError(cat,   'Category is required.'); ok=false; }
+      if (!Validator.required(price.value)) { Validator.showError(price, 'Price is required.'); ok=false; }
+      else if (!Validator.positiveNum(price.value)) { Validator.showError(price, 'Price must be a positive number.'); ok=false; }
+      if (!Validator.required(desc.value))  { Validator.showError(desc,  'Description is required.'); ok=false; }
+      if (ok) { Toast.show('Listing updated successfully!', 'success'); }
+    });
+  </script>
+</body>
+</html>

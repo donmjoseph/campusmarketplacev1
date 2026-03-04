@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Orders — Admin | Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body style="margin:0;">
+
+  <!-- Admin Top Bar -->
+  <div class="cm-admin-bar">
+    <div class="cm-admin-bar__inner">
+      <div class="cm-admin-bar__brand">
+        <span class="cm-admin-bar__logo">WSU</span>
+        <span class="cm-admin-bar__title">Campus Marketplace — Admin Portal</span>
+      </div>
+      <div class="cm-admin-bar__actions">
+        <span style="color:rgba(255,255,255,.7);font-size:.8rem;">admin@wsu.edu</span>
+        <a href="login.html" class="cm-btn cm-btn--ghost cm-btn--sm" style="color:#fff;border-color:rgba(255,255,255,.35);margin-left:12px;">Sign Out</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cm-dash-layout">
+    <!-- Admin Sidebar -->
+    <aside class="cm-sidebar">
+      <div class="cm-sidebar__brand">
+        <div class="cm-sidebar__brand-name">Admin Panel</div>
+        <div class="cm-sidebar__brand-role">administrator</div>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Management</div>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📊</span> Dashboard</a>
+        <a href="users.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">👥</span> Users</a>
+        <a href="listings.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📦</span> Listings</a>
+        <a href="orders.html" class="cm-sidebar__link cm-sidebar__link--active"><span class="cm-sidebar__icon">📋</span> Orders</a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Reports</div>
+        <a href="analytics.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📈</span> Analytics</a>
+        <a href="reported-messages.html" class="cm-sidebar__link">
+          <span class="cm-sidebar__icon">⚑</span> Reported Messages
+          <span class="cm-badge cm-badge--cancel-req" style="margin-left:auto;font-size:.65rem;padding:2px 7px;">3</span>
+        </a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Account</div>
+        <a href="login.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">🔒</span> Sign Out</a>
+      </div>
+    </aside>
+
+    <!-- UC-A05: View All Orders -->
+    <main class="cm-dash-main">
+      <div class="cm-flex-between cm-mb-20">
+        <div>
+          <h1 style="font-size:1.6rem;font-weight:800;margin:0 0 4px;">All Orders</h1>
+          <p class="cm-text-sm cm-text-muted">Platform-wide order history and status management</p>
+        </div>
+      </div>
+
+      <!-- Order Stats -->
+      <div class="cm-stats-grid cm-mb-20" style="grid-template-columns:repeat(4,1fr);">
+        <div class="cm-stat">
+          <div class="cm-stat__value">89</div>
+          <div class="cm-stat__label">Total Orders</div>
+        </div>
+        <div class="cm-stat">
+          <div class="cm-stat__value">34</div>
+          <div class="cm-stat__label">Pending</div>
+        </div>
+        <div class="cm-stat">
+          <div class="cm-stat__value">48</div>
+          <div class="cm-stat__label">Fulfilled</div>
+        </div>
+        <div class="cm-stat">
+          <div class="cm-stat__value">7</div>
+          <div class="cm-stat__label">Cancelled</div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="cm-dash-section cm-mb-16">
+        <div class="cm-dash-section__body">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;">
+            <div style="flex:1;min-width:200px;">
+              <label class="cm-form__label" style="font-size:.78rem;">Search Orders</label>
+              <input type="text" id="order-search" class="cm-form__input" placeholder="Order ID, buyer, or item…" oninput="filterOrders()">
+            </div>
+            <div>
+              <label class="cm-form__label" style="font-size:.78rem;">Status</label>
+              <select id="order-status-filter" class="cm-form__select" onchange="filterOrders()">
+                <option value="">All Statuses</option>
+                <option>Pending</option>
+                <option>Fulfilled</option>
+                <option>Cancelled</option>
+                <option>Cancel Requested</option>
+              </select>
+            </div>
+            <div>
+              <label class="cm-form__label" style="font-size:.78rem;">Sort By</label>
+              <select id="order-sort" class="cm-form__select" onchange="filterOrders()">
+                <option>Newest First</option>
+                <option>Oldest First</option>
+                <option>Amount: High → Low</option>
+                <option>Amount: Low → High</option>
+              </select>
+            </div>
+            <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="clearOrderFilters()">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="no-order-results" class="cm-alert cm-alert--warning cm-hidden cm-mb-16">
+        No orders match your current filters.
+      </div>
+
+      <!-- Orders Table -->
+      <div class="cm-dash-section">
+        <div class="cm-dash-section__body" style="padding:0;">
+          <div class="cm-table-wrap">
+            <table class="cm-table" id="orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Item</th>
+                  <th>Buyer</th>
+                  <th>Seller</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ord-status="Pending" data-ord-id="ORD-20481" data-ord-buyer="jordan@wsu.edu" data-ord-item="Sony WH-1000XM5 Headphones">
+                  <td><strong class="cm-text-xs">ORD-20481</strong></td>
+                  <td class="cm-text-xs">Sony WH-1000XM5 Headphones</td>
+                  <td class="cm-text-xs">jordan@wsu.edu</td>
+                  <td class="cm-text-xs">alex@wsu.edu</td>
+                  <td>$180.00</td>
+                  <td class="cm-text-xs cm-text-muted">Mar 3, 2026</td>
+                  <td><span class="cm-badge cm-badge--pending">Pending</span></td>
+                  <td>
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="order-detail-modal"
+                      onclick="openOrderDetail('ORD-20481','Sony WH-1000XM5 Headphones','jordan@wsu.edu','alex@wsu.edu','$180.00','Mar 3, 2026','Pending','Campus Pickup — Near CUB','—')">
+                      View
+                    </button>
+                  </td>
+                </tr>
+                <tr data-ord-status="Fulfilled" data-ord-id="ORD-20479" data-ord-buyer="riley@wsu.edu" data-ord-item="CPTS 321 Textbook">
+                  <td><strong class="cm-text-xs">ORD-20479</strong></td>
+                  <td class="cm-text-xs">CPTS 321 Software Engineering Textbook</td>
+                  <td class="cm-text-xs">riley@wsu.edu</td>
+                  <td class="cm-text-xs">alex@wsu.edu</td>
+                  <td>$38.00</td>
+                  <td class="cm-text-xs cm-text-muted">Mar 1, 2026</td>
+                  <td><span class="cm-badge cm-badge--fulfilled">Fulfilled</span></td>
+                  <td>
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="order-detail-modal"
+                      onclick="openOrderDetail('ORD-20479','CPTS 321 Textbook','riley@wsu.edu','alex@wsu.edu','$38.00','Mar 1, 2026','Fulfilled','CUB — Pullman WA','Fulfilled Mar 2')">
+                      View
+                    </button>
+                  </td>
+                </tr>
+                <!-- Cancel Requested row (highlighted) -->
+                <tr data-ord-status="Cancel Requested" data-ord-id="ORD-20476" data-ord-buyer="riley@wsu.edu" data-ord-item="Standing Desk" style="background:#fff5f7;">
+                  <td><strong class="cm-text-xs">ORD-20476</strong></td>
+                  <td class="cm-text-xs">IKEA Standing Desk</td>
+                  <td class="cm-text-xs">riley@wsu.edu</td>
+                  <td class="cm-text-xs">casey@wsu.edu</td>
+                  <td>$120.00</td>
+                  <td class="cm-text-xs cm-text-muted">Feb 28, 2026</td>
+                  <td><span class="cm-badge cm-badge--cancel-req">Cancel Req.</span></td>
+                  <td>
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="order-detail-modal"
+                      onclick="openOrderDetail('ORD-20476','IKEA Standing Desk','riley@wsu.edu','casey@wsu.edu','$120.00','Feb 28, 2026','Cancel Requested','Pickup — Near Stadium','Buyer: Changed my mind')">
+                      View
+                    </button>
+                  </td>
+                </tr>
+                <tr data-ord-status="Cancelled" data-ord-id="ORD-20471" data-ord-buyer="riley@wsu.edu" data-ord-item="Calculus 8th Ed.">
+                  <td><strong class="cm-text-xs">ORD-20471</strong></td>
+                  <td class="cm-text-xs">Calculus 8th Edition — Stewart</td>
+                  <td class="cm-text-xs">riley@wsu.edu</td>
+                  <td class="cm-text-xs">alex@wsu.edu</td>
+                  <td>$55.00</td>
+                  <td class="cm-text-xs cm-text-muted">Feb 22, 2026</td>
+                  <td><span class="cm-badge cm-badge--cancelled">Cancelled</span></td>
+                  <td>
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="order-detail-modal"
+                      onclick="openOrderDetail('ORD-20471','Calculus 8th Edition','riley@wsu.edu','alex@wsu.edu','$55.00','Feb 22, 2026','Cancelled','—','Cancelled Feb 23')">
+                      View
+                    </button>
+                  </td>
+                </tr>
+                <tr data-ord-status="Pending" data-ord-id="ORD-20468" data-ord-buyer="jordan@wsu.edu" data-ord-item="Nike Running Shoes">
+                  <td><strong class="cm-text-xs">ORD-20468</strong></td>
+                  <td class="cm-text-xs">Nike Running Shoes — Sz 10</td>
+                  <td class="cm-text-xs">jordan@wsu.edu</td>
+                  <td class="cm-text-xs">casey@wsu.edu</td>
+                  <td>$65.00</td>
+                  <td class="cm-text-xs cm-text-muted">Feb 20, 2026</td>
+                  <td><span class="cm-badge cm-badge--pending">Pending</span></td>
+                  <td>
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="order-detail-modal"
+                      onclick="openOrderDetail('ORD-20468','Nike Running Shoes — Sz 10','jordan@wsu.edu','casey@wsu.edu','$65.00','Feb 20, 2026','Pending','Near Library — Pullman','—')">
+                      View
+                    </button>
+                  </td>
+                </tr>
+                <tr data-ord-status="Fulfilled" data-ord-id="ORD-20461" data-ord-buyer="riley@wsu.edu" data-ord-item="USB-C Hub">
+                  <td><strong class="cm-text-xs">ORD-20461</strong></td>
+                  <td class="cm-text-xs">7-Port USB-C Hub</td>
+                  <td class="cm-text-xs">riley@wsu.edu</td>
+                  <td class="cm-text-xs">alex@wsu.edu</td>
+                  <td>$28.00</td>
+                  <td class="cm-text-xs cm-text-muted">Feb 15, 2026</td>
+                  <td><span class="cm-badge cm-badge--fulfilled">Fulfilled</span></td>
+                  <td>
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="order-detail-modal"
+                      onclick="openOrderDetail('ORD-20461','7-Port USB-C Hub','riley@wsu.edu','alex@wsu.edu','$28.00','Feb 15, 2026','Fulfilled','CUB — Pullman WA','Fulfilled Feb 16')">
+                      View
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Order Detail Modal (UC-A05) -->
+  <div id="order-detail-modal" class="cm-overlay">
+    <div class="cm-modal">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Order Details</h3>
+        <button class="cm-modal__close" data-modal-close="order-detail-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div>
+            <div class="cm-text-xs cm-text-muted">Order ID</div>
+            <div id="od-id" style="font-weight:800;font-size:1rem;font-family:monospace;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Status</div>
+            <div id="od-status"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Item</div>
+            <div id="od-item" style="font-weight:600;font-size:.9rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Amount</div>
+            <div id="od-amount" style="font-weight:700;font-size:.9rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Buyer</div>
+            <div id="od-buyer" style="font-size:.88rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Seller</div>
+            <div id="od-seller" style="font-size:.88rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Order Date</div>
+            <div id="od-date" style="font-size:.88rem;"></div>
+          </div>
+          <div>
+            <div class="cm-text-xs cm-text-muted">Pickup Location</div>
+            <div id="od-location" style="font-size:.88rem;"></div>
+          </div>
+          <div style="grid-column:1/-1;">
+            <div class="cm-text-xs cm-text-muted">Notes</div>
+            <div id="od-notes" style="font-size:.88rem;color:#555;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="order-detail-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    function openOrderDetail(id, item, buyer, seller, amount, date, status, location, notes) {
+      document.getElementById('od-id').textContent       = id;
+      document.getElementById('od-item').textContent     = item;
+      document.getElementById('od-buyer').textContent    = buyer;
+      document.getElementById('od-seller').textContent   = seller;
+      document.getElementById('od-amount').textContent   = amount;
+      document.getElementById('od-date').textContent     = date;
+      document.getElementById('od-location').textContent = location;
+      document.getElementById('od-notes').textContent    = notes;
+      // Status badge
+      const statusMap = {
+        'Pending': 'pending', 'Fulfilled': 'fulfilled',
+        'Cancelled': 'cancelled', 'Cancel Requested': 'cancel-req'
+      };
+      const cls = statusMap[status] || 'pending';
+      document.getElementById('od-status').innerHTML = `<span class="cm-badge cm-badge--${cls}">${status}</span>`;
+    }
+
+    function filterOrders() {
+      const q      = document.getElementById('order-search').value.toLowerCase();
+      const status = document.getElementById('order-status-filter').value;
+      const rows   = document.querySelectorAll('#orders-table tbody tr');
+      let visible  = 0;
+      rows.forEach(row => {
+        const matchQ      = !q      || row.dataset.ordId.toLowerCase().includes(q) || row.dataset.ordBuyer.includes(q) || row.dataset.ordItem.toLowerCase().includes(q);
+        const matchStatus = !status || row.dataset.ordStatus === status;
+        const show = matchQ && matchStatus;
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('no-order-results').classList.toggle('cm-hidden', visible > 0);
+    }
+
+    function clearOrderFilters() {
+      document.getElementById('order-search').value        = '';
+      document.getElementById('order-status-filter').value = '';
+      document.getElementById('order-sort').value          = 'Newest First';
+      filterOrders();
+    }
+  </script>
+</body>
+</html>

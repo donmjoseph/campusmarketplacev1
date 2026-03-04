@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — Admin | Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body style="margin:0;">
+
+  <!-- Admin Top Bar -->
+  <div class="cm-admin-bar">
+    <div class="cm-admin-bar__inner">
+      <div class="cm-admin-bar__brand">
+        <span class="cm-admin-bar__logo">WSU</span>
+        <span class="cm-admin-bar__title">Campus Marketplace — Admin Portal</span>
+      </div>
+      <div class="cm-admin-bar__actions">
+        <span style="color:rgba(255,255,255,.7);font-size:.8rem;">admin@wsu.edu</span>
+        <a href="login.html" class="cm-btn cm-btn--ghost cm-btn--sm" style="color:#fff;border-color:rgba(255,255,255,.35);margin-left:12px;">Sign Out</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cm-dash-layout">
+    <!-- Admin Sidebar -->
+    <aside class="cm-sidebar">
+      <div class="cm-sidebar__brand">
+        <div class="cm-sidebar__brand-name">Admin Panel</div>
+        <div class="cm-sidebar__brand-role">administrator</div>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Management</div>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📊</span> Dashboard</a>
+        <a href="users.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">👥</span> Users</a>
+        <a href="listings.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📦</span> Listings</a>
+        <a href="orders.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📋</span> Orders</a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Reports</div>
+        <a href="analytics.html" class="cm-sidebar__link cm-sidebar__link--active"><span class="cm-sidebar__icon">📈</span> Analytics</a>
+        <a href="reported-messages.html" class="cm-sidebar__link">
+          <span class="cm-sidebar__icon">⚑</span> Reported Messages
+          <span class="cm-badge cm-badge--cancel-req" style="margin-left:auto;font-size:.65rem;padding:2px 7px;">3</span>
+        </a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Account</div>
+        <a href="login.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">🔒</span> Sign Out</a>
+      </div>
+    </aside>
+
+    <!-- UC-A06: View Platform Analytics -->
+    <main class="cm-dash-main">
+      <div class="cm-flex-between cm-mb-20">
+        <div>
+          <h1 style="font-size:1.6rem;font-weight:800;margin:0 0 4px;">Platform Analytics</h1>
+          <p class="cm-text-sm cm-text-muted">Marketplace usage, growth, and transaction data</p>
+        </div>
+        <!-- UC-A06 AF1: Date range filter -->
+        <div class="cm-flex cm-gap-12" style="align-items:flex-end;">
+          <div>
+            <label class="cm-form__label" style="font-size:.75rem;">Date Range</label>
+            <select id="date-range" class="cm-form__select" onchange="updateDateRange(this.value)">
+              <option value="30">Last 30 Days</option>
+              <option value="7">Last 7 Days</option>
+              <option value="90">Last 90 Days</option>
+              <option value="all">All Time</option>
+            </select>
+          </div>
+          <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="Toast.show('Analytics report exported.','default')">Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Key Metrics -->
+      <div class="cm-stats-grid cm-mb-20">
+        <div class="cm-stat">
+          <div class="cm-stat__value" id="stat-users">1,284</div>
+          <div class="cm-stat__label">Registered Users</div>
+          <div style="font-size:.72rem;color:#4caf50;margin-top:4px;">↑ +12 this period</div>
+        </div>
+        <div class="cm-stat">
+          <div class="cm-stat__value" id="stat-listings">342</div>
+          <div class="cm-stat__label">Active Listings</div>
+          <div style="font-size:.72rem;color:#4caf50;margin-top:4px;">↑ +28 this period</div>
+        </div>
+        <div class="cm-stat">
+          <div class="cm-stat__value" id="stat-orders">89</div>
+          <div class="cm-stat__label">Total Orders</div>
+          <div style="font-size:.72rem;color:#4caf50;margin-top:4px;">↑ +14 vs prev. period</div>
+        </div>
+        <div class="cm-stat">
+          <div class="cm-stat__value" id="stat-gmv">$4,820</div>
+          <div class="cm-stat__label">Gross Merchandise Value</div>
+          <div style="font-size:.72rem;color:#4caf50;margin-top:4px;">↑ +$640 vs prev. period</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+
+        <!-- Listings by Category Chart (UC-A06 Main Flow) -->
+        <div class="cm-dash-section">
+          <div class="cm-dash-section__head">
+            <h3 class="cm-dash-section__title">Listings by Category</h3>
+          </div>
+          <div class="cm-dash-section__body">
+            <div class="cm-chart" id="category-chart">
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Textbooks</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:72%;">128</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Electronics</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:55%;">98</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Furniture</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:30%;">54</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Clothing</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:22%;">38</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Sports &amp; Outdoors</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:13%;">22</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Other</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:7%;">12</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Orders by Month Chart -->
+        <div class="cm-dash-section">
+          <div class="cm-dash-section__head">
+            <h3 class="cm-dash-section__title">Orders by Month</h3>
+          </div>
+          <div class="cm-dash-section__body">
+            <div class="cm-chart" id="orders-chart">
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Sep 2025</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:20%;">4</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Oct 2025</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:35%;">7</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Nov 2025</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:45%;">9</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Dec 2025</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:25%;">5</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Jan 2026</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:55%;">11</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Feb 2026</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:80%;">16</div></div>
+              </div>
+              <div class="cm-bar-row">
+                <span class="cm-bar-label">Mar 2026</span>
+                <div class="cm-bar-wrap"><div class="cm-bar" style="width:45%;">9 (partial)</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+
+        <!-- Top Listings (UC-A06 Main Flow) -->
+        <div class="cm-dash-section">
+          <div class="cm-dash-section__head">
+            <h3 class="cm-dash-section__title">Top Listings by Views</h3>
+          </div>
+          <div class="cm-dash-section__body" style="padding:0;">
+            <table class="cm-table" style="margin:0;">
+              <thead>
+                <tr><th>#</th><th>Title</th><th>Price</th><th>Views</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:800;color:#CA1237;">1</td>
+                  <td class="cm-text-xs">Sony WH-1000XM5 Headphones</td>
+                  <td>$180</td>
+                  <td>284</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:800;color:#CA1237;">2</td>
+                  <td class="cm-text-xs">MacBook Pro 14" M3</td>
+                  <td>$1,450</td>
+                  <td>241</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:800;color:#CA1237;">3</td>
+                  <td class="cm-text-xs">CPTS 321 Software Engineering</td>
+                  <td>$38</td>
+                  <td>187</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:800;color:#CA1237;">4</td>
+                  <td class="cm-text-xs">IKEA Standing Desk</td>
+                  <td>$120</td>
+                  <td>162</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:800;color:#CA1237;">5</td>
+                  <td class="cm-text-xs">Nike Running Shoes — Sz 10</td>
+                  <td>$65</td>
+                  <td>134</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- User Activity Summary -->
+        <div class="cm-dash-section">
+          <div class="cm-dash-section__head">
+            <h3 class="cm-dash-section__title">User Activity Summary</h3>
+          </div>
+          <div class="cm-dash-section__body">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #f0f0f0;">
+                <span class="cm-text-sm">Active Buyers</span>
+                <strong>847</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #f0f0f0;">
+                <span class="cm-text-sm">Active Sellers</span>
+                <strong>431</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #f0f0f0;">
+                <span class="cm-text-sm">Suspended Accounts</span>
+                <strong style="color:#CA1237;">6</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #f0f0f0;">
+                <span class="cm-text-sm">Avg. Listings per Seller</span>
+                <strong>2.4</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #f0f0f0;">
+                <span class="cm-text-sm">Avg. Order Value</span>
+                <strong>$54.16</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span class="cm-text-sm">Fulfilment Rate</span>
+                <strong style="color:#4caf50;">91.0%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    // UC-A06 AF1: Update displayed metrics when date range changes
+    const rangeData = {
+      '7':  { users: 12,    listings: 8,   orders: 14,  gmv: '$820'   },
+      '30': { users: 1284,  listings: 342,  orders: 89,  gmv: '$4,820' },
+      '90': { users: 1284,  listings: 342,  orders: 210, gmv: '$11,340' },
+      'all':{ users: 1284,  listings: 342,  orders: 61,  gmv: '$3,290' }
+    };
+
+    function updateDateRange(range) {
+      const d = rangeData[range] || rangeData['30'];
+      document.getElementById('stat-users').textContent    = d.users.toLocaleString();
+      document.getElementById('stat-listings').textContent = d.listings.toLocaleString();
+      document.getElementById('stat-orders').textContent   = d.orders.toLocaleString();
+      document.getElementById('stat-gmv').textContent      = d.gmv;
+      Toast.show('Analytics updated for selected date range.', 'default');
+    }
+  </script>
+</body>
+</html>

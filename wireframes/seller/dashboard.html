@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[WF] Seller Dashboard — Campus Marketplace</title>
+  <link rel="stylesheet" href="../wireframe.css">
+</head>
+<body style="margin:0;">
+
+  <div style="background:#ffd700;padding:6px 16px;font-size:.72rem;font-weight:700;display:flex;gap:16px;align-items:center;border-bottom:2px solid #e6b800;">
+    ⬡ WIREFRAME &nbsp;|&nbsp; <a href="../index.html">← All Pages</a> &nbsp;|&nbsp; UC-S04 / S05 / S06 / S07 / S08 — Seller Dashboard
+  </div>
+
+  <div class="wf-wsu-bar"><span class="wf-wsu-logo">WSU</span> Washington State University</div>
+
+  <div class="wf-dash">
+    <!-- Sidebar -->
+    <aside class="wf-sidebar">
+      <div class="wf-sidebar-top">
+        <strong>Seller Dashboard</strong>
+        <small>alex@wsu.edu</small>
+      </div>
+      <div class="wf-sidebar-section">Main</div>
+      <a href="dashboard.html" class="wf-sidebar-link active">📊 Overview</a>
+      <a href="dashboard.html" class="wf-sidebar-link">📦 My Listings</a>
+      <a href="dashboard.html" class="wf-sidebar-link">📋 Orders</a>
+      <a href="dashboard.html" class="wf-sidebar-link">💬 Messages</a>
+      <div class="wf-sidebar-section">Listings</div>
+      <a href="listing-create.html" class="wf-sidebar-link">＋ Create Listing</a>
+      <div class="wf-sidebar-section">Account</div>
+      <a href="../profile.html" class="wf-sidebar-link">👤 Profile</a>
+      <a href="../login.html" class="wf-sidebar-link">🚪 Sign Out</a>
+    </aside>
+
+    <main class="wf-dash-main">
+      <div class="wf-flex-between wf-mb-20">
+        <div>
+          <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:4px;">Seller Dashboard</h1>
+          <p class="wf-text-sm wf-text-muted">Welcome back, Alex Chen</p>
+        </div>
+        <a href="listing-create.html" class="wf-btn wf-btn--fill">+ Create Listing</a>
+      </div>
+
+      <!-- UC-S04: Overview Tab -->
+      <div class="wf-tabs">
+        <div class="wf-tab active">Overview</div>
+        <div class="wf-tab">My Listings (UC-S04)</div>
+        <div class="wf-tab">Orders (UC-S05/S06/S08)</div>
+        <div class="wf-tab">Messages (UC-S07)</div>
+      </div>
+
+      <!-- ── TAB: Overview ── -->
+      <span class="wf-uc">UC-S04 — View Seller Dashboard</span>
+      <div class="wf-stats-4 wf-mb-20">
+        <div class="wf-stat"><div class="wf-stat-val">$426</div><div class="wf-stat-label">Total Revenue</div></div>
+        <div class="wf-stat"><div class="wf-stat-val">4</div><div class="wf-stat-label">Active Listings</div></div>
+        <div class="wf-stat"><div class="wf-stat-val">2</div><div class="wf-stat-label">Pending Orders</div></div>
+        <div class="wf-stat"><div class="wf-stat-val">1</div><div class="wf-stat-label">Unread Messages</div></div>
+      </div>
+
+      <div class="wf-section wf-mb-16">
+        <div class="wf-section-head wf-flex-between"><span>Recent Orders</span><a href="#" style="font-size:.75rem;">View All →</a></div>
+        <div class="wf-section-body" style="padding:0;">
+          <table class="wf-table">
+            <thead><tr><th>Order ID</th><th>Item</th><th>Buyer</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td style="font-family:monospace;font-size:.8rem;">ORD-20481</td><td class="wf-text-sm">Sony WH-1000XM5</td><td class="wf-text-xs">jordan@wsu.edu</td><td>$180</td><td><span class="wf-badge wf-badge--pending">Pending</span></td></tr>
+              <tr><td style="font-family:monospace;font-size:.8rem;">ORD-20479</td><td class="wf-text-sm">CPTS 321 Textbook</td><td class="wf-text-xs">riley@wsu.edu</td><td>$38</td><td><span class="wf-badge wf-badge--done">Fulfilled</span></td></tr>
+              <tr style="background:#fffbf0;"><td style="font-family:monospace;font-size:.8rem;">ORD-20476</td><td class="wf-text-sm">Standing Desk</td><td class="wf-text-xs">riley@wsu.edu</td><td>$120</td><td><span class="wf-badge wf-badge--danger">Cancel Req.</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB: My Listings (UC-S04) ── -->
+      <div class="wf-section wf-mb-16" style="border-top:3px solid #ddd;">
+        <div class="wf-section-head">My Listings Tab (UC-S04 AF1 — Manage listings)</div>
+        <div class="wf-section-body" style="padding:0;">
+          <table class="wf-table">
+            <thead><tr><th>Title</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Sony WH-1000XM5 Headphones</td><td>Electronics</td><td>$180</td>
+                <td><span class="wf-badge wf-badge--active">Active</span></td>
+                <td>
+                  <div class="wf-flex wf-gap-8">
+                    <a href="listing-edit.html" class="wf-btn wf-btn--sm">Edit</a>
+                    <button class="wf-btn wf-btn--ghost wf-btn--sm">Deactivate</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>CPTS 321 Textbook</td><td>Textbooks</td><td>$38</td>
+                <td><span class="wf-badge wf-badge--done">Sold</span></td>
+                <td><a href="listing-edit.html" class="wf-btn wf-btn--sm">Edit</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB: Orders (UC-S05 / S06 / S08) ── -->
+      <div class="wf-section wf-mb-16" style="border-top:3px solid #ddd;">
+        <div class="wf-section-head">Orders Tab (UC-S05 View / UC-S06 Fulfill / UC-S08 Cancel Review)</div>
+        <div class="wf-section-body" style="padding:0;">
+          <table class="wf-table">
+            <thead><tr><th>Order ID</th><th>Item</th><th>Buyer</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="font-family:monospace;font-size:.8rem;">ORD-20481</td><td class="wf-text-sm">Sony WH-1000XM5</td><td class="wf-text-xs">jordan@wsu.edu</td><td>$180</td>
+                <td><span class="wf-badge wf-badge--pending">Pending</span></td>
+                <td>
+                  <div class="wf-flex wf-gap-8">
+                    <button class="wf-btn wf-btn--sm">Details</button>
+                    <button class="wf-btn wf-btn--fill wf-btn--sm">Mark Fulfilled</button>
+                  </div>
+                  <p class="wf-note" style="margin-top:4px;">[ UC-S06 → confirm modal ]</p>
+                </td>
+              </tr>
+              <!-- Cancel Requested row (highlighted) -->
+              <tr style="background:#fff5f0;">
+                <td style="font-family:monospace;font-size:.8rem;">ORD-20476</td><td class="wf-text-sm">Standing Desk</td><td class="wf-text-xs">riley@wsu.edu</td><td>$120</td>
+                <td><span class="wf-badge wf-badge--danger">Cancel Req.</span></td>
+                <td>
+                  <div class="wf-flex wf-gap-8">
+                    <button class="wf-btn wf-btn--sm">Review</button>
+                    <button class="wf-btn wf-btn--fill wf-btn--sm">Approve</button>
+                    <button class="wf-btn wf-btn--ghost wf-btn--sm">Deny</button>
+                  </div>
+                  <p class="wf-note" style="margin-top:4px;">[ UC-S08 → review modal with buyer's reason ]</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB: Messages (UC-S07) ── -->
+      <div class="wf-section" style="border-top:3px solid #ddd;">
+        <div class="wf-section-head">Messages Tab (UC-S07 — Respond to Messages)</div>
+        <div class="wf-section-body" style="padding:0;">
+          <div class="wf-msg-layout" style="height:300px;">
+            <div class="wf-conv-list">
+              <div class="wf-conv-item active">
+                <div class="wf-conv-name">Jordan M.</div>
+                <div class="wf-conv-pre">Is the price negotiable?</div>
+                <span class="wf-badge wf-badge--danger" style="font-size:.6rem;margin-top:4px;">Unread</span>
+              </div>
+              <div class="wf-conv-item">
+                <div class="wf-conv-name">Riley K.</div>
+                <div class="wf-conv-pre">See you Wednesday at CUB!</div>
+              </div>
+            </div>
+            <div class="wf-chat-wrap">
+              <div class="wf-chat-header">Jordan M. — Sony WH-1000XM5</div>
+              <div class="wf-chat-body">
+                <div class="wf-msg wf-msg--in"><div class="wf-bubble">Is the price negotiable?</div></div>
+                <div class="wf-msg wf-msg--out"><div class="wf-bubble">Best I can do is $170. It's in like-new condition.</div></div>
+              </div>
+              <div class="wf-chat-footer">
+                <input class="wf-input" type="text" placeholder="Type reply…">
+                <button class="wf-btn wf-btn--fill wf-btn--sm">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>

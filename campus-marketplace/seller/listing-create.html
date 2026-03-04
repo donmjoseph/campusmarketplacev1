@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Listing — Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body style="margin:0;">
+
+  <!-- WSU Bar -->
+  <div class="cm-wsu-bar">
+    <div class="cm-wsu-bar__inner">
+      <a href="../index.html" class="cm-wsu-bar__brand"><span class="cm-wsu-bar__logo">WSU</span><span class="cm-wsu-bar__wordmark">Washington State University</span></a>
+    </div>
+  </div>
+
+  <div class="cm-dash-layout">
+    <!-- Sidebar -->
+    <aside class="cm-sidebar">
+      <div class="cm-sidebar__brand">
+        <div class="cm-sidebar__brand-name">Seller Dashboard</div>
+        <div class="cm-sidebar__brand-role">alex@wsu.edu</div>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Main</div>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📊</span> Overview</a>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📦</span> My Listings</a>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">📋</span> Orders</a>
+        <a href="dashboard.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">💬</span> Messages</a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Listings</div>
+        <a href="listing-create.html" class="cm-sidebar__link cm-sidebar__link--active"><span class="cm-sidebar__icon">＋</span> Create Listing</a>
+      </div>
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Account</div>
+        <a href="../profile.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">👤</span> Profile</a>
+        <a href="../index.html" class="cm-sidebar__link"><span class="cm-sidebar__icon">🏪</span> Marketplace</a>
+      </div>
+    </aside>
+
+    <!-- Create Listing Form (UC-S01) -->
+    <main class="cm-dash-main">
+      <div class="cm-flex-between cm-mb-24">
+        <div>
+          <h1 style="font-size:1.6rem;font-weight:800;margin:0 0 4px;">Create New Listing</h1>
+          <p class="cm-text-sm cm-text-muted">Fill in the details below. Fields marked <span style="color:#CA1237;">*</span> are required to publish.</p>
+        </div>
+        <a href="dashboard.html" class="cm-btn cm-btn--ghost cm-btn--sm">← Back to Dashboard</a>
+      </div>
+
+      <!-- EF3 & EF4 System errors (hidden) -->
+      <div id="listing-sys-error" class="cm-alert cm-alert--error cm-hidden cm-mb-16">
+        ✕ Unable to create listing right now. Please try again.
+      </div>
+
+      <form id="listing-form" novalidate>
+        <!-- Image Upload (UC-S01 AF2: no images, AF3: preview, EF3: upload fail) -->
+        <div class="cm-dash-section cm-mb-20">
+          <div class="cm-dash-section__head">
+            <h3 class="cm-dash-section__title">Photos</h3>
+            <span class="cm-text-xs cm-text-muted">First photo will be the cover image. Max 5MB per image.</span>
+          </div>
+          <div class="cm-dash-section__body">
+            <!-- EF3: Image upload failure (hidden) -->
+            <div id="img-error" class="cm-alert cm-alert--error cm-hidden cm-mb-12">
+              ✕ Image upload failed. Unsupported file type or file too large (max 5MB).
+            </div>
+            <div class="cm-upload-zone" onclick="document.getElementById('img-input').click()">
+              <div class="cm-upload-zone__icon">📷</div>
+              <p class="cm-upload-zone__text"><strong>Click to upload photos</strong> or drag and drop<br>PNG, JPG, WEBP — Max 5MB each</p>
+              <input type="file" id="img-input" accept="image/*" multiple style="display:none" onchange="handleImageUpload(this)">
+            </div>
+            <div id="img-preview" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px;"></div>
+          </div>
+        </div>
+
+        <!-- Listing Details (UC-S01 EF1: missing required, EF2: invalid price) -->
+        <div class="cm-dash-section cm-mb-20">
+          <div class="cm-dash-section__head"><h3 class="cm-dash-section__title">Listing Details</h3></div>
+          <div class="cm-dash-section__body">
+
+            <div class="cm-form__group">
+              <label for="lst-title" class="cm-form__label">Title <span class="req">*</span></label>
+              <input type="text" id="lst-title" class="cm-form__input" placeholder="e.g. CPTS 321 Software Engineering Textbook">
+              <p class="cm-form__error"></p>
+              <p class="cm-form__hint">Be specific. Include brand, model, edition, course number if applicable.</p>
+            </div>
+
+            <div class="cm-form__row">
+              <div class="cm-form__group">
+                <label for="lst-category" class="cm-form__label">Category <span class="req">*</span></label>
+                <select id="lst-category" class="cm-form__select">
+                  <option value="">Select category…</option>
+                  <option>Textbooks</option>
+                  <option>Electronics</option>
+                  <option>Furniture</option>
+                  <option>Clothing</option>
+                  <option>Sports &amp; Outdoors</option>
+                  <option>Other</option>
+                </select>
+                <p class="cm-form__error"></p>
+              </div>
+              <div class="cm-form__group">
+                <label for="lst-condition" class="cm-form__label">Condition <span class="req">*</span></label>
+                <select id="lst-condition" class="cm-form__select">
+                  <option value="">Select condition…</option>
+                  <option>New</option>
+                  <option>Like New</option>
+                  <option>Good</option>
+                  <option>Fair</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="cm-form__row">
+              <div class="cm-form__group">
+                <label for="lst-price" class="cm-form__label">Price ($) <span class="req">*</span></label>
+                <input type="number" id="lst-price" class="cm-form__input" min="0.01" step="0.01" placeholder="0.00">
+                <p class="cm-form__error"></p>
+                <p class="cm-form__hint">Must be a positive number. Marketplace is zero-commission.</p>
+              </div>
+              <div class="cm-form__group">
+                <label for="lst-course" class="cm-form__label">Course Number (Optional)</label>
+                <input type="text" id="lst-course" class="cm-form__input" placeholder="e.g. CPTS 321">
+              </div>
+            </div>
+
+            <div class="cm-form__group">
+              <label for="lst-desc" class="cm-form__label">Description <span class="req">*</span></label>
+              <textarea id="lst-desc" class="cm-form__input cm-form__textarea" placeholder="Describe your item: condition details, included accessories, pickup preferences…"></textarea>
+              <p class="cm-form__error"></p>
+            </div>
+
+            <div class="cm-form__group">
+              <label for="lst-location" class="cm-form__label">Pickup Location (Optional)</label>
+              <input type="text" id="lst-location" class="cm-form__input" placeholder="e.g. Pullman, WA — Near CUB">
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="cm-dash-section">
+          <div class="cm-dash-section__body" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+            <!-- UC-S01 AF1: Save as draft -->
+            <button type="submit" value="draft" name="action" class="cm-btn cm-btn--ghost" onclick="this.form.dataset.action='draft'">
+              💾 Save as Draft
+            </button>
+            <!-- UC-S01 AF3: Preview -->
+            <button type="button" class="cm-btn cm-btn--secondary" onclick="Toast.show('Preview: listing would appear as shown above.','default')">
+              👁 Preview
+            </button>
+            <!-- UC-S01 Main Flow: Publish -->
+            <button type="submit" value="publish" name="action" class="cm-btn cm-btn--primary cm-btn--lg" onclick="this.form.dataset.action='publish'">
+              🚀 Publish Listing
+            </button>
+            <a href="dashboard.html" class="cm-btn cm-btn--ghost cm-btn--sm" style="margin-left:auto;">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    function handleImageUpload(input) {
+      const preview = document.getElementById('img-preview');
+      const err = document.getElementById('img-error');
+      err.classList.add('cm-hidden');
+      Array.from(input.files).slice(0, 5).forEach(file => {
+        if (file.size > 5 * 1024 * 1024) { err.classList.remove('cm-hidden'); return; }
+        const allowed = ['image/jpeg','image/png','image/webp'];
+        if (!allowed.includes(file.type)) { err.classList.remove('cm-hidden'); return; }
+        const div = document.createElement('div');
+        div.style.cssText = 'aspect-ratio:1;background:#f0f0f0;border-radius:4px;border:2px solid #e5e5e5;display:flex;align-items:center;justify-content:center;font-size:2rem;';
+        div.textContent = '🖼';
+        preview.appendChild(div);
+      });
+    }
+
+    document.getElementById('listing-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const action = e.target.dataset.action || 'publish';
+      Validator.clearAll(e.target);
+      let ok = true;
+      const title = document.getElementById('lst-title');
+      const cat   = document.getElementById('lst-category');
+      const price = document.getElementById('lst-price');
+      const desc  = document.getElementById('lst-desc');
+      if (!Validator.required(title.value)) { Validator.showError(title, 'Title is required.'); ok=false; }
+      if (!Validator.required(cat.value))   { Validator.showError(cat,   'Category is required.'); ok=false; }
+      if (!Validator.required(price.value)) { Validator.showError(price, 'Price is required.'); ok=false; }
+      else if (!Validator.positiveNum(price.value)) { Validator.showError(price, 'Price must be a positive number.'); ok=false; }
+      if (!Validator.required(desc.value))  { Validator.showError(desc,  'Description is required.'); ok=false; }
+      if (ok) {
+        if (action === 'draft') { Toast.show('Listing saved as draft.', 'default'); }
+        else { Toast.show('Listing published successfully!', 'success'); setTimeout(() => window.location.href='dashboard.html', 1400); }
+      }
+    });
+  </script>
+</body>
+</html>

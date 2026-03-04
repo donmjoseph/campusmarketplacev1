@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Dashboard — Campus Marketplace | WSU</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body style="margin:0;">
+
+  <!-- WSU Bar -->
+  <div class="cm-wsu-bar">
+    <div class="cm-wsu-bar__inner">
+      <a href="../index.html" class="cm-wsu-bar__brand"><span class="cm-wsu-bar__logo">WSU</span><span class="cm-wsu-bar__wordmark">Washington State University</span></a>
+      <div class="cm-wsu-bar__links">
+        <a href="../index.html">Marketplace</a>
+        <a href="../profile.html">alex@wsu.edu</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Layout (UC-S05) -->
+  <div class="cm-dash-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="cm-sidebar">
+      <div class="cm-sidebar__brand">
+        <div class="cm-sidebar__brand-name">Seller Dashboard</div>
+        <div class="cm-sidebar__brand-role">alex@wsu.edu</div>
+      </div>
+
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Main</div>
+        <a href="dashboard.html" class="cm-sidebar__link cm-sidebar__link--active">
+          <span class="cm-sidebar__icon">📊</span> Overview
+        </a>
+        <a href="#listings-tab" class="cm-sidebar__link" onclick="switchTab('listings')">
+          <span class="cm-sidebar__icon">📦</span> My Listings
+        </a>
+        <a href="#orders-tab" class="cm-sidebar__link" onclick="switchTab('orders')">
+          <span class="cm-sidebar__icon">📋</span> Orders
+          <span class="cm-sidebar__badge">3</span>
+        </a>
+        <a href="#messages-tab" class="cm-sidebar__link" onclick="switchTab('messages')">
+          <span class="cm-sidebar__icon">💬</span> Messages
+          <span class="cm-sidebar__badge">2</span>
+        </a>
+      </div>
+
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Listings</div>
+        <a href="listing-create.html" class="cm-sidebar__link">
+          <span class="cm-sidebar__icon">＋</span> Create Listing
+        </a>
+      </div>
+
+      <div class="cm-sidebar__section">
+        <div class="cm-sidebar__section-hd">Account</div>
+        <a href="../profile.html" class="cm-sidebar__link">
+          <span class="cm-sidebar__icon">👤</span> Profile Settings
+        </a>
+        <a href="../index.html" class="cm-sidebar__link">
+          <span class="cm-sidebar__icon">🏪</span> View Marketplace
+        </a>
+        <a href="../login.html" class="cm-sidebar__link" style="color:#f87171;">
+          <span class="cm-sidebar__icon">🚪</span> Sign Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="cm-dash-main">
+
+      <!-- Tabs (UC-S05: sections of dashboard) -->
+      <div class="cm-tabs" data-tab-group="seller">
+        <button class="cm-tab cm-tab--active" data-tab="overview" id="tab-overview">Overview</button>
+        <button class="cm-tab" data-tab="listings" id="tab-listings">My Listings</button>
+        <button class="cm-tab" data-tab="orders" id="tab-orders">Orders <span class="cm-badge cm-badge--crimson" style="font-size:.65rem;padding:2px 6px;">3</span></button>
+        <button class="cm-tab" data-tab="messages" id="tab-messages">Messages <span class="cm-badge cm-badge--crimson" style="font-size:.65rem;padding:2px 6px;">2</span></button>
+      </div>
+
+      <!-- ============ OVERVIEW TAB (UC-S05) ============ -->
+      <div class="cm-tab-content cm-tab-content--active" data-tab-content="seller" data-tab-id="overview">
+        <!-- Stats (UC-S05: listings overview, orders summary) -->
+        <div class="cm-stats-grid">
+          <div class="cm-stat">
+            <div class="cm-stat__val">4</div>
+            <div class="cm-stat__label">Active Listings</div>
+            <div class="cm-stat__delta">↑ 1 this week</div>
+          </div>
+          <div class="cm-stat cm-stat--blue">
+            <div class="cm-stat__val">3</div>
+            <div class="cm-stat__label">Pending Orders</div>
+          </div>
+          <div class="cm-stat cm-stat--green">
+            <div class="cm-stat__val">12</div>
+            <div class="cm-stat__label">Total Sales</div>
+          </div>
+          <div class="cm-stat cm-stat--orange">
+            <div class="cm-stat__val">$482</div>
+            <div class="cm-stat__label">Total Revenue</div>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="cm-dash-section">
+          <div class="cm-dash-section__head">
+            <h3 class="cm-dash-section__title">Recent Orders</h3>
+            <button class="cm-btn cm-btn--ghost cm-btn--sm" onclick="switchTab('orders')">View All</button>
+          </div>
+          <div class="cm-table-wrap" style="border:none;">
+            <table class="cm-table">
+              <thead><tr><th>Order</th><th>Item</th><th>Buyer</th><th>Amount</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td class="cm-text-crimson cm-font-bold cm-text-sm">ORD-58301</td>
+                  <td class="cm-text-sm">Sony WH-1000XM5</td>
+                  <td class="cm-text-sm cm-text-muted">student1@wsu.edu</td>
+                  <td class="cm-font-bold">$180</td>
+                  <td><span class="cm-badge cm-badge--cancel-req">Cancel Req.</span></td>
+                </tr>
+                <tr>
+                  <td class="cm-text-crimson cm-font-bold cm-text-sm">ORD-57192</td>
+                  <td class="cm-text-sm">CPTS 321 Textbook</td>
+                  <td class="cm-text-sm cm-text-muted">student2@wsu.edu</td>
+                  <td class="cm-font-bold">$38</td>
+                  <td><span class="cm-badge cm-badge--pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td class="cm-text-crimson cm-font-bold cm-text-sm">ORD-56044</td>
+                  <td class="cm-text-sm">IKEA ALEX Desk</td>
+                  <td class="cm-text-sm cm-text-muted">student3@wsu.edu</td>
+                  <td class="cm-font-bold">$65</td>
+                  <td><span class="cm-badge cm-badge--fulfilled">Fulfilled</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="cm-dash-section">
+          <div class="cm-dash-section__head"><h3 class="cm-dash-section__title">Quick Actions</h3></div>
+          <div class="cm-dash-section__body">
+            <div class="cm-flex cm-gap-12" style="flex-wrap:wrap;">
+              <a href="listing-create.html" class="cm-btn cm-btn--primary">＋ Create New Listing</a>
+              <button class="cm-btn cm-btn--secondary" onclick="switchTab('orders')">📋 Review Orders</button>
+              <button class="cm-btn cm-btn--secondary" onclick="switchTab('messages')">💬 Check Messages</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seller Account Suspended Alert (UC-S05 EF2) — shown when suspended -->
+        <div id="seller-suspended-alert" class="cm-alert cm-alert--error cm-hidden">
+          ✕ Your seller account is currently suspended. Contact <a href="mailto:marketplace@wsu.edu">marketplace@wsu.edu</a> for assistance.
+        </div>
+      </div>
+
+      <!-- ============ MY LISTINGS TAB (UC-S01–S03) ============ -->
+      <div class="cm-tab-content" data-tab-content="seller" data-tab-id="listings">
+        <div class="cm-flex-between cm-mb-20">
+          <div>
+            <h2 style="font-size:1.2rem;font-weight:800;margin:0 0 4px;">My Listings</h2>
+            <p class="cm-text-sm cm-text-muted">4 active · 1 draft · 2 sold</p>
+          </div>
+          <a href="listing-create.html" class="cm-btn cm-btn--primary">＋ Create Listing</a>
+        </div>
+
+        <!-- AF2: No listings (hidden) -->
+        <div id="no-listings" class="cm-panel cm-hidden">
+          <div class="cm-empty">
+            <div class="cm-empty__icon">📦</div>
+            <p class="cm-empty__title">No listings yet</p>
+            <p class="cm-empty__msg">Create your first listing to start selling on Campus Marketplace.</p>
+            <a href="listing-create.html" class="cm-btn cm-btn--primary">Create Listing</a>
+          </div>
+        </div>
+
+        <div class="cm-table-wrap">
+          <table class="cm-table">
+            <thead>
+              <tr>
+                <th>Item</th><th>Category</th><th>Price</th><th>Condition</th><th>Status</th><th>Listed</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600;font-size:.88rem;">Sony WH-1000XM5 Headphones</td>
+                <td class="cm-text-sm cm-text-muted">Electronics</td>
+                <td class="cm-font-bold">$180</td>
+                <td><span class="cm-badge cm-badge--like-new">Like New</span></td>
+                <td class="listing-row-status"><span class="cm-badge cm-badge--active">Active</span></td>
+                <td class="cm-text-sm cm-text-muted">Mar 1</td>
+                <td>
+                  <div class="cm-table__actions">
+                    <a href="listing-edit.html?id=prod-001" class="cm-btn cm-btn--ghost cm-btn--sm">Edit</a>
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-deactivate-row>Deactivate</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;font-size:.88rem;">CPTS 321 Software Engineering Textbook</td>
+                <td class="cm-text-sm cm-text-muted">Textbooks</td>
+                <td class="cm-font-bold">$38</td>
+                <td><span class="cm-badge cm-badge--like-new">Like New</span></td>
+                <td class="listing-row-status"><span class="cm-badge cm-badge--active">Active</span></td>
+                <td class="cm-text-sm cm-text-muted">Feb 28</td>
+                <td>
+                  <div class="cm-table__actions">
+                    <a href="listing-edit.html?id=prod-002" class="cm-btn cm-btn--ghost cm-btn--sm">Edit</a>
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-deactivate-row>Deactivate</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;font-size:.88rem;">IKEA ALEX Desk — White</td>
+                <td class="cm-text-sm cm-text-muted">Furniture</td>
+                <td class="cm-font-bold">$65</td>
+                <td><span class="cm-badge cm-badge--good">Good</span></td>
+                <td class="listing-row-status"><span class="cm-badge cm-badge--sold">Sold</span></td>
+                <td class="cm-text-sm cm-text-muted">Feb 20</td>
+                <td>
+                  <div class="cm-table__actions">
+                    <span class="cm-text-xs cm-text-muted">Completed</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;font-size:.88rem;">Trek FX2 Disc Commuter Bike</td>
+                <td class="cm-text-sm cm-text-muted">Sports</td>
+                <td class="cm-font-bold">$320</td>
+                <td><span class="cm-badge cm-badge--good">Good</span></td>
+                <td class="listing-row-status"><span class="cm-badge cm-badge--draft">Draft</span></td>
+                <td class="cm-text-sm cm-text-muted">Mar 2</td>
+                <td>
+                  <div class="cm-table__actions">
+                    <a href="listing-edit.html?id=prod-004" class="cm-btn cm-btn--ghost cm-btn--sm">Edit</a>
+                    <button class="cm-btn cm-btn--primary cm-btn--sm" onclick="Toast.show('Listing published!','success')">Publish</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============ ORDERS TAB (UC-S04, S06, S08) ============ -->
+      <div class="cm-tab-content" data-tab-content="seller" data-tab-id="orders">
+        <div class="cm-flex-between cm-mb-16">
+          <h2 style="font-size:1.2rem;font-weight:800;margin:0;">Incoming Orders</h2>
+          <div class="cm-flex cm-gap-10">
+            <select class="cm-form__select cm-w-auto" style="width:auto;padding:7px 12px;font-size:.85rem;">
+              <option>All Statuses</option>
+              <option>Pending</option>
+              <option>Fulfilled</option>
+              <option>Cancellation Requested</option>
+              <option>Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- AF4: No orders -->
+        <div id="no-orders" class="cm-panel cm-hidden">
+          <div class="cm-empty">
+            <div class="cm-empty__icon">📋</div>
+            <p class="cm-empty__title">No incoming orders</p>
+            <p class="cm-empty__msg">Orders will appear here once buyers purchase your listings.</p>
+          </div>
+        </div>
+
+        <div class="cm-table-wrap">
+          <table class="cm-table">
+            <thead>
+              <tr><th>Order ID</th><th>Item</th><th>Buyer</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              <!-- UC-S08: Cancellation request row (highlighted) -->
+              <tr style="background:#fff5f7;">
+                <td class="cm-text-crimson cm-font-bold cm-text-sm">ORD-58301</td>
+                <td>
+                  <div style="font-weight:600;font-size:.88rem;">Sony WH-1000XM5 Headphones</div>
+                  <div class="cm-text-xs cm-text-muted">Electronics</div>
+                </td>
+                <td class="cm-text-sm">student1@wsu.edu</td>
+                <td class="cm-font-bold">$180</td>
+                <td class="cm-text-sm cm-text-muted">Mar 2, 2026</td>
+                <td><span class="cm-badge cm-badge--cancel-req">Cancel Req.</span></td>
+                <td>
+                  <div class="cm-table__actions">
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="cancel-review-modal">Review</button>
+                    <!-- UC-S08: Approve/Deny buttons -->
+                    <button class="cm-btn cm-btn--success cm-btn--sm" data-approve-cancel="ORD-58301">✓ Approve</button>
+                    <button class="cm-btn cm-btn--danger cm-btn--sm" data-deny-cancel="ORD-58301">✕ Deny</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- UC-S06: Pending order — Mark as Fulfilled -->
+              <tr>
+                <td class="cm-text-crimson cm-font-bold cm-text-sm">ORD-57192</td>
+                <td>
+                  <div style="font-weight:600;font-size:.88rem;">CPTS 321 Textbook</div>
+                  <div class="cm-text-xs cm-text-muted">Textbooks</div>
+                </td>
+                <td class="cm-text-sm">student2@wsu.edu</td>
+                <td class="cm-font-bold">$38</td>
+                <td class="cm-text-sm cm-text-muted">Mar 1, 2026</td>
+                <td><span class="cm-badge cm-badge--pending">Pending</span></td>
+                <td>
+                  <div class="cm-table__actions">
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="order-detail-modal">View</button>
+                    <button class="cm-btn cm-btn--success cm-btn--sm" data-fulfill="ORD-57192">✓ Mark Fulfilled</button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="cm-text-crimson cm-font-bold cm-text-sm">ORD-56044</td>
+                <td>
+                  <div style="font-weight:600;font-size:.88rem;">IKEA ALEX Desk — White</div>
+                  <div class="cm-text-xs cm-text-muted">Furniture</div>
+                </td>
+                <td class="cm-text-sm">student3@wsu.edu</td>
+                <td class="cm-font-bold">$65</td>
+                <td class="cm-text-sm cm-text-muted">Feb 22, 2026</td>
+                <td><span class="cm-badge cm-badge--fulfilled">Fulfilled</span></td>
+                <td>
+                  <div class="cm-table__actions">
+                    <button class="cm-btn cm-btn--ghost cm-btn--sm" data-modal-open="order-detail-modal">View</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- AF1: UC-S06 blocked for non-pending -->
+        <div class="cm-alert cm-alert--info cm-mt-16">
+          ℹ Only <strong>Pending</strong> orders can be marked as fulfilled. Cancellation requests require your approval or denial.
+        </div>
+      </div>
+
+      <!-- ============ MESSAGES TAB (UC-S07) ============ -->
+      <div class="cm-tab-content" data-tab-content="seller" data-tab-id="messages">
+        <div class="cm-mb-20">
+          <h2 style="font-size:1.2rem;font-weight:800;margin:0 0 4px;">Buyer Messages</h2>
+          <p class="cm-text-sm cm-text-muted">Respond to buyer inquiries about your listings.</p>
+        </div>
+
+        <!-- AF1: No messages (hidden) -->
+        <div id="no-messages" class="cm-panel cm-hidden">
+          <div class="cm-empty">
+            <div class="cm-empty__icon">💬</div>
+            <p class="cm-empty__title">No messages yet</p>
+            <p class="cm-empty__msg">Buyers will message you here about your listings.</p>
+          </div>
+        </div>
+
+        <div class="cm-messages-layout">
+          <div class="cm-conv-list">
+            <div class="cm-conv-list__header">Conversations (2)</div>
+            <div class="cm-conv-item cm-conv-item--active">
+              <div class="cm-conv-item__avatar" style="background:#1565c0;">S1</div>
+              <div class="cm-conv-item__body">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                  <span class="cm-conv-item__name">student1@wsu.edu</span>
+                  <span class="cm-conv-item__time">2:30 PM</span>
+                </div>
+                <div class="cm-conv-item__preview">Re: Sony Headphones — Is the price negotiable?</div>
+                <div style="margin-top:4px;"><span class="cm-conv-item__unread"></span></div>
+              </div>
+            </div>
+            <div class="cm-conv-item">
+              <div class="cm-conv-item__avatar" style="background:#2e7d32;">S2</div>
+              <div class="cm-conv-item__body">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                  <span class="cm-conv-item__name">student2@wsu.edu</span>
+                  <span class="cm-conv-item__time">Yesterday</span>
+                </div>
+                <div class="cm-conv-item__preview">Re: Textbook — Can we meet Tuesday?</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cm-chat">
+            <div class="cm-chat__header">
+              <div class="cm-chat__subject">student1@wsu.edu — Sony WH-1000XM5</div>
+              <div class="cm-chat__listing-ref">🎧 Sony WH-1000XM5 Headphones · $180.00</div>
+            </div>
+            <div class="cm-chat__messages" id="chat-messages">
+              <div class="cm-msg cm-msg--in">
+                <div class="cm-msg__bubble">Hi! Is the price on the headphones negotiable? I can do $160.</div>
+                <span class="cm-msg__time">Today · 2:15 PM</span>
+              </div>
+              <div class="cm-msg cm-msg--out">
+                <div class="cm-msg__bubble">Thanks for your interest! They're in like-new condition. Best I can do is $170.</div>
+                <span class="cm-msg__time">Today · 2:25 PM</span>
+              </div>
+              <div class="cm-msg cm-msg--in">
+                <div class="cm-msg__bubble">Deal! When can we meet?</div>
+                <span class="cm-msg__time">Today · 2:30 PM</span>
+              </div>
+            </div>
+            <div class="cm-chat__footer">
+              <!-- UC-S07: Reply input (EF1: validates empty) -->
+              <textarea id="msg-input" class="cm-chat__textarea" rows="1" placeholder="Type your reply… (Enter to send)"></textarea>
+              <button id="msg-send" class="cm-btn cm-btn--primary cm-btn--sm">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Mark Fulfilled Modal (UC-S06) -->
+  <div id="fulfill-modal" class="cm-overlay">
+    <div class="cm-modal cm-modal--sm">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Confirm Fulfillment</h3>
+        <button class="cm-modal__close" data-modal-close="fulfill-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <p>Confirm that the item has been <strong>delivered or picked up</strong> by the buyer?</p>
+        <p class="cm-text-sm cm-text-muted">This will update the order status to <strong>Fulfilled</strong>. This action cannot be undone.</p>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="fulfill-modal">Cancel</button>
+        <button class="cm-btn cm-btn--success" id="fulfill-confirm">✓ Confirm Fulfilled</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancellation Review Modal (UC-S08) -->
+  <div id="cancel-review-modal" class="cm-overlay">
+    <div class="cm-modal">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Review Cancellation Request</h3>
+        <button class="cm-modal__close" data-modal-close="cancel-review-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;background:#f7f7f7;border-radius:4px;padding:14px;">
+          <div><p class="cm-text-xs cm-text-muted cm-mb-4">ORDER ID</p><p class="cm-font-bold cm-text-crimson cm-text-sm">ORD-58301</p></div>
+          <div><p class="cm-text-xs cm-text-muted cm-mb-4">BUYER</p><p class="cm-text-sm cm-font-bold">student1@wsu.edu</p></div>
+          <div><p class="cm-text-xs cm-text-muted cm-mb-4">ITEM</p><p class="cm-text-sm">Sony WH-1000XM5</p></div>
+          <div><p class="cm-text-xs cm-text-muted cm-mb-4">AMOUNT</p><p class="cm-font-bold">$180.00</p></div>
+        </div>
+        <div style="background:#fff8e1;border-left:4px solid #f57f17;padding:12px 16px;border-radius:4px;margin-bottom:16px;">
+          <p class="cm-text-xs cm-font-bold cm-mb-4" style="text-transform:uppercase;color:#e65100;">Buyer's Reason</p>
+          <p class="cm-text-sm">"Found a better deal elsewhere. Hope this is okay. Thank you!"</p>
+        </div>
+        <p class="cm-text-sm cm-text-muted">Approving will cancel the order and return the listing to Active. Denying will revert the order to Pending status.</p>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="cancel-review-modal">Close</button>
+        <button class="cm-btn cm-btn--danger" data-deny-cancel="ORD-58301" onclick="Modal.close('cancel-review-modal')">✕ Deny</button>
+        <button class="cm-btn cm-btn--success" data-approve-cancel="ORD-58301" onclick="Modal.close('cancel-review-modal')">✓ Approve</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Detail Modal -->
+  <div id="order-detail-modal" class="cm-overlay">
+    <div class="cm-modal">
+      <div class="cm-modal__head">
+        <h3 class="cm-modal__title">Order Details</h3>
+        <button class="cm-modal__close" data-modal-close="order-detail-modal">✕</button>
+      </div>
+      <div class="cm-modal__body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+          <div><p class="cm-text-xs cm-text-muted cm-mb-4">ORDER ID</p><p class="cm-font-bold cm-text-crimson">ORD-57192</p></div>
+          <div><p class="cm-text-xs cm-text-muted cm-mb-4">STATUS</p><span class="cm-badge cm-badge--pending">Pending</span></div>
+          <div><p class="cm-text-xs cm-text-muted cm-mb-4">BUYER EMAIL</p><p class="cm-text-sm">student2@wsu.edu</p></div>
+          <div><p class="cm-text-xs cm-text-muted cm-mb-4">DATE</p><p class="cm-text-sm">March 1, 2026</p></div>
+        </div>
+        <div style="background:#f7f7f7;padding:14px;border-radius:4px;">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div style="width:50px;height:50px;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">📚</div>
+            <div>
+              <div style="font-weight:700;font-size:.9rem;">CPTS 321 Software Engineering Textbook</div>
+              <div class="cm-text-sm cm-text-muted">Textbooks · Like New</div>
+              <div class="cm-font-bold cm-text-crimson">$38.00</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 14px;background:#f0f0f0;border-radius:4px;font-size:.82rem;color:#555;">
+          <strong>Buyer Notes:</strong> "I'm near Stephenson Hall. Can we meet near there?"
+        </div>
+      </div>
+      <div class="cm-modal__foot">
+        <button class="cm-btn cm-btn--ghost" data-modal-close="order-detail-modal">Close</button>
+        <button class="cm-btn cm-btn--success" data-fulfill="ORD-57192" onclick="Modal.close('order-detail-modal')">✓ Mark Fulfilled</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    function switchTab(name) {
+      document.querySelectorAll('[data-tab]').forEach(t => t.classList.remove('cm-tab--active'));
+      document.getElementById('tab-' + name).classList.add('cm-tab--active');
+      document.querySelectorAll('[data-tab-content="seller"]').forEach(c => {
+        c.classList.toggle('cm-tab-content--active', c.getAttribute('data-tab-id') === name);
+      });
+      document.querySelectorAll('.cm-sidebar__link').forEach(l => l.classList.remove('cm-sidebar__link--active'));
+      event?.target && event.target.closest('.cm-sidebar__link')?.classList.add('cm-sidebar__link--active');
+    }
+    // Prevent navigation from sidebar links
+    document.querySelectorAll('[onclick^="switchTab"]').forEach(l => l.addEventListener('click', e => e.preventDefault()));
+  </script>
+</body>
+</html>
