@@ -61,9 +61,9 @@
                 </div>
                 <div class="wf-form-group">
                   <label class="wf-label">WSU Email</label>
-                  <input class="wf-input" value="alex@wsu.edu" disabled style="background:#f5f5f5;">
-                  <p class="wf-input-hint">Email cannot be changed. Contact support.</p>
-                  <p class="wf-note">[ AF1: Email shown read-only ]</p>
+                  <input class="wf-input" value="alex@wsu.edu">
+                  <p class="wf-input-hint">Changing email requires verification before activation.</p>
+                  <p class="wf-note">[ AF3: Buyer updates email and verification is sent ]</p>
                 </div>
               </div>
               <div class="wf-form-row">
@@ -80,7 +80,12 @@
                 <label class="wf-label">Bio (Optional)</label>
                 <textarea class="wf-textarea" placeholder="A short bio about yourself…">WSU CS student selling old textbooks and electronics.</textarea>
               </div>
-              <button class="wf-btn wf-btn--fill">Save Changes</button>
+              <div class="wf-flex wf-gap-8" style="flex-wrap:wrap;">
+                <button class="wf-btn wf-btn--ghost">Cancel</button>
+                <button class="wf-btn wf-btn--fill">Save Changes</button>
+              </div>
+              <p class="wf-note wf-mt-8">[ AF1: Cancel discards unsaved profile changes ]</p>
+              <p class="wf-note">[ EF1: Invalid/missing profile input ] [ EF2: Email already in use ] [ EF4: System/database error during save ]</p>
             </div>
           </div>
 
@@ -103,12 +108,13 @@
                 </div>
               </div>
               <button class="wf-btn">Update Password</button>
+              <p class="wf-note wf-mt-8">[ EF3: Incorrect current password ]</p>
             </div>
           </div>
 
-          <!-- AF3: Notification Preferences -->
+          <!-- Additional account settings -->
           <div class="wf-section">
-            <div class="wf-section-head">Notification Preferences <span class="wf-note" style="font-size:.68rem;">&nbsp;[ AF3 ]</span></div>
+            <div class="wf-section-head">Notification Preferences</div>
             <div class="wf-section-body" style="display:flex;flex-direction:column;gap:10px;">
               <label style="display:flex;align-items:center;gap:10px;font-size:.85rem;"><input type="checkbox" checked> New message received</label>
               <label style="display:flex;align-items:center;gap:10px;font-size:.85rem;"><input type="checkbox" checked> Order status updates</label>

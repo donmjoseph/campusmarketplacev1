@@ -105,7 +105,10 @@
               <td>$38.00</td>
               <td class="wf-text-xs">Mar 1, 2026</td>
               <td><span class="wf-badge wf-badge--done">Fulfilled</span></td>
-              <td><button class="wf-btn wf-btn--sm">View</button></td>
+              <td>
+                <button class="wf-btn wf-btn--sm">View</button>
+                <p class="wf-note" style="margin-top:4px;">[ AF2: Fulfilled orders cannot be canceled ]</p>
+              </td>
             </tr>
             <!-- Cancelled -->
             <tr>
@@ -134,6 +137,8 @@
             <button class="wf-btn wf-btn--ghost">Cancel</button>
             <button class="wf-btn wf-btn--fill">Submit Request</button>
           </div>
+          <p class="wf-note wf-mt-8">[ AF1: Buyer cancels request form before submitting ]</p>
+          <p class="wf-note">[ EF2: Missing cancellation reason ] [ EF3: System/database error while submitting ]</p>
           <p class="wf-note wf-mt-8">[ Seller (UC-S08) receives the request and approves/denies ]</p>
         </div>
       </div>

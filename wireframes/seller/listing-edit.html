@@ -124,6 +124,7 @@
             </div>
             <p class="wf-note wf-mt-8">[ AF4: Status toggle — published/draft/inactive ]</p>
           </div>
+          <p class="wf-note">[ EF1: Missing required fields ] [ EF2: Invalid price/quantity ] [ EF3: Image upload failure ] [ EF5: System/database save failure ]</p>
         </div>
       </div>
 
@@ -132,6 +133,8 @@
         <div class="wf-section-body">
           <div class="wf-flex wf-gap-12" style="flex-wrap:wrap;align-items:center;">
             <button class="wf-btn wf-btn--ghost">Discard Changes</button>
+            <button class="wf-btn">Save as Draft</button>
+            <p class="wf-note" style="margin:0;">[ AF1: Save listing as draft ]</p>
             <button class="wf-btn wf-btn--fill wf-btn--lg">💾 Save Changes</button>
             <div style="margin-left:auto;display:flex;gap:10px;">
               <!-- UC-S03: Deactivate -->
@@ -148,11 +151,16 @@
         <div class="wf-section-head">UC-S03 — Delete Listing Modal (AF1)</div>
         <div class="wf-section-body" style="max-width:420px;">
           <div class="wf-alert wf-alert--error wf-mb-12">⚠ <strong>This action cannot be undone.</strong></div>
+          <div class="wf-alert wf-alert--error wf-mb-12" style="display:none;">
+            ✕ Authorization failed for delete/deactivate.
+            <span class="wf-note">[ UC-S03 EF1: Unauthorized access ]</span>
+          </div>
           <p class="wf-text-sm wf-mb-12">Are you sure you want to permanently delete <strong>"Sony WH-1000XM5 Headphones"</strong>?</p>
           <div class="wf-flex wf-gap-8">
             <button class="wf-btn wf-btn--ghost">Cancel</button>
             <button class="wf-btn wf-btn--danger wf-btn--fill">Delete Permanently</button>
           </div>
+          <p class="wf-note wf-mt-8">[ AF2: Seller cancels action at confirmation prompt ]</p>
         </div>
       </div>
 
@@ -165,6 +173,8 @@
             <button class="wf-btn wf-btn--ghost">Cancel</button>
             <button class="wf-btn wf-btn--fill">Deactivate</button>
           </div>
+          <p class="wf-note wf-mt-8">[ AF2: Seller cancels action at confirmation prompt ]</p>
+          <p class="wf-note">[ UC-S03 EF2: System/database error while updating listing status ]</p>
         </div>
       </div>
 

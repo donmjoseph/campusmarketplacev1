@@ -23,13 +23,13 @@
   <div class="wf-page-head">
     <div class="wf-wrap">
       <h1 style="font-size:1.3rem;font-weight:800;">Messages</h1>
-      <p class="wf-text-sm wf-text-muted">Your conversations with sellers.</p>
+      <p class="wf-text-sm wf-text-muted">Your conversations with buyers and sellers.</p>
     </div>
   </div>
 
   <main class="wf-main">
     <div class="wf-wrap">
-      <span class="wf-uc">UC-B09 — Contact Seller / Messaging</span>
+      <span class="wf-uc">UC-B09 / UC-S07 — Messaging</span>
 
       <div class="wf-msg-layout">
 
@@ -67,7 +67,7 @@
           </div>
         </div>
 
-        <!-- Chat Thread (UC-B09 main flow) -->
+        <!-- Chat Thread (UC-B09 / UC-S07 main flow) -->
         <div class="wf-chat-wrap">
           <div class="wf-chat-header">
             Riley K. — CPTS 321 Textbook
@@ -93,12 +93,12 @@
             </div>
           </div>
 
-          <!-- Send Input (UC-B09 main flow) -->
+          <!-- Send Input (UC-B09 / UC-S07 main flow) -->
           <div class="wf-chat-footer">
             <input class="wf-input" type="text" placeholder="Type a message… (Enter to send)">
             <button class="wf-btn wf-btn--fill wf-btn--sm">Send</button>
           </div>
-          <p class="wf-note" style="padding:4px 10px;font-size:.65rem;">[ EF1: Empty message → validation prevents send ] &nbsp;·&nbsp; [ AF2: Report button → report modal ]</p>
+          <p class="wf-note" style="padding:4px 10px;font-size:.65rem;">[ EF1: Empty message → validation prevents send ] &nbsp;·&nbsp; [ EF2: Message exceeds character limit ] &nbsp;·&nbsp; [ EF3: System/database send failure ] &nbsp;·&nbsp; [ AF2: Buyer leaves page before sending ]</p>
         </div>
 
       </div>
@@ -109,9 +109,9 @@
         <p class="wf-note">[ → Report modal → UC-A07 admin review ]</p>
       </div>
 
-      <!-- Report Modal (inline wireframe) -->
+      <!-- Report Modal (inline wireframe, tied to UC-A07 admin review) -->
       <div class="wf-section wf-mt-20">
-        <div class="wf-section-head">AF2 — Report Conversation Modal</div>
+        <div class="wf-section-head">Report Conversation Modal</div>
         <div class="wf-section-body" style="max-width:420px;">
           <div class="wf-form-group">
             <label class="wf-label">Reason</label>

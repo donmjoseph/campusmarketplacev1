@@ -61,13 +61,13 @@
           <!-- AF2: No images — optional, listing still submittable -->
           <p class="wf-note wf-mt-8">[ AF2: No images → listing created without photos ]</p>
 
-          <!-- AF3: Preview of uploaded images -->
+          <!-- Uploaded image thumbnails -->
           <div class="wf-grid-5 wf-mt-12">
             <div class="wf-img-ph" style="height:80px;"><span style="font-size:.6rem;">UPLOAD 1</span></div>
             <div class="wf-img-ph" style="height:80px;"><span style="font-size:.6rem;">UPLOAD 2</span></div>
             <div class="wf-ph" style="height:80px;border:1px dashed #bbb;"><span style="font-size:.65rem;">+</span></div>
           </div>
-          <p class="wf-note wf-mt-4">[ AF3: Preview shown after upload ]</p>
+          <p class="wf-note wf-mt-4">[ Uploaded image thumbnails shown after selection ]</p>
         </div>
       </div>
 
@@ -135,10 +135,15 @@
             <p class="wf-note" style="margin:0;">[ AF1: Saved without publishing ]</p>
             <!-- AF3: Preview -->
             <button class="wf-btn wf-btn--ghost">👁 Preview</button>
+            <p class="wf-note" style="margin:0;">[ AF3: Preview listing before publishing ]</p>
             <!-- Main Flow: Publish -->
             <button class="wf-btn wf-btn--fill wf-btn--lg">🚀 Publish Listing</button>
             <p class="wf-note" style="margin:0;">[ → Validation → success → redirect to dashboard ]</p>
             <a href="dashboard.html" class="wf-btn wf-btn--ghost wf-btn--sm" style="margin-left:auto;">Cancel</a>
+          </div>
+          <div class="wf-alert wf-alert--error wf-mt-8" style="display:none;">
+            ✕ Unable to create listing right now.
+            <span class="wf-note">[ EF4: System/database error during save ]</span>
           </div>
         </div>
       </div>
