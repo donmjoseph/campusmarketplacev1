@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[WF] Manage Listings — Admin | Campus Marketplace</title>
+  <link rel="stylesheet" href="../wireframe.css">
+</head>
+<body style="margin:0;">
+
+  <div style="background:#ffd700;padding:6px 16px;font-size:.72rem;font-weight:700;display:flex;gap:16px;align-items:center;border-bottom:2px solid #e6b800;">
+    ⬡ WIREFRAME &nbsp;|&nbsp; <a href="../index.html">← All Pages</a> &nbsp;|&nbsp; UC-A04 — Manage Listings
+  </div>
+
+  <!-- Admin Top Bar -->
+  <div class="wf-admin-bar">
+    <span class="wf-admin-bar-title"><span style="background:#fff;color:#111;font-size:.7rem;font-weight:800;padding:2px 8px;margin-right:8px;">WSU</span> Campus Marketplace — Admin Portal</span>
+    <div class="wf-flex wf-gap-12" style="align-items:center;">
+      <span style="font-size:.78rem;color:rgba(255,255,255,.6);">admin@wsu.edu</span>
+      <a href="login.html" class="wf-btn wf-btn--ghost wf-btn--sm" style="color:#fff;border-color:rgba(255,255,255,.3);">Sign Out</a>
+    </div>
+  </div>
+
+  <div class="wf-dash">
+    <!-- Sidebar -->
+    <aside class="wf-sidebar">
+      <div class="wf-sidebar-top">
+        <strong>Admin Panel</strong>
+        <small>administrator</small>
+      </div>
+      <div class="wf-sidebar-section">Management</div>
+      <a href="dashboard.html" class="wf-sidebar-link">📊 Dashboard</a>
+      <a href="users.html" class="wf-sidebar-link">👥 Users</a>
+      <a href="listings.html" class="wf-sidebar-link active">📦 Listings</a>
+      <a href="orders.html" class="wf-sidebar-link">📋 Orders</a>
+      <div class="wf-sidebar-section">Reports</div>
+      <a href="analytics.html" class="wf-sidebar-link">📈 Analytics</a>
+      <a href="reported-messages.html" class="wf-sidebar-link">⚑ Reported Messages <span class="wf-badge wf-badge--danger" style="float:right;font-size:.6rem;">3</span></a>
+      <div class="wf-sidebar-section">Account</div>
+      <a href="login.html" class="wf-sidebar-link">🔒 Sign Out</a>
+    </aside>
+
+    <main class="wf-dash-main">
+      <div class="wf-flex-between wf-mb-16">
+        <div>
+          <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:4px;">Manage Listings</h1>
+          <p class="wf-text-sm wf-text-muted">342 active listings across all sellers</p>
+        </div>
+      </div>
+
+      <span class="wf-uc">UC-A04 — Remove / Restore Listings</span>
+
+      <!-- Filter Bar -->
+      <div class="wf-section wf-mb-16">
+        <div class="wf-section-body">
+          <div class="wf-flex wf-gap-12" style="flex-wrap:wrap;align-items:flex-end;">
+            <div style="flex:1;min-width:200px;">
+              <label class="wf-label">Search Listings</label>
+              <input class="wf-input" type="text" placeholder="Title, seller, or keyword…">
+            </div>
+            <div>
+              <label class="wf-label">Category</label>
+              <select class="wf-select" style="width:auto;">
+                <option>All Categories</option>
+                <option>Textbooks</option>
+                <option>Electronics</option>
+                <option>Furniture</option>
+                <option>Clothing</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="wf-label">Status</label>
+              <select class="wf-select" style="width:auto;">
+                <option>All Statuses</option>
+                <option>Active</option>
+                <option>Reported</option>
+                <option>Removed</option>
+              </select>
+            </div>
+            <button class="wf-btn wf-btn--ghost wf-btn--sm">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- EF: No results -->
+      <div class="wf-alert wf-alert--warning wf-mb-16" style="display:none;">
+        No listings match your filters.
+        <span class="wf-note">[ EF: empty filter result ]</span>
+      </div>
+
+      <!-- Listings Table -->
+      <div class="wf-section">
+        <div class="wf-section-body" style="padding:0;">
+          <div class="wf-table-wrap">
+            <table class="wf-table">
+              <thead>
+                <tr><th>Title</th><th>Seller</th><th>Category</th><th>Price</th><th>Posted</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                <!-- Active listing -->
+                <tr>
+                  <td><strong style="font-size:.82rem;">Sony WH-1000XM5 Headphones</strong></td>
+                  <td class="wf-text-xs">alex@wsu.edu</td>
+                  <td class="wf-text-xs">Electronics</td>
+                  <td>$180</td>
+                  <td class="wf-text-xs wf-text-muted">Mar 1, 2026</td>
+                  <td><span class="wf-badge wf-badge--active">Active</span></td>
+                  <td>
+                    <div class="wf-flex wf-gap-8">
+                      <button class="wf-btn wf-btn--ghost wf-btn--sm">View</button>
+                      <button class="wf-btn wf-btn--danger wf-btn--sm">Remove</button>
+                    </div>
+                    <p class="wf-note wf-mt-8">[ UC-A04 → confirm modal ]</p>
+                  </td>
+                </tr>
+                <!-- Active listing 2 -->
+                <tr>
+                  <td><strong style="font-size:.82rem;">CPTS 321 Textbook</strong></td>
+                  <td class="wf-text-xs">alex@wsu.edu</td>
+                  <td class="wf-text-xs">Textbooks</td>
+                  <td>$38</td>
+                  <td class="wf-text-xs wf-text-muted">Feb 28, 2026</td>
+                  <td><span class="wf-badge wf-badge--active">Active</span></td>
+                  <td>
+                    <div class="wf-flex wf-gap-8">
+                      <button class="wf-btn wf-btn--ghost wf-btn--sm">View</button>
+                      <button class="wf-btn wf-btn--danger wf-btn--sm">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Reported listing (highlighted) -->
+                <tr style="background:#fff5f5;">
+                  <td><strong style="font-size:.82rem;">MacBook Pro 2023</strong></td>
+                  <td class="wf-text-xs">baduser@wsu.edu</td>
+                  <td class="wf-text-xs">Electronics</td>
+                  <td>$1,200</td>
+                  <td class="wf-text-xs wf-text-muted">Mar 2, 2026</td>
+                  <td><span class="wf-badge wf-badge--danger">Reported</span></td>
+                  <td>
+                    <div class="wf-flex wf-gap-8">
+                      <button class="wf-btn wf-btn--ghost wf-btn--sm">View</button>
+                      <button class="wf-btn wf-btn--danger wf-btn--sm wf-btn--fill">Remove</button>
+                    </div>
+                    <p class="wf-note wf-mt-8">[ Reported → prioritize removal ]</p>
+                  </td>
+                </tr>
+                <!-- Removed listing (UC-A04 AF1: restore) -->
+                <tr style="background:#f5f5f5;">
+                  <td><strong style="font-size:.82rem;color:#999;">Free iPhone 15 (Scam)</strong></td>
+                  <td class="wf-text-xs">spamuser@wsu.edu</td>
+                  <td class="wf-text-xs">Electronics</td>
+                  <td>$0</td>
+                  <td class="wf-text-xs wf-text-muted">Mar 1, 2026</td>
+                  <td><span class="wf-badge wf-badge--inactive">Removed</span></td>
+                  <td>
+                    <div class="wf-flex wf-gap-8">
+                      <button class="wf-btn wf-btn--ghost wf-btn--sm">View</button>
+                      <button class="wf-btn wf-btn--success wf-btn--sm">Restore</button>
+                    </div>
+                    <p class="wf-note wf-mt-8">[ AF1 → restore listing ]</p>
+                  </td>
+                </tr>
+                <!-- Active listing 3 -->
+                <tr>
+                  <td><strong style="font-size:.82rem;">IKEA Standing Desk</strong></td>
+                  <td class="wf-text-xs">casey@wsu.edu</td>
+                  <td class="wf-text-xs">Furniture</td>
+                  <td>$120</td>
+                  <td class="wf-text-xs wf-text-muted">Feb 25, 2026</td>
+                  <td><span class="wf-badge wf-badge--active">Active</span></td>
+                  <td>
+                    <div class="wf-flex wf-gap-8">
+                      <button class="wf-btn wf-btn--ghost wf-btn--sm">View</button>
+                      <button class="wf-btn wf-btn--danger wf-btn--sm">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Remove Confirmation Modal Annotation -->
+      <div class="wf-section wf-mt-16" style="border-left:4px solid #c0392b;">
+        <div class="wf-section-head">Remove Listing Modal (UC-A04 Main Flow)</div>
+        <div class="wf-section-body">
+          <div class="wf-alert wf-alert--error wf-mb-12">This will remove the listing from the marketplace. The seller will be notified.</div>
+          <p class="wf-text-sm wf-mb-12">Remove listing: <strong>"MacBook Pro 2023"</strong> by baduser@wsu.edu?</p>
+          <div class="wf-form-group">
+            <label class="wf-label">Reason for Removal *</label>
+            <select class="wf-select wf-mb-8">
+              <option>Prohibited item</option>
+              <option>Fraudulent listing</option>
+              <option>Policy violation</option>
+              <option>Other</option>
+            </select>
+            <textarea class="wf-textarea" placeholder="Additional notes (optional)…" style="min-height:60px;"></textarea>
+          </div>
+          <div class="wf-flex wf-gap-8">
+            <button class="wf-btn wf-btn--ghost wf-btn--sm">Cancel</button>
+            <button class="wf-btn wf-btn--danger wf-btn--sm wf-btn--fill">Remove Listing</button>
+          </div>
+          <p class="wf-note wf-mt-8">[ Success → toast "Listing removed. Seller notified." ]</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>

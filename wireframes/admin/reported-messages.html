@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[WF] Reported Messages — Admin | Campus Marketplace</title>
+  <link rel="stylesheet" href="../wireframe.css">
+</head>
+<body style="margin:0;">
+
+  <div style="background:#ffd700;padding:6px 16px;font-size:.72rem;font-weight:700;display:flex;gap:16px;align-items:center;border-bottom:2px solid #e6b800;">
+    ⬡ WIREFRAME &nbsp;|&nbsp; <a href="../index.html">← All Pages</a> &nbsp;|&nbsp; UC-A07 — Reported Messages
+  </div>
+
+  <!-- Admin Top Bar -->
+  <div class="wf-admin-bar">
+    <span class="wf-admin-bar-title"><span style="background:#fff;color:#111;font-size:.7rem;font-weight:800;padding:2px 8px;margin-right:8px;">WSU</span> Campus Marketplace — Admin Portal</span>
+    <div class="wf-flex wf-gap-12" style="align-items:center;">
+      <span style="font-size:.78rem;color:rgba(255,255,255,.6);">admin@wsu.edu</span>
+      <a href="login.html" class="wf-btn wf-btn--ghost wf-btn--sm" style="color:#fff;border-color:rgba(255,255,255,.3);">Sign Out</a>
+    </div>
+  </div>
+
+  <div class="wf-dash">
+    <!-- Sidebar -->
+    <aside class="wf-sidebar">
+      <div class="wf-sidebar-top">
+        <strong>Admin Panel</strong>
+        <small>administrator</small>
+      </div>
+      <div class="wf-sidebar-section">Management</div>
+      <a href="dashboard.html" class="wf-sidebar-link">📊 Dashboard</a>
+      <a href="users.html" class="wf-sidebar-link">👥 Users</a>
+      <a href="listings.html" class="wf-sidebar-link">📦 Listings</a>
+      <a href="orders.html" class="wf-sidebar-link">📋 Orders</a>
+      <div class="wf-sidebar-section">Reports</div>
+      <a href="analytics.html" class="wf-sidebar-link">📈 Analytics</a>
+      <a href="reported-messages.html" class="wf-sidebar-link active">⚑ Reported Messages <span class="wf-badge wf-badge--danger" style="float:right;font-size:.6rem;">3</span></a>
+      <div class="wf-sidebar-section">Account</div>
+      <a href="login.html" class="wf-sidebar-link">🔒 Sign Out</a>
+    </aside>
+
+    <main class="wf-dash-main">
+      <div class="wf-flex-between wf-mb-16">
+        <div>
+          <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:4px;">Reported Messages</h1>
+          <p class="wf-text-sm wf-text-muted">3 pending reports require review</p>
+        </div>
+      </div>
+
+      <span class="wf-uc">UC-A07 — Review Reported Messages</span>
+
+      <!-- Filter Tabs -->
+      <div class="wf-tabs wf-mb-16">
+        <div class="wf-tab active">Pending (3)</div>
+        <div class="wf-tab">Resolved</div>
+        <div class="wf-tab">All</div>
+      </div>
+
+      <!-- EF: No pending reports -->
+      <div class="wf-alert wf-alert--success wf-mb-16" style="display:none;">
+        All reports have been resolved. No pending items.
+        <span class="wf-note">[ EF: empty queue ]</span>
+      </div>
+
+      <!-- Report Cards -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <!-- Report 1: Harassment -->
+        <div class="wf-section" style="border-left:4px solid #c0392b;">
+          <div class="wf-section-head wf-flex-between">
+            <span>Report #RPT-0041 — Harassment</span>
+            <span class="wf-badge wf-badge--danger">Pending</span>
+          </div>
+          <div class="wf-section-body">
+            <div class="wf-grid-2 wf-mb-12">
+              <div>
+                <div class="wf-label">Reporter</div>
+                <div class="wf-text-sm">buyer@wsu.edu</div>
+              </div>
+              <div>
+                <div class="wf-label">Reported User</div>
+                <div class="wf-text-sm">baduser@wsu.edu</div>
+              </div>
+              <div>
+                <div class="wf-label">Date Reported</div>
+                <div class="wf-text-sm wf-text-muted">Mar 3, 2026</div>
+              </div>
+              <div>
+                <div class="wf-label">Category</div>
+                <div class="wf-text-sm">Harassment / Threats</div>
+              </div>
+            </div>
+            <!-- Message thread preview -->
+            <div class="wf-label wf-mb-8">Reported Message Thread</div>
+            <div style="border:1px solid #ddd;padding:12px;background:#fafafa;margin-bottom:12px;">
+              <div class="wf-msg wf-msg--in wf-mb-8" style="max-width:none;">
+                <div class="wf-text-xs wf-text-muted wf-mb-8">buyer@wsu.edu → baduser@wsu.edu</div>
+                <div class="wf-bubble" style="border-color:#ddd;max-width:80%;display:inline-block;">Is this item still available?</div>
+              </div>
+              <div class="wf-msg wf-msg--out" style="max-width:none;">
+                <div class="wf-text-xs wf-text-muted wf-mb-8" style="text-align:right;">baduser@wsu.edu</div>
+                <div class="wf-bubble" style="display:inline-block;float:right;background:#8B0000;border-color:#8B0000;max-width:80%;">Stop messaging me or I'll find you. [FLAGGED CONTENT]</div>
+                <div style="clear:both;"></div>
+              </div>
+            </div>
+            <div class="wf-label wf-mb-8">Reporter's Note</div>
+            <p class="wf-text-sm wf-mb-12" style="background:#fff5f5;padding:8px;border:1px solid #f5c6cb;">"This user sent threatening messages. I feel unsafe."</p>
+            <!-- Actions -->
+            <div class="wf-flex wf-gap-8">
+              <button class="wf-btn wf-btn--ghost wf-btn--sm">Dismiss</button>
+              <button class="wf-btn wf-btn--sm" style="border-color:#e67e22;color:#e67e22;">Warn User</button>
+              <button class="wf-btn wf-btn--danger wf-btn--sm wf-btn--fill">Suspend baduser@wsu.edu</button>
+            </div>
+            <p class="wf-note wf-mt-8">[ UC-A07 main flow → dismiss / warn / suspend actions, each with confirm modal ]</p>
+          </div>
+        </div>
+
+        <!-- Report 2: Spam/Scam -->
+        <div class="wf-section" style="border-left:4px solid #c0392b;">
+          <div class="wf-section-head wf-flex-between">
+            <span>Report #RPT-0040 — Spam / Scam</span>
+            <span class="wf-badge wf-badge--danger">Pending</span>
+          </div>
+          <div class="wf-section-body">
+            <div class="wf-grid-2 wf-mb-12">
+              <div>
+                <div class="wf-label">Reporter</div>
+                <div class="wf-text-sm">jordan@wsu.edu</div>
+              </div>
+              <div>
+                <div class="wf-label">Reported User</div>
+                <div class="wf-text-sm">spamuser@wsu.edu</div>
+              </div>
+              <div>
+                <div class="wf-label">Date Reported</div>
+                <div class="wf-text-sm wf-text-muted">Mar 2, 2026</div>
+              </div>
+              <div>
+                <div class="wf-label">Category</div>
+                <div class="wf-text-sm">Spam / Scam</div>
+              </div>
+            </div>
+            <div class="wf-label wf-mb-8">Reported Message Thread</div>
+            <div style="border:1px solid #ddd;padding:12px;background:#fafafa;margin-bottom:12px;">
+              <div class="wf-msg wf-msg--out" style="max-width:none;">
+                <div class="wf-text-xs wf-text-muted wf-mb-8" style="text-align:right;">spamuser@wsu.edu</div>
+                <div class="wf-bubble" style="display:inline-block;float:right;max-width:80%;">Send me your Venmo and I'll give you 50% off! Wire $50 first to hold the item. [FLAGGED]</div>
+                <div style="clear:both;"></div>
+              </div>
+            </div>
+            <div class="wf-flex wf-gap-8">
+              <button class="wf-btn wf-btn--ghost wf-btn--sm">Dismiss</button>
+              <button class="wf-btn wf-btn--sm" style="border-color:#e67e22;color:#e67e22;">Warn User</button>
+              <button class="wf-btn wf-btn--danger wf-btn--sm wf-btn--fill">Suspend spamuser@wsu.edu</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report 3: Inappropriate Content -->
+        <div class="wf-section" style="border-left:4px solid #c0392b;">
+          <div class="wf-section-head wf-flex-between">
+            <span>Report #RPT-0039 — Inappropriate Content</span>
+            <span class="wf-badge wf-badge--danger">Pending</span>
+          </div>
+          <div class="wf-section-body">
+            <div class="wf-grid-2 wf-mb-12">
+              <div>
+                <div class="wf-label">Reporter</div>
+                <div class="wf-text-sm">riley@wsu.edu</div>
+              </div>
+              <div>
+                <div class="wf-label">Reported User</div>
+                <div class="wf-text-sm">content123@wsu.edu</div>
+              </div>
+              <div>
+                <div class="wf-label">Date Reported</div>
+                <div class="wf-text-sm wf-text-muted">Mar 1, 2026</div>
+              </div>
+              <div>
+                <div class="wf-label">Category</div>
+                <div class="wf-text-sm">Inappropriate Content</div>
+              </div>
+            </div>
+            <div class="wf-label wf-mb-8">Reporter's Note</div>
+            <p class="wf-text-sm wf-mb-12" style="background:#fff5f5;padding:8px;border:1px solid #f5c6cb;">"User sent an unsolicited inappropriate image."</p>
+            <div class="wf-flex wf-gap-8">
+              <button class="wf-btn wf-btn--ghost wf-btn--sm">Dismiss</button>
+              <button class="wf-btn wf-btn--sm" style="border-color:#e67e22;color:#e67e22;">Warn User</button>
+              <button class="wf-btn wf-btn--danger wf-btn--sm wf-btn--fill">Suspend content123@wsu.edu</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Result Annotation -->
+      <div class="wf-section wf-mt-16" style="border-left:4px solid #27ae60;">
+        <div class="wf-section-head">Action Outcomes (UC-A07)</div>
+        <div class="wf-section-body">
+          <div class="wf-flex wf-gap-12" style="flex-wrap:wrap;">
+            <div>
+              <strong class="wf-text-sm">Dismiss</strong>
+              <p class="wf-text-xs wf-text-muted">Report closed, no action taken.</p>
+              <p class="wf-note">[ Toast: "Report dismissed." ]</p>
+            </div>
+            <div>
+              <strong class="wf-text-sm">Warn User</strong>
+              <p class="wf-text-xs wf-text-muted">System message sent to reported user. Report resolved.</p>
+              <p class="wf-note">[ Toast: "Warning sent to user." ]</p>
+            </div>
+            <div>
+              <strong class="wf-text-sm">Suspend</strong>
+              <p class="wf-text-xs wf-text-muted">Account suspended → redirects to users.html. Report resolved.</p>
+              <p class="wf-note">[ Toast: "Account suspended. User notified." ]</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>
