@@ -1,0 +1,28 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+@import './styles/legacy.css';
+
+:root {
+  --cm-primary: #ca1237;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: Montserrat, sans-serif;
+}
+
+.cm-conv-item {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+}
+
+.cm-chat__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
