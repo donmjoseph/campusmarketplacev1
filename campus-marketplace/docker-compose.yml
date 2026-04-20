@@ -43,6 +43,7 @@
     command: ["node", "src/scripts/seedData.js"]
     environment:
       MONGODB_URI: mongodb://mongodb:27017/campus_marketplace
+      JWT_SECRET: replace-with-long-random-secret
       NODE_ENV: production
     depends_on:
       mongodb:
