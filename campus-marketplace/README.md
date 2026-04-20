@@ -77,21 +77,28 @@ npm run dev
 
 ## Quick Start (with Docker)
 
-Builds and runs MongoDB + the Express API + the Nginx-served React app in one command.
+Builds and runs MongoDB + the Express API + the Nginx-served React app.
 
 ```bash
 cd campus-marketplace
-docker compose up
+
+# 1. Build images and start all three services
+docker compose up --build
+
+# 2. In a second terminal, seed demo accounts and listings (first time only)
+docker compose run --rm seeder
 ```
 
 - App: [http://localhost:3000](http://localhost:3000)
 - API: [http://localhost:5001/api/health](http://localhost:5001/api/health)
 
-> **Note:** The Docker setup does not seed demo data automatically.  
-> To seed, run the server locally once with `npm run seed` pointing at the same MongoDB instance, or exec into the server container:
-> ```bash
-> docker compose exec server node src/scripts/seedData.js
-> ```
+The server waits for MongoDB to pass its healthcheck before starting, so startup order is guaranteed. The `seeder` service drops and recreates all demo data each time it runs — only run it once unless you want to reset.
+
+On subsequent starts you can skip the seed step:
+
+```bash
+docker compose up
+```
 
 ---
 

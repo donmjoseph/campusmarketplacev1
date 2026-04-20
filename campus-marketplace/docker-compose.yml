@@ -9,6 +9,12 @@
     restart: unless-stopped
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
 
   server:
     build: ./server
@@ -23,8 +29,27 @@
       CLIENT_URL: http://localhost:3000
       NODE_ENV: production
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
     restart: unless-stopped
+    networks:
+      - app-network
+
+  # Run once to seed demo accounts and listings.
+  # Usage: docker compose run --rm seeder
+  seeder:
+    build: ./server
+    container_name: campus-marketplace-seeder
+    command: ["node", "src/scripts/seedData.js"]
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/campus_marketplace
+      NODE_ENV: production
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    restart: "no"
+    profiles:
+      - seed
     networks:
       - app-network
 
