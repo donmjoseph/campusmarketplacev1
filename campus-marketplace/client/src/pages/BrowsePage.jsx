@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import http from '../api/http'
 import EmptyState from '../components/common/EmptyState'
 import { currency, conditionBadgeClass } from '../utils/format'
+import { usePageTitle } from '../utils/usePageTitle'
 import { getErrorMessage } from '../utils/errors'
 import { useToast } from '../context/ToastContext'
 
@@ -16,6 +17,7 @@ const defaultFilters = {
 }
 
 export default function BrowsePage() {
+  usePageTitle('Browse Listings')
   const [searchParams, setSearchParams] = useSearchParams()
   const { showToast } = useToast()
 

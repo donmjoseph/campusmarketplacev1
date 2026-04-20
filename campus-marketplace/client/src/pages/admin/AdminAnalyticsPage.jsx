@@ -7,6 +7,7 @@ import http from '../../api/http'
 import { useToast } from '../../context/ToastContext'
 import { currency } from '../../utils/format'
 import { getErrorMessage } from '../../utils/errors'
+import { usePageTitle } from '../../utils/usePageTitle'
 
 const STATUS_COLORS = {
   pending: '#f59e0b',
@@ -20,6 +21,7 @@ const BAR_COLOR = '#8b1a1a'
 const USER_COLOR = '#5a3e8c'
 
 export default function AdminAnalyticsPage() {
+  usePageTitle('Analytics')
   const { showToast } = useToast()
   const [analytics, setAnalytics] = useState(null)
   const [loading, setLoading] = useState(true)

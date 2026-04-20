@@ -3,8 +3,10 @@ import http from '../api/http'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { getErrorMessage } from '../utils/errors'
+import { usePageTitle } from '../utils/usePageTitle'
 
 export default function ProfilePage() {
+  usePageTitle('Profile')
   const { user, refreshUser } = useAuth()
   const { showToast } = useToast()
 

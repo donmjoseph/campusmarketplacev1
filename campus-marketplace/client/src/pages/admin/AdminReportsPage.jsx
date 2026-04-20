@@ -3,8 +3,10 @@ import http from '../../api/http'
 import { useToast } from '../../context/ToastContext'
 import { friendlyDate, statusBadgeClass, titleCase } from '../../utils/format'
 import { getErrorMessage } from '../../utils/errors'
+import { usePageTitle } from '../../utils/usePageTitle'
 
 export default function AdminReportsPage() {
+  usePageTitle('Reports')
   const { showToast } = useToast()
   const [reports, setReports] = useState([])
   const [status, setStatus] = useState('')
@@ -76,6 +78,9 @@ export default function AdminReportsPage() {
                 </tr>
               </thead>
               <tbody>
+                {reports.length === 0 && (
+                  <tr><td colSpan={6} className="cm-table__empty">No reports found.</td></tr>
+                )}
                 {reports.map((report) => (
                   <tr key={report._id}>
                     <td>{report.reporter?.name}</td>

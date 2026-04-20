@@ -3,8 +3,10 @@ import http from '../../api/http'
 import { useToast } from '../../context/ToastContext'
 import { currency, friendlyDate, statusBadgeClass, titleCase } from '../../utils/format'
 import { getErrorMessage } from '../../utils/errors'
+import { usePageTitle } from '../../utils/usePageTitle'
 
 export default function AdminListingsPage() {
+  usePageTitle('Manage Listings')
   const { showToast } = useToast()
   const [listings, setListings] = useState([])
   const [filters, setFilters] = useState({ q: '', category: '', status: '' })
@@ -101,6 +103,9 @@ export default function AdminListingsPage() {
                 </tr>
               </thead>
               <tbody>
+                {listings.length === 0 && (
+                  <tr><td colSpan={7} className="cm-table__empty">No listings found.</td></tr>
+                )}
                 {listings.map((listing) => (
                   <tr key={listing._id}>
                     <td>{listing.title}</td>

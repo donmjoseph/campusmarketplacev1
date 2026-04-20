@@ -3,10 +3,12 @@ import { useSearchParams } from 'react-router-dom'
 import http from '../api/http'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
+import { usePageTitle } from '../utils/usePageTitle'
 import { friendlyDate } from '../utils/format'
 import { getErrorMessage } from '../utils/errors'
 
 export default function MessagesPage() {
+  usePageTitle('Messages')
   const { user, refreshUnreadCount } = useAuth()
   const { showToast } = useToast()
   const [searchParams] = useSearchParams()

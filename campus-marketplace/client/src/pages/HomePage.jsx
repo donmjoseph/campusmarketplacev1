@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import http from '../api/http'
 import { currency, conditionBadgeClass } from '../utils/format'
+import { usePageTitle } from '../utils/usePageTitle'
 
 const CATEGORIES = [
   { label: 'Books', icon: '📚', value: 'Books' },
@@ -13,6 +14,7 @@ const CATEGORIES = [
 ]
 
 export default function HomePage() {
+  usePageTitle('Home')
   const [featured, setFeatured] = useState([])
   const [loadingFeatured, setLoadingFeatured] = useState(true)
 

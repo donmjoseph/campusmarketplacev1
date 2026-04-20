@@ -3,8 +3,10 @@ import http from '../../api/http'
 import { useToast } from '../../context/ToastContext'
 import { currency, friendlyDate, statusBadgeClass, titleCase } from '../../utils/format'
 import { getErrorMessage } from '../../utils/errors'
+import { usePageTitle } from '../../utils/usePageTitle'
 
 export default function AdminOrdersPage() {
+  usePageTitle('All Orders')
   const { showToast } = useToast()
   const [orders, setOrders] = useState([])
   const [filters, setFilters] = useState({ q: '', status: '' })
@@ -71,6 +73,9 @@ export default function AdminOrdersPage() {
                 </tr>
               </thead>
               <tbody>
+                {orders.length === 0 && (
+                  <tr><td colSpan={7} className="cm-table__empty">No orders found.</td></tr>
+                )}
                 {orders.map((order) => (
                   <tr key={order._id}>
                     <td>{order.orderNumber}</td>

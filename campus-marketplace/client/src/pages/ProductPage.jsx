@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import http from '../api/http'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
+import { usePageTitle } from '../utils/usePageTitle'
 import { currency, statusBadgeClass, conditionBadgeClass } from '../utils/format'
 import { getErrorMessage } from '../utils/errors'
 
@@ -14,6 +15,7 @@ export default function ProductPage() {
 
   const [listing, setListing] = useState(null)
   const [loading, setLoading] = useState(true)
+  usePageTitle(listing?.title || 'Product')
 
   useEffect(() => {
     async function fetchListing() {

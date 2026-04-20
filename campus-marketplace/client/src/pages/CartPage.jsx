@@ -6,8 +6,10 @@ import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { currency } from '../utils/format'
 import { getErrorMessage } from '../utils/errors'
+import { usePageTitle } from '../utils/usePageTitle'
 
 export default function CartPage() {
+  usePageTitle('Cart')
   const navigate = useNavigate()
   const { user, refreshCartCount } = useAuth()
   const { showToast } = useToast()

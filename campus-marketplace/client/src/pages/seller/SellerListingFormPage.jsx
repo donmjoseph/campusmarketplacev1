@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import http from '../../api/http'
 import { useToast } from '../../context/ToastContext'
 import { getErrorMessage } from '../../utils/errors'
+import { usePageTitle } from '../../utils/usePageTitle'
 
 const initialForm = {
   title: '',
@@ -16,8 +17,9 @@ const initialForm = {
 }
 
 export default function SellerListingFormPage() {
-  const navigate = useNavigate()
   const { id } = useParams()
+  usePageTitle(id ? 'Edit Listing' : 'Create Listing')
+  const navigate = useNavigate()
   const editing = Boolean(id)
   const { showToast } = useToast()
 

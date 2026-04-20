@@ -1,6 +1,8 @@
 ﻿import { Link } from 'react-router-dom'
+import { usePageTitle } from '../utils/usePageTitle'
 
 export default function NotFoundPage() {
+  usePageTitle('Page Not Found')
   return (
     <div className="cm-container cm-container--narrow">
       <div className="cm-empty">

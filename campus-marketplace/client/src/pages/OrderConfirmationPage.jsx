@@ -1,7 +1,9 @@
 ﻿import { Link, useLocation } from 'react-router-dom'
 import { currency } from '../utils/format'
+import { usePageTitle } from '../utils/usePageTitle'
 
 export default function OrderConfirmationPage() {
+  usePageTitle('Order Confirmed')
   const location = useLocation()
   const orders = location.state?.orders || []
 

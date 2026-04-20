@@ -3,8 +3,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { getErrorMessage } from '../utils/errors'
+import { usePageTitle } from '../utils/usePageTitle'
 
 export default function LoginPage() {
+  usePageTitle('Sign In')
   const navigate = useNavigate()
   const location = useLocation()
   const { login } = useAuth()

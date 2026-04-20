@@ -3,10 +3,12 @@ import http from '../api/http'
 import EmptyState from '../components/common/EmptyState'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
+import { usePageTitle } from '../utils/usePageTitle'
 import { friendlyDate, statusBadgeClass, titleCase, currency } from '../utils/format'
 import { getErrorMessage } from '../utils/errors'
 
 export default function OrdersPage() {
+  usePageTitle('Order History')
   const { user } = useAuth()
   const { showToast } = useToast()
 

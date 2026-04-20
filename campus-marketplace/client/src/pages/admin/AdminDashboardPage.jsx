@@ -3,8 +3,10 @@ import http from '../../api/http'
 import { useToast } from '../../context/ToastContext'
 import { friendlyDate, statusBadgeClass, titleCase } from '../../utils/format'
 import { getErrorMessage } from '../../utils/errors'
+import { usePageTitle } from '../../utils/usePageTitle'
 
 export default function AdminDashboardPage() {
+  usePageTitle('Admin Dashboard')
   const { showToast } = useToast()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)

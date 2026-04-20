@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { getErrorMessage } from '../utils/errors'
+import { usePageTitle } from '../utils/usePageTitle'
 
 const WSU_EMAIL_REGEX = /^[^\s@]+@(wsu\.edu|email\.wsu\.edu|vet\.wsu\.edu)$/i
 
 export default function RegisterPage() {
+  usePageTitle('Create Account')
   const navigate = useNavigate()
   const { register } = useAuth()
   const { showToast } = useToast()

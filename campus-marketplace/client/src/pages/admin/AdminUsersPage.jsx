@@ -3,8 +3,10 @@ import http from '../../api/http'
 import { useToast } from '../../context/ToastContext'
 import { friendlyDate, statusBadgeClass, titleCase } from '../../utils/format'
 import { getErrorMessage } from '../../utils/errors'
+import { usePageTitle } from '../../utils/usePageTitle'
 
 export default function AdminUsersPage() {
+  usePageTitle('Manage Users')
   const { showToast } = useToast()
   const [users, setUsers] = useState([])
   const [filters, setFilters] = useState({ q: '', role: '', status: '' })
@@ -94,6 +96,9 @@ export default function AdminUsersPage() {
                 </tr>
               </thead>
               <tbody>
+                {users.length === 0 && (
+                  <tr><td colSpan={6} className="cm-table__empty">No users found.</td></tr>
+                )}
                 {users.map((user) => (
                   <tr key={user._id}>
                     <td>{user.name}</td>

@@ -4,8 +4,10 @@ import http from '../../api/http'
 import { useToast } from '../../context/ToastContext'
 import { currency, friendlyDate, statusBadgeClass, titleCase } from '../../utils/format'
 import { getErrorMessage } from '../../utils/errors'
+import { usePageTitle } from '../../utils/usePageTitle'
 
 export default function SellerDashboardPage() {
+  usePageTitle('Seller Dashboard')
   const navigate = useNavigate()
   const { showToast } = useToast()
 
@@ -156,6 +158,9 @@ export default function SellerDashboardPage() {
               </tr>
             </thead>
             <tbody>
+              {listings.length === 0 && (
+                <tr><td colSpan={5} className="cm-table__empty">No listings yet. <a href="/seller/listings/new">Create one.</a></td></tr>
+              )}
               {listings.map((listing) => (
                 <tr key={listing._id}>
                   <td>{listing.title}</td>
@@ -195,6 +200,9 @@ export default function SellerDashboardPage() {
               </tr>
             </thead>
             <tbody>
+              {orders.length === 0 && (
+                <tr><td colSpan={6} className="cm-table__empty">No orders yet.</td></tr>
+              )}
               {orders.map((order) => (
                 <tr key={order._id}>
                   <td>{order.orderNumber}</td>

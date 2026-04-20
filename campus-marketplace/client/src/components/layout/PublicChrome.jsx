@@ -1,14 +1,23 @@
-﻿import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 export default function PublicChrome() {
   const { user, logout, cartCount, unreadMessageCount } = useAuth()
   const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const closeMenu = () => setMenuOpen(false)
 
   const onLogout = () => {
     logout()
+    closeMenu()
     navigate('/login')
   }
+
+  const isAdmin  = user?.role === 'admin'
+  const isSeller = user?.role === 'seller'
+  const isBuyer  = user?.role === 'buyer'
 
   return (
     <div className="cm-site">
@@ -24,36 +33,78 @@ export default function PublicChrome() {
 
       <header className="cm-header">
         <div className="cm-header__inner">
-          <Link className="cm-header__brand" to="/">
+          <Link className="cm-header__brand" to="/" onClick={closeMenu}>
             <span className="cm-header__pill">WSU</span>
             <span className="cm-header__site-name">Campus <span>Marketplace</span></span>
           </Link>
 
-          <nav className="cm-nav">
-            <NavLink className="cm-nav__link" to="/browse">Browse</NavLink>
-            {user?.role === 'buyer' && <NavLink className="cm-nav__link" to="/orders">Orders</NavLink>}
-            {(user?.role === 'buyer' || user?.role === 'seller') && (
-              <NavLink className="cm-nav__link" to="/messages" style={{ position: 'relative' }}>
+          <button
+            type="button"
+            className="cm-nav-toggle"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label="Toggle navigation"
+          >
+            {menuOpen ? '✕' : '☰'}
+          </button>
+
+          <nav className={`cm-nav${menuOpen ? ' cm-nav--open' : ''}`}>
+            {!isAdmin && (
+              <NavLink className="cm-nav__link" to="/browse" onClick={closeMenu}>
+                {isSeller ? 'Marketplace' : 'Browse'}
+              </NavLink>
+            )}
+
+            {isBuyer && (
+              <NavLink className="cm-nav__link" to="/orders" onClick={closeMenu}>Orders</NavLink>
+            )}
+
+            {(isBuyer || isSeller) && (
+              <NavLink
+                className="cm-nav__link"
+                to="/messages"
+                style={{ position: 'relative' }}
+                onClick={closeMenu}
+              >
                 Messages
                 {unreadMessageCount > 0 && (
                   <span className="cm-msg-badge">{unreadMessageCount}</span>
                 )}
               </NavLink>
             )}
-            {user?.role === 'buyer' && <NavLink className="cm-nav__link" to="/profile">Profile</NavLink>}
-            {user?.role === 'seller' && <NavLink className="cm-nav__link" to="/seller/dashboard">Seller</NavLink>}
-            {user?.role === 'admin' && <NavLink className="cm-nav__link" to="/admin/dashboard">Admin</NavLink>}
-            {!user && <NavLink className="cm-nav__link" to="/login">Login</NavLink>}
-            {!user && <NavLink className="cm-nav__link" to="/register">Register</NavLink>}
+
+            {isBuyer && (
+              <NavLink className="cm-nav__link" to="/profile" onClick={closeMenu}>Profile</NavLink>
+            )}
+
+            {isSeller && (
+              <NavLink className="cm-nav__link" to="/seller/dashboard" onClick={closeMenu}>Seller</NavLink>
+            )}
+
+            {isAdmin && (
+              <NavLink className="cm-nav__link" to="/admin/dashboard" onClick={closeMenu}>Admin</NavLink>
+            )}
+
+            {!user && (
+              <NavLink className="cm-nav__link" to="/login" onClick={closeMenu}>Login</NavLink>
+            )}
+            {!user && (
+              <NavLink className="cm-nav__link" to="/register" onClick={closeMenu}>Register</NavLink>
+            )}
+
             {user && (
               <button type="button" className="cm-btn cm-btn--ghost cm-btn--sm" onClick={onLogout}>
                 Logout
               </button>
             )}
-            <NavLink className="cm-cart-btn" to="/cart">
-              Cart
-              <span className="cm-cart-badge" style={{ display: cartCount ? 'flex' : 'none' }}>{cartCount}</span>
-            </NavLink>
+
+            {!isAdmin && (
+              <NavLink className="cm-cart-btn" to="/cart" onClick={closeMenu}>
+                Cart
+                <span className="cm-cart-badge" style={{ display: cartCount ? 'flex' : 'none' }}>
+                  {cartCount}
+                </span>
+              </NavLink>
+            )}
           </nav>
         </div>
       </header>
@@ -92,7 +143,9 @@ export default function PublicChrome() {
           </div>
           <div className="cm-footer__bottom">
             <span>© {new Date().getFullYear()} WSU Campus Marketplace</span>
-            <span className="cm-footer__wsu"><span className="cm-footer__wsu-pill">WSU</span> Built with MERN</span>
+            <span className="cm-footer__wsu">
+              <span className="cm-footer__wsu-pill">WSU</span> Built with MERN
+            </span>
           </div>
         </div>
       </footer>
