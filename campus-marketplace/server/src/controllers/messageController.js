@@ -3,6 +3,14 @@ const Listing = require('../models/Listing');
 const Report = require('../models/Report');
 const AppError = require('../utils/AppError');
 
+async function getUnreadCount(req, res) {
+  const count = await Conversation.countDocuments({
+    participants: req.user._id,
+    unreadBy: req.user._id,
+  });
+  res.json({ success: true, count });
+}
+
 async function getConversations(req, res) {
   const conversations = await Conversation.find({ participants: req.user._id })
     .populate('participants', 'name email role')
@@ -183,6 +191,7 @@ async function reportConversation(req, res) {
 }
 
 module.exports = {
+  getUnreadCount,
   getConversations,
   startConversation,
   getConversation,

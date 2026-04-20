@@ -169,6 +169,27 @@ async function decideCancellation(req, res) {
   });
 }
 
+async function confirmOrder(req, res) {
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    throw new AppError('Order not found.', 404);
+  }
+
+  if (String(order.seller) !== String(req.user._id)) {
+    throw new AppError('Not allowed to confirm this order.', 403);
+  }
+
+  if (order.status !== 'pending') {
+    throw new AppError('Only pending orders can be confirmed.', 400);
+  }
+
+  order.status = 'confirmed';
+  await order.save();
+
+  res.json({ success: true, message: 'Order confirmed.', order });
+}
+
 async function markFulfilled(req, res) {
   const order = await Order.findById(req.params.id);
 
@@ -180,8 +201,8 @@ async function markFulfilled(req, res) {
     throw new AppError('Not allowed to fulfill this order.', 403);
   }
 
-  if (order.status !== 'pending') {
-    throw new AppError('Only pending orders can be fulfilled.', 400);
+  if (order.status !== 'pending' && order.status !== 'confirmed') {
+    throw new AppError('Only pending or confirmed orders can be fulfilled.', 400);
   }
 
   order.status = 'fulfilled';
@@ -201,5 +222,6 @@ module.exports = {
   getSellerOrders,
   requestCancellation,
   decideCancellation,
+  confirmOrder,
   markFulfilled,
 };

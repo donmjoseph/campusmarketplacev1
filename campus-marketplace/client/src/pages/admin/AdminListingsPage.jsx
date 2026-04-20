@@ -63,11 +63,11 @@ export default function AdminListingsPage() {
             <label className="cm-form__label">Category</label>
             <select className="cm-form__select" value={filters.category} onChange={(event) => setFilters((prev) => ({ ...prev, category: event.target.value }))}>
               <option value="">All</option>
-              <option value="Textbooks">Textbooks</option>
+              <option value="Books">Books</option>
               <option value="Electronics">Electronics</option>
               <option value="Furniture">Furniture</option>
-              <option value="Housing">Housing</option>
-              <option value="Tickets">Tickets</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Sports">Sports</option>
               <option value="Other">Other</option>
             </select>
           </div>

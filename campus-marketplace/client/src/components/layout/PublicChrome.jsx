@@ -2,7 +2,7 @@
 import { useAuth } from '../../context/AuthContext'
 
 export default function PublicChrome() {
-  const { user, logout, cartCount } = useAuth()
+  const { user, logout, cartCount, unreadMessageCount } = useAuth()
   const navigate = useNavigate()
 
   const onLogout = () => {
@@ -32,7 +32,14 @@ export default function PublicChrome() {
           <nav className="cm-nav">
             <NavLink className="cm-nav__link" to="/browse">Browse</NavLink>
             {user?.role === 'buyer' && <NavLink className="cm-nav__link" to="/orders">Orders</NavLink>}
-            {user?.role === 'buyer' && <NavLink className="cm-nav__link" to="/messages">Messages</NavLink>}
+            {(user?.role === 'buyer' || user?.role === 'seller') && (
+              <NavLink className="cm-nav__link" to="/messages" style={{ position: 'relative' }}>
+                Messages
+                {unreadMessageCount > 0 && (
+                  <span className="cm-msg-badge">{unreadMessageCount}</span>
+                )}
+              </NavLink>
+            )}
             {user?.role === 'buyer' && <NavLink className="cm-nav__link" to="/profile">Profile</NavLink>}
             {user?.role === 'seller' && <NavLink className="cm-nav__link" to="/seller/dashboard">Seller</NavLink>}
             {user?.role === 'admin' && <NavLink className="cm-nav__link" to="/admin/dashboard">Admin</NavLink>}

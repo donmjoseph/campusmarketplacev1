@@ -13,7 +13,10 @@ async function getListings(req, res) {
     courseTag,
     sellerId,
     mine,
+    limit,
   } = req.query;
+
+  const resultLimit = Math.min(Number(limit) || 200, 200);
 
   const query = {};
 
@@ -62,7 +65,7 @@ async function getListings(req, res) {
   const listings = await Listing.find(query)
     .populate('seller', 'name email role')
     .sort(sortBy)
-    .limit(200);
+    .limit(resultLimit);
 
   res.json({
     success: true,
@@ -150,19 +153,8 @@ async function deleteListing(req, res) {
     throw new AppError('Not allowed to delete this listing.', 403);
   }
 
-  if (req.user.role === 'admin') {
-    await listing.deleteOne();
-    return res.json({ success: true, message: 'Listing deleted by admin.' });
-  }
-
-  listing.status = 'inactive';
-  await listing.save();
-
-  return res.json({
-    success: true,
-    message: 'Listing deactivated.',
-    listing,
-  });
+  await listing.deleteOne();
+  return res.json({ success: true, message: 'Listing deleted.' });
 }
 
 module.exports = {

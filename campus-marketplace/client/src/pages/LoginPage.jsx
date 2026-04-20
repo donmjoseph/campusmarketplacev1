@@ -89,9 +89,9 @@ export default function LoginPage() {
 
       <div className="cm-panel cm-mt-20">
         <p className="cm-font-bold cm-mb-8">Demo Credentials</p>
-        <p className="cm-text-sm">Buyer: <code>buyer@wsu.edu / password123</code></p>
-        <p className="cm-text-sm">Seller: <code>alex@wsu.edu / password123</code></p>
-        <p className="cm-text-sm">Admin: <code>admin@wsu.edu / admin123</code></p>
+        <p className="cm-text-sm">Buyer: <code>buyer1@wsu.edu / password123</code></p>
+        <p className="cm-text-sm">Seller: <code>seller1@wsu.edu / password123</code></p>
+        <p className="cm-text-sm">Admin: <code>admin1@wsu.edu / admin123</code></p>
       </div>
     </div>
   )

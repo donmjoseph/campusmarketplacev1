@@ -26,6 +26,8 @@ export function statusBadgeClass(status) {
       return 'cm-badge cm-badge--removed'
     case 'pending':
       return 'cm-badge cm-badge--pending'
+    case 'confirmed':
+      return 'cm-badge cm-badge--confirmed'
     case 'fulfilled':
       return 'cm-badge cm-badge--fulfilled'
     case 'cancelled':
@@ -36,6 +38,16 @@ export function statusBadgeClass(status) {
       return 'cm-badge cm-badge--suspended'
     default:
       return 'cm-badge'
+  }
+}
+
+export function conditionBadgeClass(condition = '') {
+  switch (condition) {
+    case 'New': return 'cm-badge cm-badge--new'
+    case 'Like New': return 'cm-badge cm-badge--like-new'
+    case 'Good': return 'cm-badge cm-badge--good'
+    case 'Fair': return 'cm-badge cm-badge--fair'
+    default: return 'cm-badge'
   }
 }
 

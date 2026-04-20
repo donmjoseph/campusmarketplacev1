@@ -50,6 +50,15 @@ router.patch(
 );
 
 router.patch(
+  '/:id/confirm',
+  requireAuth,
+  requireRole('seller'),
+  [param('id').isMongoId()],
+  validateRequest,
+  asyncHandler(orderController.confirmOrder)
+);
+
+router.patch(
   '/:id/fulfill',
   requireAuth,
   requireRole('seller'),

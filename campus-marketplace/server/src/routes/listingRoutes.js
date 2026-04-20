@@ -24,7 +24,7 @@ router.post(
   [
     body('title').trim().isLength({ min: 3 }).withMessage('Title is required.'),
     body('description').trim().isLength({ min: 10 }).withMessage('Description is required.'),
-    body('category').isIn(['Textbooks', 'Electronics', 'Furniture', 'Housing', 'Tickets', 'Other']),
+    body('category').isIn(['Books', 'Electronics', 'Furniture', 'Clothing', 'Sports', 'Other']),
     body('condition').isIn(['New', 'Like New', 'Good', 'Fair']),
     body('price').isFloat({ min: 0 }).withMessage('Price must be greater than or equal to 0.'),
     body('status').optional().isIn(['active', 'draft', 'inactive']),

@@ -46,7 +46,7 @@ export default function SellerDashboardPage() {
     return {
       revenue,
       activeListings: listings.filter((listing) => listing.status === 'active').length,
-      pendingOrders: orders.filter((order) => order.status === 'pending' || order.status === 'cancellation_requested').length,
+      pendingOrders: orders.filter((o) => ['pending', 'confirmed', 'cancellation_requested'].includes(o.status)).length,
       unreadMessages: conversations.filter((conversation) => conversation.unread).length,
     }
   }, [conversations, listings, orders])
@@ -71,13 +71,24 @@ export default function SellerDashboardPage() {
     }
   }
 
-  const deactivateListing = async (listingId) => {
+  const deleteListing = async (listingId, title) => {
+    if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return
     try {
-      await http.patch(`/listings/${listingId}`, { status: 'inactive' })
-      showToast('Listing deactivated.', 'warning')
+      await http.delete(`/listings/${listingId}`)
+      showToast('Listing deleted.', 'success')
       await loadData()
     } catch (error) {
-      showToast(getErrorMessage(error, 'Unable to deactivate listing.'), 'error')
+      showToast(getErrorMessage(error, 'Unable to delete listing.'), 'error')
+    }
+  }
+
+  const confirmOrder = async (orderId) => {
+    try {
+      await http.patch(`/orders/${orderId}/confirm`)
+      showToast('Order confirmed.', 'success')
+      await loadData()
+    } catch (error) {
+      showToast(getErrorMessage(error, 'Unable to confirm order.'), 'error')
     }
   }
 
@@ -156,9 +167,9 @@ export default function SellerDashboardPage() {
                       <Link className="cm-btn cm-btn--secondary cm-btn--sm" to={`/seller/listings/${listing._id}/edit`}>
                         Edit
                       </Link>
-                      {listing.status === 'active' && (
-                        <button className="cm-btn cm-btn--danger cm-btn--sm" type="button" onClick={() => deactivateListing(listing._id)}>
-                          Deactivate
+                      {listing.status !== 'sold' && (
+                        <button className="cm-btn cm-btn--danger cm-btn--sm" type="button" onClick={() => deleteListing(listing._id, listing.title)}>
+                          Delete
                         </button>
                       )}
                     </div>
@@ -194,6 +205,16 @@ export default function SellerDashboardPage() {
                   <td>
                     <div className="cm-table__actions">
                       {order.status === 'pending' && (
+                        <>
+                          <button className="cm-btn cm-btn--secondary cm-btn--sm" type="button" onClick={() => confirmOrder(order._id)}>
+                            Confirm
+                          </button>
+                          <button className="cm-btn cm-btn--success cm-btn--sm" type="button" onClick={() => markFulfilled(order._id)}>
+                            Fulfill
+                          </button>
+                        </>
+                      )}
+                      {order.status === 'confirmed' && (
                         <button className="cm-btn cm-btn--success cm-btn--sm" type="button" onClick={() => markFulfilled(order._id)}>
                           Fulfill
                         </button>

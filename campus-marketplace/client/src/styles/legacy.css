@@ -154,6 +154,22 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 .cm-nav__link:hover  { background: #f5f5f5; color: #CA1237; text-decoration: none; }
 .cm-nav__link--active { color: #CA1237; }
+.cm-msg-badge {
+  position: absolute;
+  top: -7px; right: -7px;
+  background: #CA1237;
+  color: #fff;
+  border-radius: 50%;
+  min-width: 18px; height: 18px;
+  padding: 0 3px;
+  font-size: .62rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  border: 2px solid #fff;
+  pointer-events: none;
+}
 
 .cm-nav__divider { width: 1px; height: 20px; background: #e5e5e5; margin: 0 4px; }
 
@@ -420,6 +436,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .cm-badge--draft    { background: #e0e0e0; color: #424242; }
 .cm-badge--sold     { background: #ede7f6; color: #4527a0; }
 .cm-badge--pending  { background: #fff8e1; color: #f57f17; }
+.cm-badge--confirmed{ background: #e3f2fd; color: #1565c0; }
 .cm-badge--fulfilled{ background: #e8f5e9; color: #2e7d32; }
 .cm-badge--cancelled{ background: #ffebee; color: #b71c1c; }
 .cm-badge--cancel-req{ background: #fce4ec; color: #ad1457; }

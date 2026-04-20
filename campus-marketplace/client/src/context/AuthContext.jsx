@@ -1,18 +1,43 @@
-﻿import { createContext, useContext, useEffect, useState } from 'react'
+﻿import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import http, { setAuthToken } from '../api/http'
 
 const AuthContext = createContext(null)
 const TOKEN_KEY = 'cm_auth_token'
+const UNREAD_POLL_MS = 30_000
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY) || '')
   const [user, setUser] = useState(null)
   const [booting, setBooting] = useState(true)
   const [cartCount, setCartCount] = useState(0)
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0)
+  const pollRef = useRef(null)
 
   useEffect(() => {
     setAuthToken(token)
   }, [token])
+
+  async function refreshUnreadCount() {
+    try {
+      const { data } = await http.get('/messages/unread-count')
+      setUnreadMessageCount(data.count || 0)
+    } catch {
+      // silently fail — non-critical
+    }
+  }
+
+  useEffect(() => {
+    const canReceiveMessages = user?.role === 'buyer' || user?.role === 'seller'
+    if (!canReceiveMessages) {
+      setUnreadMessageCount(0)
+      clearInterval(pollRef.current)
+      return
+    }
+    refreshUnreadCount()
+    pollRef.current = setInterval(refreshUnreadCount, UNREAD_POLL_MS)
+    return () => clearInterval(pollRef.current)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id])
 
   async function refreshCartCount(currentUser = user) {
     if (!currentUser || currentUser.role !== 'buyer') {
@@ -87,6 +112,8 @@ export function AuthProvider({ children }) {
     setToken('')
     setUser(null)
     setCartCount(0)
+    setUnreadMessageCount(0)
+    clearInterval(pollRef.current)
   }
 
   const value = {
@@ -95,6 +122,8 @@ export function AuthProvider({ children }) {
     booting,
     cartCount,
     setCartCount,
+    unreadMessageCount,
+    refreshUnreadCount,
     login,
     register,
     refreshUser,

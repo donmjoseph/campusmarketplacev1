@@ -149,41 +149,60 @@ async function getOrders(req, res) {
 }
 
 async function getAnalytics(req, res) {
-  const [totalUsers, totalListings, activeListings, soldListings, totalOrders, totalRevenue, byCategory, byMonth] = await Promise.all([
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  const [
+    totalUsers, totalListings, activeListings, soldListings, totalOrders,
+    revenueAgg, byCategory, ordersByStatus, revenueByDay, usersByDay, topListings,
+  ] = await Promise.all([
     User.countDocuments(),
     Listing.countDocuments(),
     Listing.countDocuments({ status: 'active' }),
     Listing.countDocuments({ status: 'sold' }),
     Order.countDocuments(),
-    Order.aggregate([{ $group: { _id: null, value: { $sum: '$priceSnapshot' } } }]),
+    Order.aggregate([{ $group: { _id: null, total: { $sum: '$priceSnapshot' } } }]),
     Listing.aggregate([{ $group: { _id: '$category', count: { $sum: 1 } } }, { $sort: { count: -1 } }]),
+    Order.aggregate([{ $group: { _id: '$status', count: { $sum: 1 } } }, { $sort: { count: -1 } }]),
     Order.aggregate([
+      { $match: { createdAt: { $gte: thirtyDaysAgo } } },
       {
         $group: {
-          _id: {
-            year: { $year: '$createdAt' },
-            month: { $month: '$createdAt' },
-          },
-          count: { $sum: 1 },
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
           revenue: { $sum: '$priceSnapshot' },
+          count: { $sum: 1 },
         },
       },
-      { $sort: { '_id.year': 1, '_id.month': 1 } },
+      { $sort: { _id: 1 } },
+    ]),
+    User.aggregate([
+      { $match: { createdAt: { $gte: thirtyDaysAgo } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]),
+    Order.aggregate([
+      { $group: { _id: '$listing', count: { $sum: 1 }, title: { $first: '$titleSnapshot' } } },
+      { $sort: { count: -1 } },
+      { $limit: 5 },
     ]),
   ]);
 
+  const totalRevenue = revenueAgg[0]?.total || 0;
+  const avgOrderValue = totalOrders > 0 ? Math.round((totalRevenue / totalOrders) * 100) / 100 : 0;
+
   res.json({
     success: true,
-    metrics: {
-      totalUsers,
-      totalListings,
-      activeListings,
-      soldListings,
-      totalOrders,
-      totalRevenue: totalRevenue[0]?.value || 0,
-    },
+    metrics: { totalUsers, totalListings, activeListings, soldListings, totalOrders, totalRevenue, avgOrderValue },
     byCategory,
-    byMonth,
+    ordersByStatus,
+    revenueByDay,
+    usersByDay,
+    topListings,
   });
 }
 

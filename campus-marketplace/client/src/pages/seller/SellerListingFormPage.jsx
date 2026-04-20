@@ -7,7 +7,7 @@ import { getErrorMessage } from '../../utils/errors'
 const initialForm = {
   title: '',
   description: '',
-  category: 'Textbooks',
+  category: 'Books',
   condition: 'Good',
   price: '',
   courseTag: '',
@@ -111,11 +111,11 @@ export default function SellerListingFormPage() {
             <div className="cm-form__group">
               <label className="cm-form__label" htmlFor="listing-category">Category</label>
               <select id="listing-category" className="cm-form__select" value={form.category} onChange={(event) => updateField('category', event.target.value)}>
-                <option value="Textbooks">Textbooks</option>
+                <option value="Books">Books</option>
                 <option value="Electronics">Electronics</option>
                 <option value="Furniture">Furniture</option>
-                <option value="Housing">Housing</option>
-                <option value="Tickets">Tickets</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Sports">Sports</option>
                 <option value="Other">Other</option>
               </select>
             </div>

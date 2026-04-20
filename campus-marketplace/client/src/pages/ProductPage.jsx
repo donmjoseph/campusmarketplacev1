@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import http from '../api/http'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
-import { currency, statusBadgeClass } from '../utils/format'
+import { currency, statusBadgeClass, conditionBadgeClass } from '../utils/format'
 import { getErrorMessage } from '../utils/errors'
 
 export default function ProductPage() {
@@ -102,7 +102,7 @@ export default function ProductPage() {
           <p className="cm-product-info__price">{currency(listing.price)}</p>
           <div className="cm-product-info__meta">
             <span className={statusBadgeClass(listing.status)}>{listing.status}</span>
-            <span className={statusBadgeClass(listing.condition.toLowerCase().replace(' ', '-'))}>{listing.condition}</span>
+            <span className={conditionBadgeClass(listing.condition)}>{listing.condition}</span>
             <span className="cm-text-muted">Views: {listing.views}</span>
           </div>
           <p className="cm-product-info__desc">{listing.description}</p>

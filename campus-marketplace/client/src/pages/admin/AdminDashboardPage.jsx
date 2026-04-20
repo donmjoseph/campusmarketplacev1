@@ -84,6 +84,9 @@ export default function AdminDashboardPage() {
               <thead>
                 <tr>
                   <th>Order #</th>
+                  <th>Buyer</th>
+                  <th>Seller</th>
+                  <th>Item</th>
                   <th>Status</th>
                   <th>Placed</th>
                 </tr>
@@ -92,6 +95,9 @@ export default function AdminDashboardPage() {
                 {data.recentOrders.map((order) => (
                   <tr key={order._id}>
                     <td>{order.orderNumber}</td>
+                    <td>{order.buyer?.name || '—'}</td>
+                    <td>{order.seller?.name || '—'}</td>
+                    <td>{order.listing?.title || order.titleSnapshot || '—'}</td>
                     <td><span className={statusBadgeClass(order.status)}>{titleCase(order.status)}</span></td>
                     <td>{friendlyDate(order.createdAt)}</td>
                   </tr>

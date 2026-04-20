@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.use(requireAuth);
 
+router.get('/unread-count', asyncHandler(messageController.getUnreadCount));
 router.get('/conversations', asyncHandler(messageController.getConversations));
 
 router.post(
