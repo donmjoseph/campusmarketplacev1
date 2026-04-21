@@ -34,7 +34,7 @@ export default function PublicChrome() {
       <header className="cm-header">
         <div className="cm-header__inner">
           <Link className="cm-header__brand" to="/" onClick={closeMenu}>
-            <span className="cm-header__pill">WSU</span>
+            <img src="/assets/wsu-badge.jpg" alt="WSU" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }} />
             <span className="cm-header__site-name">Campus <span>Marketplace</span></span>
           </Link>
 
