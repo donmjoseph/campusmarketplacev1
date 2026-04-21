@@ -10,10 +10,14 @@ const { clientUrl } = require('./config/env');
 
 const app = express();
 
+const corsOrigin =
+  clientUrl ||
+  (process.env.NODE_ENV === 'production' ? '*' : 'http://localhost:5173');
+
 app.use(
   cors({
-    origin: clientUrl,
-    credentials: true,
+    origin: corsOrigin,
+    credentials: corsOrigin !== '*',
   })
 );
 app.use(helmet());
