@@ -1,183 +1,126 @@
 # WSU Campus Marketplace
 
-A full-stack marketplace for Washington State University students to buy, sell, and connect safely on campus.
+Full-stack marketplace app for WSU students.
 
-## Tech Stack
+## This zip includes:
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 19 + Vite + Tailwind CSS |
-| Backend | Node.js + Express |
-| Database | MongoDB + Mongoose |
-| Auth | JWT (7-day expiry) |
-| Styling | Custom `cm-*` design system (WSU crimson `#981e32`) |
+- Full source code
+- `README.md` setup instructions
+- MongoDB dump: `database-dump/campus_marketplace.archive.gz`
 
-## Features
+## Fastest Setup (Docker, Recommended)
 
-### Buyer
-- Register/login with WSU email (`@wsu.edu`, `@email.wsu.edu`, `@vet.wsu.edu`)
-- Browse and filter listings by category, condition, and price
-- Add items to cart and checkout (pickup or shipping)
-- Order history with cancellation requests
-- Profile management
-- Messaging with sellers + report conversations
+This is the shortest path to run the full app (client + server + MongoDB).
 
-### Seller
-- Dashboard with revenue, active listings, and pending order stats
-- Create, edit, and delete listings across 6 categories
-- Confirm and fulfill orders; approve/deny cancellation requests
-- Messaging center
+### Prerequisite
 
-### Admin
-- Dashboard with platform-wide stats and recent activity
-- Manage users: suspend and reinstate accounts
-- Moderate listings: remove and restore
-- View all orders with full buyer/seller/item detail
-- Analytics: revenue over time, new users, orders by status, top listings (recharts)
-- Reports: dismiss, warn, or suspend reported users
+- Docker Desktop
 
----
-
-## Prerequisites
-
-- **Node.js 18+** and npm
-- **MongoDB** — local install *or* Docker Desktop
-
----
-
-## Quick Start (without Docker)
+### Commands
 
 ```bash
-# 1. From the repo root, enter the project
-cd campus-marketplace
-
-# 2. Install root dev dependencies (concurrently)
-npm install
-
-# 3. Set up the server
-cd server
-npm install
-cp .env.example .env      # edit JWT_SECRET before deploying
-cd ..
-
-# 4. Install client dependencies
-cd client && npm install && cd ..
-
-# 5. Seed the database with demo data
-npm run seed
-
-# 6. Start both server and client
-npm run dev
-```
-
-- Frontend: [http://localhost:5173](http://localhost:5173)
-- API: [http://localhost:5001/api/health](http://localhost:5001/api/health)
-
----
-
-## Quick Start (with Docker)
-
-Builds and runs MongoDB + the Express API + the Nginx-served React app.
-
-```bash
-cd campus-marketplace
-
-# 1. Build images and start all three services
-docker compose up --build
-
-# 2. In a second terminal, seed demo accounts and listings (first time only)
+# from campus-marketplace/
+docker compose up -d --build
 docker compose run --rm seeder
 ```
 
-- App: [http://localhost:3000](http://localhost:3000)
-- API: [http://localhost:5001/api/health](http://localhost:5001/api/health)
+### URLs
 
-The server waits for MongoDB to pass its healthcheck before starting, so startup order is guaranteed. The `seeder` service drops and recreates all demo data each time it runs — only run it once unless you want to reset.
+- App: `http://localhost:3000`
+- API health: `http://localhost:5001/api/health`
 
-On subsequent starts you can skip the seed step:
+### Stop Services
 
 ```bash
-docker compose up
+docker compose down
 ```
-
----
-
-## Environment Variables (`server/.env`)
-
-Copy `server/.env.example` to `server/.env` and fill in values before running.
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `MONGODB_URI` | `mongodb://127.0.0.1:27017/campus_marketplace` | MongoDB connection string |
-| `JWT_SECRET` | *(required)* | Long random string used to sign JWTs |
-| `JWT_EXPIRES_IN` | `7d` | Token lifetime |
-| `PORT` | `5001` | Express server port |
-| `CLIENT_URL` | `http://localhost:5173` | Allowed CORS origin |
-| `NODE_ENV` | `development` | `development` or `production` |
-
----
 
 ## Demo Accounts
 
-All accounts use **`password123`** except admins which use **`admin123`**.
+All buyer/seller accounts use `password123`.  
+All admin accounts use `admin123`.
 
-| Role | Email | Password |
-|------|-------|----------|
-| Buyer | `buyer1@wsu.edu` | `password123` |
-| Buyer | `buyer2@wsu.edu` | `password123` |
-| Seller | `seller1@wsu.edu` | `password123` |
-| Seller | `seller2@wsu.edu` | `password123` |
-| Admin | `admin1@wsu.edu` | `admin123` |
-| Admin | `admin2@wsu.edu` | `admin123` |
-| Admin | `admin3@wsu.edu` | `admin123` |
+| Role | Email |
+| --- | --- |
+| Buyer | `buyer1@wsu.edu` |
+| Buyer | `buyer2@wsu.edu` |
+| Seller | `seller1@wsu.edu` |
+| Seller | `seller2@wsu.edu` |
+| Admin | `admin1@wsu.edu` |
+| Admin | `admin2@wsu.edu` |
+| Admin | `admin3@wsu.edu` |
 
----
+## Local Setup (Fallback, No Docker Client/Server)
 
-## Project Structure
+Use this only if Docker is not available for the full stack.
 
-```
-campus-marketplace/
-├── client/                  # React + Vite frontend
-│   ├── src/
-│   │   ├── api/             # Axios instance
-│   │   ├── components/      # Shared components (layout, EmptyState, etc.)
-│   │   ├── context/         # AuthContext, ToastContext
-│   │   ├── pages/           # Route-level page components
-│   │   │   ├── admin/       # Admin portal pages
-│   │   │   └── seller/      # Seller portal pages
-│   │   ├── styles/          # legacy.css (cm-* design system)
-│   │   └── utils/           # format, errors, usePageTitle
-│   ├── Dockerfile
-│   └── nginx.conf           # Production nginx config (proxies /api → server)
-│
-├── server/                  # Express API
-│   ├── src/
-│   │   ├── config/          # env, database
-│   │   ├── controllers/     # Route handlers
-│   │   ├── middleware/       # auth, validate, asyncHandler
-│   │   ├── models/          # Mongoose models
-│   │   ├── routes/          # Express routers
-│   │   ├── scripts/         # seedData.js
-│   │   └── utils/           # AppError, asyncHandler
-│   ├── .env.example
-│   └── Dockerfile
-│
-├── docker-compose.yml       # MongoDB + server + client services
-├── package.json             # Root scripts (dev, seed, build, lint)
-└── README.md
+### Prerequisites
+
+- Node.js 18+
+- npm
+- MongoDB running locally, or run only MongoDB in Docker with `npm run db:up`
+
+### Commands
+
+```bash
+# from campus-marketplace/
+npm install
+npm install --prefix server
+npm install --prefix client
 ```
 
----
+Copy env file:
 
-## Useful Scripts (run from `campus-marketplace/`)
+```powershell
+Copy-Item server/.env.example server/.env
+```
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start server + client concurrently |
-| `npm run dev:server` | API server only |
-| `npm run dev:client` | Vite dev server only |
-| `npm run seed` | Drop and reseed the database |
-| `npm run build` | Production build of the client |
-| `npm run db:up` | Start only the MongoDB Docker container |
-| `npm run db:down` | Stop Docker containers |
-| `npm run lint` | Lint client and server |
+```bash
+cp server/.env.example server/.env
+```
+
+Then run:
+
+```bash
+npm run seed
+npm run dev
+```
+
+- Frontend: `http://localhost:5173`
+- API health: `http://localhost:5001/api/health`
+
+## MongoDB Dump
+
+`mongodump` exports MongoDB data into a portable backup file.  
+If your professor asks for a Mongo export, use:
+
+```bash
+# make sure MongoDB container is running first
+docker compose up -d mongodb
+npm run db:dump
+```
+
+This creates:
+
+- `database-dump/campus_marketplace.archive.gz`
+
+To restore that dump later:
+
+```bash
+docker compose up -d mongodb
+npm run db:restore
+```
+
+## Useful Scripts (repo root)
+
+| Script | Purpose |
+| --- | --- |
+| `npm run dev` | Start server + client locally |
+| `npm run seed` | Reseed database with demo data |
+| `npm run db:up` | Start MongoDB container only |
+| `npm run db:down` | Stop Docker Compose services |
+| `npm run db:dump` | Export MongoDB dump archive |
+| `npm run db:restore` | Restore MongoDB dump archive |
+| `npm run lint` | Lint client + server |
+| `npm run build` | Build client production assets |
+| `npm run zip:submission` | Build clean submission zip |

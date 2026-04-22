@@ -6,3 +6,5 @@ server/.env
 .DS_Store
 npm-debug.log*
 .claude
+campus-marketplace-submission.zip
+database-dump/*.archive.gz

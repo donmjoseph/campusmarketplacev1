@@ -1,6 +1,19 @@
 ﻿import axios from 'axios'
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+function resolveBaseURL() {
+  const configured = import.meta.env.VITE_API_URL?.trim()
+
+  if (!configured) {
+    return '/api'
+  }
+
+  const withoutTrailingSlash = configured.replace(/\/+$/, '')
+  return withoutTrailingSlash.endsWith('/api')
+    ? withoutTrailingSlash
+    : `${withoutTrailingSlash}/api`
+}
+
+const baseURL = resolveBaseURL()
 
 const http = axios.create({
   baseURL,
