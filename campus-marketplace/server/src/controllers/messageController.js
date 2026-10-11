@@ -1,33 +1,27 @@
-﻿const Conversation = require('../models/Conversation');
-const Listing = require('../models/Listing');
-const Report = require('../models/Report');
+﻿const conversationRepository = require('../repositories/conversationRepository');
+const listingRepository = require('../repositories/listingRepository');
+const reportRepository = require('../repositories/reportRepository');
 const AppError = require('../utils/AppError');
 
+function isParticipant(conversation, userId) {
+  return conversation.participants.some((participant) => String(participant._id) === String(userId));
+}
+
 async function getUnreadCount(req, res) {
-  const count = await Conversation.countDocuments({
-    participants: req.user._id,
-    unreadBy: req.user._id,
-  });
+  const count = await conversationRepository.countUnread(req.user._id);
   res.json({ success: true, count });
 }
 
 async function getConversations(req, res) {
-  const conversations = await Conversation.find({ participants: req.user._id })
-    .populate('participants', 'name email role')
-    .populate('listing', 'title images status')
-    .sort({ lastMessageAt: -1 });
+  const conversations = await conversationRepository.findForUser(req.user._id);
 
-  const mapped = conversations.map((conversation) => {
-    const otherUser = conversation.participants.find(
+  const mapped = conversations.map((conversation) => ({
+    ...conversation,
+    otherUser: conversation.participants.find(
       (participant) => String(participant._id) !== String(req.user._id)
-    );
-
-    return {
-      ...conversation.toObject(),
-      otherUser,
-      unread: conversation.unreadBy.some((id) => String(id) === String(req.user._id)),
-    };
-  });
+    ),
+    unread: conversation.unreadBy.some((id) => String(id) === String(req.user._id)),
+  }));
 
   res.json({
     success: true,
@@ -38,148 +32,100 @@ async function getConversations(req, res) {
 
 async function startConversation(req, res) {
   const { listingId, initialMessage } = req.body;
-  const listing = await Listing.findById(listingId).populate('seller');
+  const listing = await listingRepository.findById(listingId);
 
   if (!listing) {
     throw new AppError('Listing not found.', 404);
   }
 
-  if (String(listing.seller._id) === String(req.user._id)) {
+  const sellerId = listing.seller._id;
+
+  if (String(sellerId) === String(req.user._id)) {
     throw new AppError('You cannot message yourself.', 400);
   }
 
-  const participantIds = [req.user._id, listing.seller._id]
-    .map(String)
-    .sort();
+  let conversationId = await conversationRepository.findIdByListingAndUsers(listing._id, req.user._id, sellerId);
 
-  let conversation = await Conversation.findOne({
-    listing: listing._id,
-    participants: { $all: participantIds, $size: 2 },
-  });
-
-  if (!conversation) {
-    conversation = await Conversation.create({
-      listing: listing._id,
-      participants: participantIds,
-      messages: [],
-      unreadBy: [listing.seller._id],
-      lastMessageAt: new Date(),
+  if (!conversationId) {
+    conversationId = await conversationRepository.create({
+      listingId: listing._id,
+      userId1: req.user._id,
+      userId2: sellerId,
+      unreadFor: [sellerId],
     });
   }
 
   if (initialMessage && initialMessage.trim()) {
-    conversation.messages.push({
-      sender: req.user._id,
-      body: initialMessage.trim(),
-      createdAt: new Date(),
-    });
-    conversation.unreadBy = [listing.seller._id];
-    conversation.lastMessageAt = new Date();
-    await conversation.save();
+    await conversationRepository.addMessage(conversationId, req.user._id, initialMessage.trim());
   }
-
-  const populated = await Conversation.findById(conversation._id)
-    .populate('participants', 'name email role')
-    .populate('listing', 'title images status');
 
   res.status(201).json({
     success: true,
-    conversation: populated,
+    conversation: await conversationRepository.findById(conversationId),
   });
 }
 
 async function getConversation(req, res) {
-  const conversation = await Conversation.findById(req.params.id)
-    .populate('participants', 'name email role')
-    .populate('listing', 'title images status')
-    .populate('messages.sender', 'name role');
+  const conversation = await conversationRepository.findById(req.params.id);
 
   if (!conversation) {
     throw new AppError('Conversation not found.', 404);
   }
 
-  const isParticipant = conversation.participants.some(
-    (participant) => String(participant._id || participant) === String(req.user._id)
-  );
-
-  if (!isParticipant) {
+  if (!isParticipant(conversation, req.user._id)) {
     throw new AppError('Not allowed to access this conversation.', 403);
   }
 
+  await conversationRepository.markRead(conversation._id, req.user._id);
   conversation.unreadBy = conversation.unreadBy.filter((id) => String(id) !== String(req.user._id));
-  await conversation.save();
 
   res.json({ success: true, conversation });
 }
 
 async function sendMessage(req, res) {
   const { body } = req.body;
-  const conversation = await Conversation.findById(req.params.id).populate('participants', 'name email role');
+  const conversation = await conversationRepository.findById(req.params.id);
 
   if (!conversation) {
     throw new AppError('Conversation not found.', 404);
   }
 
-  const isParticipant = conversation.participants.some(
-    (participant) => String(participant._id || participant) === String(req.user._id)
-  );
-
-  if (!isParticipant) {
+  if (!isParticipant(conversation, req.user._id)) {
     throw new AppError('Not allowed to send message in this conversation.', 403);
   }
 
-  conversation.messages.push({
-    sender: req.user._id,
-    body: body.trim(),
-    createdAt: new Date(),
-  });
-
-  conversation.lastMessageAt = new Date();
-  conversation.unreadBy = conversation.participants
-    .filter((participant) => String(participant._id || participant) !== String(req.user._id))
-    .map((participant) => participant._id || participant);
-
-  await conversation.save();
-
-  const updated = await Conversation.findById(conversation._id)
-    .populate('participants', 'name email role')
-    .populate('listing', 'title images status')
-    .populate('messages.sender', 'name role');
+  await conversationRepository.addMessage(conversation._id, req.user._id, body.trim());
 
   res.status(201).json({
     success: true,
-    conversation: updated,
+    conversation: await conversationRepository.findById(conversation._id),
   });
 }
 
 async function reportConversation(req, res) {
   const { reason } = req.body;
-  const conversation = await Conversation.findById(req.params.id).populate('participants', 'name role');
+  const conversation = await conversationRepository.findById(req.params.id);
 
   if (!conversation) {
     throw new AppError('Conversation not found.', 404);
   }
 
-  const isParticipant = conversation.participants.some(
-    (participant) => String(participant._id || participant) === String(req.user._id)
-  );
-
-  if (!isParticipant) {
+  if (!isParticipant(conversation, req.user._id)) {
     throw new AppError('Not allowed to report this conversation.', 403);
   }
 
   const againstUser = conversation.participants.find(
-    (participant) => String(participant._id || participant) !== String(req.user._id)
+    (participant) => String(participant._id) !== String(req.user._id)
   );
 
   if (!againstUser) {
     throw new AppError('Unable to resolve reported user.', 400);
   }
 
-  const report = await Report.create({
-    conversation: conversation._id,
-    reporter: req.user._id,
-    againstUser: againstUser._id,
+  const report = await reportRepository.create({
+    conversationId: conversation._id,
+    reporterId: req.user._id,
+    againstUserId: againstUser._id,
     reason,
   });
 

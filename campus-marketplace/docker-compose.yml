@@ -1,20 +1,26 @@
 ﻿services:
-  mongodb:
-    image: mongo:7
-    container_name: campus-marketplace-mongodb
+  mysql:
+    image: mysql:8.4
+    container_name: campus-marketplace-mysql
+    environment:
+      MYSQL_DATABASE: campus_marketplace
+      MYSQL_USER: campus
+      MYSQL_PASSWORD: campus_password
+      MYSQL_ROOT_PASSWORD: root_password
+    # Host port 3307 so it doesn't clash with a locally installed MySQL on 3306.
     ports:
-      - "27017:27017"
+      - "3307:3306"
     volumes:
-      - mongodb_data:/data/db
+      - mysql_data:/var/lib/mysql
     restart: unless-stopped
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-ucampus", "-pcampus_password"]
       interval: 10s
       timeout: 5s
-      retries: 5
-      start_period: 15s
+      retries: 10
+      start_period: 30s
 
   server:
     build: ./server
@@ -22,14 +28,14 @@
     ports:
       - "5001:5001"
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/campus_marketplace
+      DATABASE_URL: mysql://campus:campus_password@mysql:3306/campus_marketplace
       JWT_SECRET: replace-with-long-random-secret
       JWT_EXPIRES_IN: 7d
       PORT: 5001
       CLIENT_URL: http://localhost:3000
       NODE_ENV: production
     depends_on:
-      mongodb:
+      mysql:
         condition: service_healthy
     restart: unless-stopped
     networks:
@@ -42,11 +48,11 @@
     container_name: campus-marketplace-seeder
     command: ["node", "src/scripts/seedData.js"]
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/campus_marketplace
+      DATABASE_URL: mysql://campus:campus_password@mysql:3306/campus_marketplace
       JWT_SECRET: replace-with-long-random-secret
       NODE_ENV: production
     depends_on:
-      mongodb:
+      mysql:
         condition: service_healthy
     restart: "no"
     profiles:
@@ -66,7 +72,7 @@
       - app-network
 
 volumes:
-  mongodb_data:
+  mysql_data:
 
 networks:
   app-network:

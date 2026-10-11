@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const { body, param } = require('express-validator');
 const asyncHandler = require('../utils/asyncHandler');
 const validateRequest = require('../middleware/validateRequest');
@@ -30,7 +30,7 @@ router.patch(
   requireAuth,
   requireRole('buyer'),
   [
-    param('id').isMongoId(),
+    param('id').isUUID(),
     body('reason').trim().isLength({ min: 5 }).withMessage('Reason is required.'),
   ],
   validateRequest,
@@ -42,7 +42,7 @@ router.patch(
   requireAuth,
   requireRole('seller'),
   [
-    param('id').isMongoId(),
+    param('id').isUUID(),
     body('decision').isIn(['approved', 'denied']),
   ],
   validateRequest,
@@ -53,7 +53,7 @@ router.patch(
   '/:id/confirm',
   requireAuth,
   requireRole('seller'),
-  [param('id').isMongoId()],
+  [param('id').isUUID()],
   validateRequest,
   asyncHandler(orderController.confirmOrder)
 );
@@ -62,7 +62,7 @@ router.patch(
   '/:id/fulfill',
   requireAuth,
   requireRole('seller'),
-  [param('id').isMongoId()],
+  [param('id').isUUID()],
   validateRequest,
   asyncHandler(orderController.markFulfilled)
 );

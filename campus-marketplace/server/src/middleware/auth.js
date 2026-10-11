@@ -1,5 +1,5 @@
 ﻿const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const userRepository = require('../repositories/userRepository');
 const AppError = require('../utils/AppError');
 const { jwtSecret } = require('../config/env');
 
@@ -13,7 +13,7 @@ async function requireAuth(req, _res, next) {
     }
 
     const payload = jwt.verify(token, jwtSecret);
-    const user = await User.findById(payload.userId);
+    const user = await userRepository.findById(payload.userId);
 
     if (!user) {
       return next(new AppError('Invalid authentication token', 401));
@@ -40,7 +40,7 @@ async function optionalAuth(req, _res, next) {
     }
 
     const payload = jwt.verify(token, jwtSecret);
-    const user = await User.findById(payload.userId);
+    const user = await userRepository.findById(payload.userId);
     if (user && user.status !== 'suspended') {
       req.user = user;
     }

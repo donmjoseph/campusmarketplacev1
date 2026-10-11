@@ -8,7 +8,7 @@ A full-stack marketplace for Washington State University students to buy, sell, 
 |-------|-----------|
 | Frontend | React 19 + Vite + Tailwind CSS |
 | Backend | Node.js + Express |
-| Database | MongoDB + Mongoose |
+| Database | MySQL 8 (`mysql2`, plain SQL) |
 | Auth | JWT (7-day expiry) |
 | Styling | Custom `cm-*` design system (WSU crimson `#981e32`) |
 
@@ -41,7 +41,7 @@ A full-stack marketplace for Washington State University students to buy, sell, 
 ## Prerequisites
 
 - **Node.js 18+** and npm
-- **MongoDB** — local install *or* Docker Desktop
+- **MySQL 8** — Docker Desktop (`npm run db:up`) *or* a local install (point `DATABASE_URL` at it)
 
 ---
 
@@ -63,10 +63,13 @@ cd ..
 # 4. Install client dependencies
 cd client && npm install && cd ..
 
-# 5. Seed the database with demo data
+# 5. Start MySQL (Docker, host port 3307)
+npm run db:up
+
+# 6. Create the tables and seed demo data
 npm run seed
 
-# 6. Start both server and client
+# 7. Start both server and client
 npm run dev
 ```
 
@@ -77,7 +80,7 @@ npm run dev
 
 ## Quick Start (with Docker)
 
-Builds and runs MongoDB + the Express API + the Nginx-served React app.
+Builds and runs MySQL + the Express API + the Nginx-served React app.
 
 ```bash
 cd campus-marketplace
@@ -92,7 +95,7 @@ docker compose run --rm seeder
 - App: [http://localhost:3000](http://localhost:3000)
 - API: [http://localhost:5001/api/health](http://localhost:5001/api/health)
 
-The server waits for MongoDB to pass its healthcheck before starting, so startup order is guaranteed. The `seeder` service drops and recreates all demo data each time it runs — only run it once unless you want to reset.
+The server waits for MySQL to pass its healthcheck before starting, so startup order is guaranteed. The server creates any missing tables from `server/src/db/schema.sql` on startup. The `seeder` service deletes and recreates all demo data each time it runs — only run it once unless you want to reset.
 
 On subsequent starts you can skip the seed step:
 
@@ -108,7 +111,7 @@ Copy `server/.env.example` to `server/.env` and fill in values before running.
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `MONGODB_URI` | `mongodb://127.0.0.1:27017/campus_marketplace` | MongoDB connection string |
+| `DATABASE_URL` | `mysql://campus:campus_password@127.0.0.1:3307/campus_marketplace` | MySQL connection string (matches the Docker `mysql` service) |
 | `JWT_SECRET` | *(required)* | Long random string used to sign JWTs |
 | `JWT_EXPIRES_IN` | `7d` | Token lifetime |
 | `PORT` | `5001` | Express server port |
@@ -152,17 +155,18 @@ campus-marketplace/
 │
 ├── server/                  # Express API
 │   ├── src/
-│   │   ├── config/          # env, database
+│   │   ├── config/          # env, database (query/queryOne/batch)
 │   │   ├── controllers/     # Route handlers
+│   │   ├── db/              # schema.sql
 │   │   ├── middleware/       # auth, validate, asyncHandler
-│   │   ├── models/          # Mongoose models
+│   │   ├── repositories/    # All SQL lives here, one file per table group
 │   │   ├── routes/          # Express routers
 │   │   ├── scripts/         # seedData.js
 │   │   └── utils/           # AppError, asyncHandler
 │   ├── .env.example
 │   └── Dockerfile
 │
-├── docker-compose.yml       # MongoDB + server + client services
+├── docker-compose.yml       # MySQL + server + client services
 ├── package.json             # Root scripts (dev, seed, build, lint)
 └── README.md
 ```
@@ -176,8 +180,8 @@ campus-marketplace/
 | `npm run dev` | Start server + client concurrently |
 | `npm run dev:server` | API server only |
 | `npm run dev:client` | Vite dev server only |
-| `npm run seed` | Drop and reseed the database |
+| `npm run seed` | Create missing tables, then wipe and reseed demo data |
 | `npm run build` | Production build of the client |
-| `npm run db:up` | Start only the MongoDB Docker container |
+| `npm run db:up` | Start only the MySQL Docker container |
 | `npm run db:down` | Stop Docker containers |
 | `npm run lint` | Lint client and server |

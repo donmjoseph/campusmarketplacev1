@@ -1,6 +1,8 @@
-﻿const User = require('../models/User');
-const Listing = require('../models/Listing');
-const Order = require('../models/Order');
+﻿const { batch } = require('../config/database');
+const cartRepository = require('../repositories/cartRepository');
+const listingRepository = require('../repositories/listingRepository');
+const orderRepository = require('../repositories/orderRepository');
+const { newId } = require('../repositories/helpers');
 const AppError = require('../utils/AppError');
 const generateOrderNumber = require('../utils/generateOrderNumber');
 
@@ -11,95 +13,82 @@ async function checkout(req, res) {
     throw new AppError('Shipping address is required for shipping orders.', 400);
   }
 
-  const buyer = await User.findById(req.user._id).populate({
-    path: 'cartItems.listing',
-    populate: { path: 'seller', select: 'name email role' },
-  });
+  const cartItems = await cartRepository.findItems(req.user._id);
 
-  if (!buyer.cartItems.length) {
+  if (!cartItems.length) {
     throw new AppError('Cart is empty.', 400);
   }
 
-  const ordersToCreate = [];
+  const orderIds = [];
+  const orderNumbers = new Set();
+  const statements = [];
 
-  for (const entry of buyer.cartItems) {
-    const listing = entry.listing;
-    if (!listing) continue;
-
+  for (const { listing } of cartItems) {
     if (listing.status !== 'active') {
       throw new AppError(`Listing "${listing.title}" is no longer available.`, 400);
     }
 
-    ordersToCreate.push({
-      orderNumber: generateOrderNumber(),
-      buyer: buyer._id,
-      seller: listing.seller._id,
-      listing: listing._id,
-      titleSnapshot: listing.title,
-      priceSnapshot: listing.price,
-      checkout: {
-        method,
-        contactName,
-        contactPhone,
-        shippingAddress,
-        notes,
-      },
-      status: 'pending',
-    });
+    let orderNumber = generateOrderNumber();
+    while (orderNumbers.has(orderNumber)) {
+      orderNumber = generateOrderNumber();
+    }
+    orderNumbers.add(orderNumber);
+
+    const id = newId();
+    orderIds.push(id);
+
+    statements.push(
+      orderRepository.insertStatement({
+        id,
+        orderNumber,
+        buyerId: req.user._id,
+        sellerId: listing.seller._id,
+        listingId: listing._id,
+        titleSnapshot: listing.title,
+        priceSnapshot: listing.price,
+        checkout: {
+          method,
+          contactName,
+          contactPhone,
+          shippingAddress,
+          notes,
+        },
+      }),
+      listingRepository.setStatusStatement(listing._id, 'sold')
+    );
   }
 
-  if (!ordersToCreate.length) {
-    throw new AppError('No valid items found in cart.', 400);
-  }
+  statements.push(cartRepository.clearStatement(req.user._id));
+  await batch(statements);
 
-  const createdOrders = await Order.insertMany(ordersToCreate);
-
-  await Promise.all(
-    ordersToCreate.map((order) => Listing.findByIdAndUpdate(order.listing, { status: 'sold' }))
-  );
-
-  buyer.cartItems = [];
-  await buyer.save();
-
-  const enrichedOrders = await Order.find({ _id: { $in: createdOrders.map((order) => order._id) } })
-    .populate('buyer', 'name email')
-    .populate('seller', 'name email')
-    .populate('listing', 'title images');
+  const orders = await orderRepository.findByIds(orderIds);
 
   res.status(201).json({
     success: true,
     message: 'Checkout complete.',
-    orders: enrichedOrders,
+    orders,
   });
 }
 
 async function getBuyerOrders(req, res) {
-  const orders = await Order.find({ buyer: req.user._id })
-    .populate('seller', 'name email')
-    .populate('listing', 'title images')
-    .sort({ createdAt: -1 });
-
+  const orders = await orderRepository.findMany({ buyerId: req.user._id });
   res.json({ success: true, count: orders.length, orders });
 }
 
 async function getSellerOrders(req, res) {
-  const orders = await Order.find({ seller: req.user._id })
-    .populate('buyer', 'name email')
-    .populate('listing', 'title images')
-    .sort({ createdAt: -1 });
-
+  const orders = await orderRepository.findMany({ sellerId: req.user._id });
   res.json({ success: true, count: orders.length, orders });
 }
 
 async function requestCancellation(req, res) {
   const { reason } = req.body;
-  const order = await Order.findById(req.params.id);
+  const order = await orderRepository.findById(req.params.id);
 
   if (!order) {
     throw new AppError('Order not found.', 404);
   }
 
-  if (String(order.buyer) !== String(req.user._id)) {
+  if (String(order.buyer._id) !== String(req.user._id)) {
     throw new AppError('Not allowed to modify this order.', 403);
   }
 
@@ -111,34 +100,34 @@ async function requestCancellation(req, res) {
     throw new AppError('Cancellation already requested.', 409);
   }
 
-  order.status = 'cancellation_requested';
-  order.cancellation = {
-    requested: true,
-    reason,
-    requestedAt: new Date(),
-    decision: 'pending',
-    reviewedAt: null,
-    reviewedBy: null,
-  };
-
-  await order.save();
+  const updated = await orderRepository.update(order._id, {
+    status: 'cancellation_requested',
+    cancellation: {
+      requested: true,
+      reason,
+      requestedAt: new Date(),
+      decision: 'pending',
+      reviewedAt: null,
+      reviewedBy: null,
+    },
+  });
 
   res.json({
     success: true,
     message: 'Cancellation request submitted.',
-    order,
+    order: updated,
   });
 }
 
 async function decideCancellation(req, res) {
   const { decision } = req.body;
-  const order = await Order.findById(req.params.id).populate('listing');
+  const order = await orderRepository.findById(req.params.id);
 
   if (!order) {
     throw new AppError('Order not found.', 404);
   }
 
-  if (String(order.seller) !== String(req.user._id)) {
+  if (String(order.seller._id) !== String(req.user._id)) {
     throw new AppError('Not allowed to review this order.', 403);
   }
 
@@ -146,37 +135,39 @@ async function decideCancellation(req, res) {
     throw new AppError('No pending cancellation request for this order.', 400);
   }
 
-  order.cancellation.decision = decision;
-  order.cancellation.reviewedAt = new Date();
-  order.cancellation.reviewedBy = req.user._id;
+  const statements = [
+    orderRepository.updateStatement(order._id, {
+      status: decision === 'approved' ? 'cancelled' : 'pending',
+      cancellation: {
+        ...order.cancellation,
+        decision,
+        reviewedAt: new Date(),
+        reviewedBy: req.user._id,
+      },
+    }),
+  ];
 
-  if (decision === 'approved') {
-    order.status = 'cancelled';
-    if (order.listing && order.listing.status === 'sold') {
-      order.listing.status = 'active';
-      await order.listing.save();
-    }
-  } else {
-    order.status = 'pending';
+  if (decision === 'approved' && order.listing && order.listing.status === 'sold') {
+    statements.push(listingRepository.setStatusStatement(order.listing._id, 'active'));
   }
 
-  await order.save();
+  await batch(statements);
 
   res.json({
     success: true,
     message: decision === 'approved' ? 'Cancellation approved.' : 'Cancellation denied.',
-    order,
+    order: await orderRepository.findById(order._id),
   });
 }
 
 async function confirmOrder(req, res) {
-  const order = await Order.findById(req.params.id);
+  const order = await orderRepository.findById(req.params.id);
 
   if (!order) {
     throw new AppError('Order not found.', 404);
   }
 
-  if (String(order.seller) !== String(req.user._id)) {
+  if (String(order.seller._id) !== String(req.user._id)) {
     throw new AppError('Not allowed to confirm this order.', 403);
   }
 
@@ -184,20 +175,19 @@ async function confirmOrder(req, res) {
     throw new AppError('Only pending orders can be confirmed.', 400);
   }
 
-  order.status = 'confirmed';
-  await order.save();
+  const updated = await orderRepository.update(order._id, { status: 'confirmed' });
 
-  res.json({ success: true, message: 'Order confirmed.', order });
+  res.json({ success: true, message: 'Order confirmed.', order: updated });
 }
 
 async function markFulfilled(req, res) {
-  const order = await Order.findById(req.params.id);
+  const order = await orderRepository.findById(req.params.id);
 
   if (!order) {
     throw new AppError('Order not found.', 404);
   }
 
-  if (String(order.seller) !== String(req.user._id)) {
+  if (String(order.seller._id) !== String(req.user._id)) {
     throw new AppError('Not allowed to fulfill this order.', 403);
   }
 
@@ -205,14 +195,12 @@ async function markFulfilled(req, res) {
     throw new AppError('Only pending or confirmed orders can be fulfilled.', 400);
   }
 
-  order.status = 'fulfilled';
-  order.fulfilledAt = new Date();
-  await order.save();
+  const updated = await orderRepository.update(order._id, { status: 'fulfilled', fulfilledAt: new Date() });
 
   res.json({
     success: true,
     message: 'Order marked as fulfilled.',
-    order,
+    order: updated,
   });
 }
 

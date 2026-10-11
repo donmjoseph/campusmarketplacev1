@@ -1,17 +1,18 @@
-﻿const User = require('../models/User');
-const Listing = require('../models/Listing');
-const Order = require('../models/Order');
-const Report = require('../models/Report');
+﻿const { batch } = require('../config/database');
+const userRepository = require('../repositories/userRepository');
+const listingRepository = require('../repositories/listingRepository');
+const orderRepository = require('../repositories/orderRepository');
+const reportRepository = require('../repositories/reportRepository');
 const AppError = require('../utils/AppError');
 
 async function getDashboard(req, res) {
   const [totalUsers, activeListings, totalOrders, pendingReports, recentUsers, recentOrders] = await Promise.all([
-    User.countDocuments(),
-    Listing.countDocuments({ status: 'active' }),
-    Order.countDocuments(),
-    Report.countDocuments({ status: 'pending' }),
-    User.find().sort({ createdAt: -1 }).limit(8).select('name email role status createdAt'),
-    Order.find().sort({ createdAt: -1 }).limit(8).populate('buyer seller listing', 'name title').select('orderNumber status createdAt'),
+    userRepository.count(),
+    listingRepository.count('active'),
+    orderRepository.count(),
+    reportRepository.countPending(),
+    userRepository.findRecent(8),
+    orderRepository.findMany({ limit: 8 }),
   ]);
 
   res.json({
@@ -29,20 +30,7 @@ async function getDashboard(req, res) {
 
 async function getUsers(req, res) {
   const { q, role, status } = req.query;
-
-  const query = {};
-  if (role) query.role = role;
-  if (status) query.status = status;
-
-  if (q) {
-    query.$or = [
-      { name: { $regex: q, $options: 'i' } },
-      { email: { $regex: q, $options: 'i' } },
-    ];
-  }
-
-  const users = await User.find(query).sort({ createdAt: -1 }).select('-password');
-
+  const users = await userRepository.findMany({ q, role, status });
   res.json({ success: true, count: users.length, users });
 }
 
@@ -53,7 +41,7 @@ async function updateUserStatus(req, res) {
     throw new AppError('Invalid user status.', 400);
   }
 
-  const user = await User.findById(req.params.id);
+  const user = await userRepository.findById(req.params.id);
   if (!user) {
     throw new AppError('User not found.', 404);
   }
@@ -62,34 +50,21 @@ async function updateUserStatus(req, res) {
     throw new AppError('Admin accounts cannot be suspended via this route.', 400);
   }
 
-  user.status = status;
-  user.suspensionReason = status === 'suspended' ? suspensionReason : '';
-  await user.save();
+  const updated = await userRepository.updateStatus(
+    user._id,
+    status,
+    status === 'suspended' ? suspensionReason : ''
+  );
 
   res.json({
     success: true,
-    user,
+    user: updated,
   });
 }
 
 async function getListings(req, res) {
   const { q, category, status } = req.query;
-  const query = {};
-
-  if (category) query.category = category;
-  if (status) query.status = status;
-
-  if (q) {
-    query.$or = [
-      { title: { $regex: q, $options: 'i' } },
-      { description: { $regex: q, $options: 'i' } },
-    ];
-  }
-
-  const listings = await Listing.find(query)
-    .populate('seller', 'name email')
-    .sort({ createdAt: -1 });
-
+  const listings = await listingRepository.findMany({ q, category, status });
   res.json({ success: true, count: listings.length, listings });
 }
 
@@ -99,52 +74,27 @@ async function moderateListing(req, res) {
     throw new AppError('Invalid moderation action.', 400);
   }
 
-  const listing = await Listing.findById(req.params.id);
+  const listing = await listingRepository.findById(req.params.id);
   if (!listing) {
     throw new AppError('Listing not found.', 404);
   }
 
-  if (action === 'remove') {
-    listing.status = 'removed';
-    listing.removedReason = reason;
-    listing.removedBy = req.user._id;
-    listing.removedAt = new Date();
-  } else {
-    listing.status = 'active';
-    listing.removedReason = '';
-    listing.removedBy = null;
-    listing.removedAt = null;
-  }
-
-  await listing.save();
+  const updated = await listingRepository.setModeration(
+    listing._id,
+    action === 'remove'
+      ? { status: 'removed', removedReason: reason, removedBy: req.user._id, removedAt: new Date() }
+      : { status: 'active', removedReason: '', removedBy: null, removedAt: null }
+  );
 
   res.json({
     success: true,
-    listing,
+    listing: updated,
   });
 }
 
 async function getOrders(req, res) {
   const { status, q } = req.query;
-  const query = {};
-
-  if (status) {
-    query.status = status;
-  }
-
-  if (q) {
-    query.$or = [
-      { orderNumber: { $regex: q, $options: 'i' } },
-      { titleSnapshot: { $regex: q, $options: 'i' } },
-    ];
-  }
-
-  const orders = await Order.find(query)
-    .populate('buyer', 'name email')
-    .populate('seller', 'name email')
-    .populate('listing', 'title status')
-    .sort({ createdAt: -1 });
-
+  const orders = await orderRepository.findMany({ status, q });
   res.json({ success: true, count: orders.length, orders });
 }
 
@@ -154,45 +104,21 @@ async function getAnalytics(req, res) {
 
   const [
     totalUsers, totalListings, activeListings, soldListings, totalOrders,
-    revenueAgg, byCategory, ordersByStatus, revenueByDay, usersByDay, topListings,
+    totalRevenue, byCategory, ordersByStatus, revenueByDay, usersByDay, topListings,
   ] = await Promise.all([
-    User.countDocuments(),
-    Listing.countDocuments(),
-    Listing.countDocuments({ status: 'active' }),
-    Listing.countDocuments({ status: 'sold' }),
-    Order.countDocuments(),
-    Order.aggregate([{ $group: { _id: null, total: { $sum: '$priceSnapshot' } } }]),
-    Listing.aggregate([{ $group: { _id: '$category', count: { $sum: 1 } } }, { $sort: { count: -1 } }]),
-    Order.aggregate([{ $group: { _id: '$status', count: { $sum: 1 } } }, { $sort: { count: -1 } }]),
-    Order.aggregate([
-      { $match: { createdAt: { $gte: thirtyDaysAgo } } },
-      {
-        $group: {
-          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-          revenue: { $sum: '$priceSnapshot' },
-          count: { $sum: 1 },
-        },
-      },
-      { $sort: { _id: 1 } },
-    ]),
-    User.aggregate([
-      { $match: { createdAt: { $gte: thirtyDaysAgo } } },
-      {
-        $group: {
-          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-          count: { $sum: 1 },
-        },
-      },
-      { $sort: { _id: 1 } },
-    ]),
-    Order.aggregate([
-      { $group: { _id: '$listing', count: { $sum: 1 }, title: { $first: '$titleSnapshot' } } },
-      { $sort: { count: -1 } },
-      { $limit: 5 },
-    ]),
+    userRepository.count(),
+    listingRepository.count(),
+    listingRepository.count('active'),
+    listingRepository.count('sold'),
+    orderRepository.count(),
+    orderRepository.totalRevenue(),
+    listingRepository.countByCategory(),
+    orderRepository.countByStatus(),
+    orderRepository.revenueByDay(thirtyDaysAgo),
+    userRepository.signupsByDay(thirtyDaysAgo),
+    orderRepository.topListings(5),
   ]);
 
-  const totalRevenue = revenueAgg[0]?.total || 0;
   const avgOrderValue = totalOrders > 0 ? Math.round((totalRevenue / totalOrders) * 100) / 100 : 0;
 
   res.json({
@@ -208,21 +134,7 @@ async function getAnalytics(req, res) {
 
 async function getReports(req, res) {
   const { status } = req.query;
-  const query = {};
-  if (status) query.status = status;
-
-  const reports = await Report.find(query)
-    .populate({
-      path: 'conversation',
-      populate: [
-        { path: 'listing', select: 'title' },
-        { path: 'participants', select: 'name email role status' },
-      ],
-    })
-    .populate('reporter', 'name email role')
-    .populate('againstUser', 'name email role status')
-    .populate('reviewedBy', 'name email')
-    .sort({ createdAt: -1 });
+  const reports = await reportRepository.findMany({ status });
 
   res.json({
     success: true,
@@ -231,47 +143,46 @@ async function getReports(req, res) {
   });
 }
 
+const REPORT_ACTIONS = {
+  dismiss: { status: 'dismissed', actionTaken: 'dismissed' },
+  warn: { status: 'reviewed', actionTaken: 'warned' },
+  suspend: { status: 'reviewed', actionTaken: 'suspended' },
+};
+
 async function resolveReport(req, res) {
   const { action, note = '' } = req.body;
-  if (!['dismiss', 'warn', 'suspend'].includes(action)) {
+  if (!REPORT_ACTIONS[action]) {
     throw new AppError('Invalid report action.', 400);
   }
 
-  const report = await Report.findById(req.params.id).populate('againstUser');
+  const report = await reportRepository.findById(req.params.id);
   if (!report) {
     throw new AppError('Report not found.', 404);
   }
 
-  report.reviewedBy = req.user._id;
-  report.reviewedAt = new Date();
-  report.adminNote = note;
-
-  if (action === 'dismiss') {
-    report.status = 'dismissed';
-    report.actionTaken = 'dismissed';
-  }
-
-  if (action === 'warn') {
-    report.status = 'reviewed';
-    report.actionTaken = 'warned';
-  }
+  const statements = [
+    reportRepository.resolveStatement(report._id, {
+      ...REPORT_ACTIONS[action],
+      adminNote: note,
+      reviewedBy: req.user._id,
+    }),
+  ];
 
   if (action === 'suspend') {
-    report.status = 'reviewed';
-    report.actionTaken = 'suspended';
-
-    if (report.againstUser) {
-      report.againstUser.status = 'suspended';
-      report.againstUser.suspensionReason = note || 'Suspended by admin after message review.';
-      await report.againstUser.save();
-    }
+    statements.push(
+      userRepository.updateStatusStatement(
+        report.againstUser._id,
+        'suspended',
+        note || 'Suspended by admin after message review.'
+      )
+    );
   }
 
-  await report.save();
+  await batch(statements);
 
   res.json({
     success: true,
-    report,
+    report: await reportRepository.findById(report._id),
   });
 }
 

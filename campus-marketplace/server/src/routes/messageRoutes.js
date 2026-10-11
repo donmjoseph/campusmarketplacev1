@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const { body, param } = require('express-validator');
 const asyncHandler = require('../utils/asyncHandler');
 const validateRequest = require('../middleware/validateRequest');
@@ -15,7 +15,7 @@ router.get('/conversations', asyncHandler(messageController.getConversations));
 router.post(
   '/conversations',
   [
-    body('listingId').isMongoId(),
+    body('listingId').isUUID(),
     body('initialMessage').optional().trim().isLength({ max: 1000 }),
   ],
   validateRequest,
@@ -24,7 +24,7 @@ router.post(
 
 router.get(
   '/conversations/:id',
-  [param('id').isMongoId()],
+  [param('id').isUUID()],
   validateRequest,
   asyncHandler(messageController.getConversation)
 );
@@ -32,7 +32,7 @@ router.get(
 router.post(
   '/conversations/:id/messages',
   [
-    param('id').isMongoId(),
+    param('id').isUUID(),
     body('body').trim().isLength({ min: 1, max: 1000 }),
   ],
   validateRequest,
@@ -42,7 +42,7 @@ router.post(
 router.post(
   '/conversations/:id/report',
   [
-    param('id').isMongoId(),
+    param('id').isUUID(),
     body('reason').trim().isLength({ min: 8, max: 500 }),
   ],
   validateRequest,

@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const { body, param } = require('express-validator');
 const asyncHandler = require('../utils/asyncHandler');
 const validateRequest = require('../middleware/validateRequest');
@@ -14,7 +14,7 @@ router.get('/users', asyncHandler(adminController.getUsers));
 router.patch(
   '/users/:id/status',
   [
-    param('id').isMongoId(),
+    param('id').isUUID(),
     body('status').isIn(['active', 'suspended']),
     body('suspensionReason').optional().trim().isLength({ max: 300 }),
   ],
@@ -26,7 +26,7 @@ router.get('/listings', asyncHandler(adminController.getListings));
 router.patch(
   '/listings/:id/moderate',
   [
-    param('id').isMongoId(),
+    param('id').isUUID(),
     body('action').isIn(['remove', 'restore']),
     body('reason').optional().trim().isLength({ max: 250 }),
   ],
@@ -41,7 +41,7 @@ router.get('/reports', asyncHandler(adminController.getReports));
 router.patch(
   '/reports/:id/resolve',
   [
-    param('id').isMongoId(),
+    param('id').isUUID(),
     body('action').isIn(['dismiss', 'warn', 'suspend']),
     body('note').optional().trim().isLength({ max: 300 }),
   ],

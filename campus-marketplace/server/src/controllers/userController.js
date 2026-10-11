@@ -1,22 +1,20 @@
-﻿const User = require('../models/User');
+﻿const userRepository = require('../repositories/userRepository');
 const AppError = require('../utils/AppError');
 const toPublicUser = require('../utils/toPublicUser');
 
 const WSU_EMAIL_REGEX = /^[^\s@]+@(wsu\.edu|email\.wsu\.edu|vet\.wsu\.edu)$/i;
 
 async function getMyProfile(req, res) {
-  const user = await User.findById(req.user._id);
-
   res.json({
     success: true,
-    user: toPublicUser(user),
+    user: toPublicUser(req.user),
   });
 }
 
 async function updateMyProfile(req, res) {
   const { name, email, profile, notificationPrefs } = req.body;
 
-  const user = await User.findById(req.user._id);
+  const user = { ...req.user };
 
   if (name) {
     user.name = name;
@@ -28,11 +26,8 @@ async function updateMyProfile(req, res) {
       throw new AppError('Only WSU email addresses are allowed.', 400);
     }
 
-    if (normalized !== user.email) {
-      const exists = await User.exists({ email: normalized });
-      if (exists) {
-        throw new AppError('Email already in use.', 409);
-      }
+    if (normalized !== user.email && (await userRepository.emailExists(normalized))) {
+      throw new AppError('Email already in use.', 409);
     }
 
     user.email = normalized;
@@ -52,11 +47,11 @@ async function updateMyProfile(req, res) {
     };
   }
 
-  await user.save();
+  const updated = await userRepository.updateProfile(user._id, user);
 
   res.json({
     success: true,
-    user: toPublicUser(user),
+    user: toPublicUser(updated),
   });
 }
 

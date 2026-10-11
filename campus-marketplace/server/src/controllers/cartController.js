@@ -1,28 +1,19 @@
-﻿const User = require('../models/User');
-const Listing = require('../models/Listing');
+﻿const cartRepository = require('../repositories/cartRepository');
+const listingRepository = require('../repositories/listingRepository');
 const AppError = require('../utils/AppError');
 
 async function getCart(req, res) {
-  const user = await User.findById(req.user._id).populate({
-    path: 'cartItems.listing',
-    select: 'title price status seller images',
-    populate: {
-      path: 'seller',
-      select: 'name email',
-    },
-  });
+  const entries = await cartRepository.findItems(req.user._id);
 
-  const items = user.cartItems
-    .filter((entry) => entry.listing)
-    .map((entry) => ({
-      listingId: entry.listing._id,
-      title: entry.listing.title,
-      price: entry.listing.price,
-      status: entry.listing.status,
-      seller: entry.listing.seller,
-      image: entry.listing.images[0] || '',
-      addedAt: entry.addedAt,
-    }));
+  const items = entries.map(({ listing, addedAt }) => ({
+    listingId: listing._id,
+    title: listing.title,
+    price: listing.price,
+    status: listing.status,
+    seller: { _id: listing.seller._id, name: listing.seller.name, email: listing.seller.email },
+    image: listing.images[0] || '',
+    addedAt,
+  }));
 
   const subtotal = items.reduce((sum, item) => sum + item.price, 0);
 
@@ -35,14 +26,13 @@ async function getCart(req, res) {
 
 async function addToCart(req, res) {
   const { listingId } = req.body;
-  const user = await User.findById(req.user._id);
-  const listing = await Listing.findById(listingId);
+  const listing = await listingRepository.findById(listingId);
 
   if (!listing) {
     throw new AppError('Listing not found.', 404);
   }
 
-  if (String(listing.seller) === String(req.user._id)) {
+  if (String(listing.seller._id) === String(req.user._id)) {
     throw new AppError('You cannot add your own listing to cart.', 400);
   }
 
@@ -50,13 +40,11 @@ async function addToCart(req, res) {
     throw new AppError('This listing is not currently available.', 400);
   }
 
-  const alreadyInCart = user.cartItems.some((item) => String(item.listing) === String(listing._id));
-  if (alreadyInCart) {
+  if (await cartRepository.hasItem(req.user._id, listing._id)) {
     throw new AppError('Item is already in your cart.', 409);
   }
 
-  user.cartItems.push({ listing: listing._id });
-  await user.save();
+  await cartRepository.add(req.user._id, listing._id);
 
   res.status(201).json({
     success: true,
@@ -65,11 +53,7 @@ async function addToCart(req, res) {
 }
 
 async function removeFromCart(req, res) {
-  const { listingId } = req.params;
-  const user = await User.findById(req.user._id);
-
-  user.cartItems = user.cartItems.filter((item) => String(item.listing) !== String(listingId));
-  await user.save();
+  await cartRepository.remove(req.user._id, req.params.listingId);
 
   res.json({
     success: true,
@@ -78,9 +62,7 @@ async function removeFromCart(req, res) {
 }
 
 async function clearCart(req, res) {
-  const user = await User.findById(req.user._id);
-  user.cartItems = [];
-  await user.save();
+  await cartRepository.clear(req.user._id);
 
   res.json({
     success: true,

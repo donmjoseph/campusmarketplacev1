@@ -1,5 +1,11 @@
-﻿const Listing = require('../models/Listing');
+﻿const listingRepository = require('../repositories/listingRepository');
 const AppError = require('../utils/AppError');
+
+function toNumberOrUndefined(value) {
+  if (value === undefined || value === '') return undefined;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : undefined;
+}
 
 async function getListings(req, res) {
   const {
@@ -16,56 +22,37 @@ async function getListings(req, res) {
     limit,
   } = req.query;
 
-  const resultLimit = Math.min(Number(limit) || 200, 200);
-
-  const query = {};
+  const filters = {
+    category,
+    condition,
+    courseTag,
+    q,
+    minPrice: toNumberOrUndefined(minPrice),
+    maxPrice: toNumberOrUndefined(maxPrice),
+    sort,
+    limit: Math.min(Number(limit) || 200, 200),
+  };
 
   if (!req.user || req.user.role === 'buyer') {
-    query.status = 'active';
+    filters.status = 'active';
   }
 
   if (status && req.user && (req.user.role === 'admin' || req.user.role === 'seller')) {
-    query.status = status;
+    filters.status = status;
   }
 
   if (req.user && req.user.role === 'seller' && mine === 'true') {
-    query.seller = req.user._id;
+    filters.sellerId = req.user._id;
     if (!status) {
-      delete query.status;
+      delete filters.status;
     }
   }
 
   if (sellerId) {
-    query.seller = sellerId;
+    filters.sellerId = sellerId;
   }
 
-  if (category) query.category = category;
-  if (condition) query.condition = condition;
-  if (courseTag) query.courseTag = { $regex: courseTag, $options: 'i' };
-
-  if (q) {
-    query.$or = [
-      { title: { $regex: q, $options: 'i' } },
-      { description: { $regex: q, $options: 'i' } },
-      { courseTag: { $regex: q, $options: 'i' } },
-    ];
-  }
-
-  if (minPrice || maxPrice) {
-    query.price = {};
-    if (minPrice) query.price.$gte = Number(minPrice);
-    if (maxPrice) query.price.$lte = Number(maxPrice);
-  }
-
-  let sortBy = { createdAt: -1 };
-  if (sort === 'price_asc') sortBy = { price: 1 };
-  if (sort === 'price_desc') sortBy = { price: -1 };
-  if (sort === 'oldest') sortBy = { createdAt: 1 };
-
-  const listings = await Listing.find(query)
-    .populate('seller', 'name email role')
-    .sort(sortBy)
-    .limit(resultLimit);
+  const listings = await listingRepository.findMany(filters);
 
   res.json({
     success: true,
@@ -75,7 +62,7 @@ async function getListings(req, res) {
 }
 
 async function getListingById(req, res) {
-  const listing = await Listing.findById(req.params.id).populate('seller', 'name email role profile');
+  const listing = await listingRepository.findById(req.params.id);
 
   if (!listing) {
     throw new AppError('Listing not found.', 404);
@@ -88,8 +75,8 @@ async function getListingById(req, res) {
     throw new AppError('Listing is not available.', 404);
   }
 
+  await listingRepository.incrementViews(listing._id);
   listing.views += 1;
-  await listing.save();
 
   res.json({
     success: true,
@@ -98,62 +85,62 @@ async function getListingById(req, res) {
 }
 
 async function createListing(req, res) {
-  const listing = await Listing.create({
-    ...req.body,
-    seller: req.user._id,
-  });
+  const { title, description, category, condition, price, courseTag, images, status } = req.body;
 
-  const populated = await Listing.findById(listing._id).populate('seller', 'name email');
+  const listing = await listingRepository.create({
+    sellerId: req.user._id,
+    title,
+    description,
+    category,
+    condition,
+    price: Number(price),
+    courseTag: courseTag ? String(courseTag).trim() : '',
+    images: Array.isArray(images) ? images : [],
+    status: status || 'active',
+  });
 
   res.status(201).json({
-    success: true,
-    listing: populated,
-  });
-}
-
-async function updateListing(req, res) {
-  const listing = await Listing.findById(req.params.id);
-
-  if (!listing) {
-    throw new AppError('Listing not found.', 404);
-  }
-
-  const isOwner = String(listing.seller) === String(req.user._id);
-  const isAdmin = req.user.role === 'admin';
-  if (!isOwner && !isAdmin) {
-    throw new AppError('Not allowed to modify this listing.', 403);
-  }
-
-  const editableFields = ['title', 'description', 'category', 'condition', 'price', 'courseTag', 'images', 'status'];
-  for (const field of editableFields) {
-    if (field in req.body) {
-      listing[field] = req.body[field];
-    }
-  }
-
-  await listing.save();
-
-  res.json({
     success: true,
     listing,
   });
 }
 
-async function deleteListing(req, res) {
-  const listing = await Listing.findById(req.params.id);
+async function updateListing(req, res) {
+  const listing = await listingRepository.findById(req.params.id);
 
   if (!listing) {
     throw new AppError('Listing not found.', 404);
   }
 
-  const isOwner = String(listing.seller) === String(req.user._id);
+  const isOwner = String(listing.seller._id) === String(req.user._id);
+  const isAdmin = req.user.role === 'admin';
+  if (!isOwner && !isAdmin) {
+    throw new AppError('Not allowed to modify this listing.', 403);
+  }
+
+  const updated = await listingRepository.update(listing._id, req.body);
+
+  res.json({
+    success: true,
+    listing: updated,
+  });
+}
+
+async function deleteListing(req, res) {
+  const listing = await listingRepository.findById(req.params.id);
+
+  if (!listing) {
+    throw new AppError('Listing not found.', 404);
+  }
+
+  const isOwner = String(listing.seller._id) === String(req.user._id);
   const isAdmin = req.user.role === 'admin';
 
   if (!isOwner && !isAdmin) {
     throw new AppError('Not allowed to delete this listing.', 403);
   }
 
-  await listing.deleteOne();
+  await listingRepository.remove(listing._id);
   return res.json({ success: true, message: 'Listing deleted.' });
 }
 

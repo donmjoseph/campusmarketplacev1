@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const { body, param } = require('express-validator');
 const asyncHandler = require('../utils/asyncHandler');
 const validateRequest = require('../middleware/validateRequest');
@@ -13,14 +13,14 @@ router.get('/', asyncHandler(cartController.getCart));
 
 router.post(
   '/items',
-  [body('listingId').isMongoId().withMessage('listingId is required.')],
+  [body('listingId').isUUID().withMessage('listingId is required.')],
   validateRequest,
   asyncHandler(cartController.addToCart)
 );
 
 router.delete(
   '/items/:listingId',
-  [param('listingId').isMongoId().withMessage('Invalid listing ID.')],
+  [param('listingId').isUUID().withMessage('Invalid listing ID.')],
   validateRequest,
   asyncHandler(cartController.removeFromCart)
 );
