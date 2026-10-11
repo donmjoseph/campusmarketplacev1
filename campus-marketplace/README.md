@@ -5,7 +5,7 @@ A full-stack marketplace for Washington State University students to buy, sell, 
 ## Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
+| ------- | ----------- |
 | Frontend | React 19 + Vite + Tailwind CSS |
 | Backend | Node.js + Express |
 | Database | MySQL 8 (`mysql2`, plain SQL) |
@@ -15,6 +15,7 @@ A full-stack marketplace for Washington State University students to buy, sell, 
 ## Features
 
 ### Buyer
+
 - Register/login with WSU email (`@wsu.edu`, `@email.wsu.edu`, `@vet.wsu.edu`)
 - Browse and filter listings by category, condition, and price
 - Add items to cart and checkout (pickup or shipping)
@@ -23,12 +24,14 @@ A full-stack marketplace for Washington State University students to buy, sell, 
 - Messaging with sellers + report conversations
 
 ### Seller
+
 - Dashboard with revenue, active listings, and pending order stats
 - Create, edit, and delete listings across 6 categories
 - Confirm and fulfill orders; approve/deny cancellation requests
 - Messaging center
 
 ### Admin
+
 - Dashboard with platform-wide stats and recent activity
 - Manage users: suspend and reinstate accounts
 - Moderate listings: remove and restore
@@ -110,7 +113,7 @@ docker compose up
 Copy `server/.env.example` to `server/.env` and fill in values before running.
 
 | Variable | Default | Description |
-|----------|---------|-------------|
+| ---------- | --------- | ------------- |
 | `DATABASE_URL` | `mysql://campus:campus_password@127.0.0.1:3307/campus_marketplace` | MySQL connection string (matches the Docker `mysql` service) |
 | `JWT_SECRET` | *(required)* | Long random string used to sign JWTs |
 | `JWT_EXPIRES_IN` | `7d` | Token lifetime |
@@ -125,7 +128,7 @@ Copy `server/.env.example` to `server/.env` and fill in values before running.
 All accounts use **`password123`** except admins which use **`admin123`**.
 
 | Role | Email | Password |
-|------|-------|----------|
+| ------ | ------- | ---------- |
 | Buyer | `buyer1@wsu.edu` | `password123` |
 | Buyer | `buyer2@wsu.edu` | `password123` |
 | Seller | `seller1@wsu.edu` | `password123` |
@@ -138,7 +141,7 @@ All accounts use **`password123`** except admins which use **`admin123`**.
 
 ## Project Structure
 
-```
+```text
 campus-marketplace/
 ├── client/                  # React + Vite frontend
 │   ├── src/
@@ -155,17 +158,20 @@ campus-marketplace/
 │
 ├── server/                  # Express API
 │   ├── src/
-│   │   ├── config/          # env, database (query/queryOne/batch)
+│   │   ├── config/          # env, database (query/queryOne/batch), mysql (local connect)
 │   │   ├── controllers/     # Route handlers
-│   │   ├── db/              # schema.sql
+│   │   ├── db/              # schema.sql, mysql2 driver, Spacefast env.DB driver
 │   │   ├── middleware/       # auth, validate, asyncHandler
 │   │   ├── repositories/    # All SQL lives here, one file per table group
 │   │   ├── routes/          # Express routers
 │   │   ├── scripts/         # seedData.js
+│   │   ├── spacefast/       # worker.mjs: runs the Express app on Spacefast
 │   │   └── utils/           # AppError, asyncHandler
 │   ├── .env.example
 │   └── Dockerfile
 │
+├── scripts/
+│   └── build-spacefast.mjs  # Builds spacefast-dist/ for `sf publish`
 ├── docker-compose.yml       # MySQL + server + client services
 ├── package.json             # Root scripts (dev, seed, build, lint)
 └── README.md
@@ -176,7 +182,7 @@ campus-marketplace/
 ## Useful Scripts (run from `campus-marketplace/`)
 
 | Script | Description |
-|--------|-------------|
+| -------- | ------------- |
 | `npm run dev` | Start server + client concurrently |
 | `npm run dev:server` | API server only |
 | `npm run dev:client` | Vite dev server only |
@@ -185,3 +191,25 @@ campus-marketplace/
 | `npm run db:up` | Start only the MySQL Docker container |
 | `npm run db:down` | Stop Docker containers |
 | `npm run lint` | Lint client and server |
+| `npm run build:spacefast` | Build the client and the Spacefast worker into `spacefast-dist/` |
+| `npm run spacefast:publish` | Build and publish to Spacefast |
+| `npm run seed:sql` | Write schema + demo data to `spacefast-seed.sql` instead of a database |
+
+---
+
+## Deploying to Spacefast
+
+On Spacefast the React build is served as static files and the Express API runs as a
+Functions worker (`server/src/spacefast/worker.mjs`) that talks to the space's MySQL
+database through the `env.DB` binding. Tables are created automatically on the first API
+request.
+
+```bash
+npx spacefast login                                    # once
+npm run spacefast:publish                              # first publish creates the space
+npx spacefast env set JWT_SECRET <long-random-string>  # once per space
+npm run spacefast:publish                              # publish again so the worker gets it
+```
+
+To load the demo data, run `npm run seed:sql`, open `npx spacefast db console`
+(phpMyAdmin), and import `spacefast-seed.sql`. It wipes existing rows first.

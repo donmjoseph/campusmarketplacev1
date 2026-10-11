@@ -40,7 +40,7 @@ function toListing(row) {
         bio: row.seller_bio,
       },
     },
-    views: row.views,
+    views: Number(row.views),
     removedReason: row.removed_reason,
     removedBy: row.removed_by,
     removedAt: row.removed_at,

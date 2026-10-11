@@ -1,5 +1,5 @@
 const { query, queryOne } = require('../config/database');
-const { newId, parseJsonArray, likePattern, placeholders } = require('./helpers');
+const { newId, parseJsonArray, toBool, likePattern, placeholders } = require('./helpers');
 
 const ORDER_SELECT = `
   SELECT o.*,
@@ -39,7 +39,7 @@ function toOrder(row) {
       notes: row.notes,
     },
     cancellation: {
-      requested: Boolean(row.cancel_requested),
+      requested: toBool(row.cancel_requested),
       reason: row.cancel_reason,
       requestedAt: row.cancel_requested_at,
       decision: row.cancel_decision,

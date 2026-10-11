@@ -1,5 +1,5 @@
 const { query, queryOne } = require('../config/database');
-const { newId, likePattern } = require('./helpers');
+const { newId, likePattern, toBool } = require('./helpers');
 
 const USER_COLUMNS = `
   id, name, email, role, status, suspension_reason, phone, location, bio,
@@ -22,9 +22,9 @@ function toUser(row) {
       bio: row.bio,
     },
     notificationPrefs: {
-      orderUpdates: Boolean(row.notify_order_updates),
-      messages: Boolean(row.notify_messages),
-      promotions: Boolean(row.notify_promotions),
+      orderUpdates: toBool(row.notify_order_updates),
+      messages: toBool(row.notify_messages),
+      promotions: toBool(row.notify_promotions),
     },
     createdAt: row.created_at,
     updatedAt: row.updated_at,

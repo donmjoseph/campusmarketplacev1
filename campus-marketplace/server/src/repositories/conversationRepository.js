@@ -1,5 +1,5 @@
 const { query, queryOne, batch } = require('../config/database');
-const { newId, parseJsonArray, placeholders } = require('./helpers');
+const { newId, parseJsonArray, toBool, placeholders } = require('./helpers');
 
 const CONVERSATION_SELECT = `
   SELECT c.*,
@@ -18,8 +18,8 @@ function orderedPair(userId1, userId2) {
 
 function toConversation(row, messages = []) {
   const unreadBy = [];
-  if (row.unread_a) unreadBy.push(row.user_a_id);
-  if (row.unread_b) unreadBy.push(row.user_b_id);
+  if (toBool(row.unread_a)) unreadBy.push(row.user_a_id);
+  if (toBool(row.unread_b)) unreadBy.push(row.user_b_id);
 
   return {
     _id: row.id,

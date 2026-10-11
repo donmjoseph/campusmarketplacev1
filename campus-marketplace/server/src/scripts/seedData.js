@@ -1,4 +1,8 @@
-const { connectDatabase, closeDatabase, batch } = require('../config/database');
+const fs = require('fs');
+const path = require('path');
+const { format } = require('mysql2');
+const { batch, splitSchema } = require('../config/database');
+const { connectDatabase, closeDatabase, readSchema } = require('../config/mysql');
 const userRepository = require('../repositories/userRepository');
 const listingRepository = require('../repositories/listingRepository');
 const cartRepository = require('../repositories/cartRepository');
@@ -21,8 +25,31 @@ function withIds(docs) {
   return docs.map((doc) => ({ ...doc, _id: newId() }));
 }
 
+// `npm run seed -- --sql <file>` writes the schema and seed data to a SQL file
+// instead of connecting, for importing through `sf db console` on Spacefast.
+function sqlOutputPath() {
+  const index = process.argv.indexOf('--sql');
+  if (index === -1) return null;
+  return path.resolve(process.argv[index + 1] || 'seed.sql');
+}
+
+function writeSqlFile(filePath, statements) {
+  const lines = [
+    ...splitSchema(readSchema()).map((statement) => `${statement};\n`),
+    'START TRANSACTION;',
+    ...statements.map(([sql, params = []]) => `${format(sql, params, false, 'Z').trim()};`),
+    'COMMIT;',
+    '',
+  ];
+  fs.writeFileSync(filePath, lines.join('\n'));
+  console.log(`Wrote seed SQL to ${filePath}`);
+}
+
 async function seed() {
-  await connectDatabase();
+  const sqlOutput = sqlOutputPath();
+  if (!sqlOutput) {
+    await connectDatabase();
+  }
 
   const statements = [
     ['DELETE FROM reports'],
@@ -809,7 +836,11 @@ async function seed() {
     }));
   }
 
-  await batch(statements);
+  if (sqlOutput) {
+    writeSqlFile(sqlOutput, statements);
+  } else {
+    await batch(statements);
+  }
 
   console.log('\nSeed complete.\n');
   console.log('Admin accounts (password: admin123):');

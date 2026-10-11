@@ -11,11 +11,15 @@
     "start": "npm run start --prefix server",
     "seed": "npm run seed --prefix server",
     "build": "npm run build --prefix client",
+    "build:spacefast": "npm run build && node scripts/build-spacefast.mjs",
+    "spacefast:publish": "npm run build:spacefast && npx -y spacefast publish spacefast-dist --prebuilt",
+    "seed:sql": "npm run seed --prefix server -- --sql ../spacefast-seed.sql",
     "lint": "npm run lint --prefix client && npm run lint --prefix server"
   },
   "private": true,
   "devDependencies": {
     "concurrently": "^9.2.1",
+    "esbuild": "^0.28.2",
     "wait-on": "^8.0.5"
   }
 }

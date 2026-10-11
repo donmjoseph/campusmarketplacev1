@@ -2,7 +2,13 @@
 client/node_modules/
 server/node_modules/
 client/dist/
+spacefast-dist/
+spacefast-seed.sql
 server/.env
 .DS_Store
 npm-debug.log*
 .claude
+.spacefast/state.json
+/.spacefast-*
+.spacefast/.spacefast-*
+.spacefast/.space-link-*.tmp
